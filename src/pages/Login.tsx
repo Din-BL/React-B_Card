@@ -1,5 +1,6 @@
 import { Box, Typography, TextField, ButtonGroup, Button } from "@mui/material";
 import SyncIcon from '@mui/icons-material/Sync';
+import BtnGroup from "../components/BtnGroup";
 
 function Login() {
     return (
@@ -15,7 +16,7 @@ function Login() {
                     id="Email"
                     label="Email"
                     type="email"
-                    defaultValue='Email'
+                    defaultValue='Example@gmail.com'
                     variant="outlined" />
                 <TextField
                     required
@@ -29,15 +30,7 @@ function Login() {
                     variant="outlined"
                 />
 
-                <Box sx={{ marginTop: 3 }}>
-                    <ButtonGroup >
-                        <Button color='error' sx={{ width: '25vw' }}>Cancel</Button>
-                        <Button sx={{ width: '25vw' }}>
-                            <SyncIcon />
-                        </Button>
-                    </ButtonGroup>
-                    <Button sx={{ width: '50vw', marginTop: 1 }} variant="contained" >Submit</Button>
-                </Box>
+                <BtnGroup />
             </Box>
         </Box >
     );
