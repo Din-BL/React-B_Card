@@ -2,36 +2,32 @@ import * as React from 'react';
 import { AppBar, Menu, Avatar, Button, Tooltip, MenuItem, Container, IconButton, Typography, Toolbar, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
-import { NavLink } from "react-router-dom";
+import WorkIcon from '@mui/icons-material/Work';
+import { NavLink, useNavigate } from "react-router-dom";
 import Search from './Search';
 import Theme from './Theme';
-const pages = ['About', 'Favorite', 'My Cards'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+import { AccountCircle } from '@mui/icons-material';
+
+const pages = ['ABOUT', 'FAVORITE', 'MY CARDS'];
 
 function Navbar() {
+    const navigate = useNavigate()
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
-    };
 
-    const handleCloseNavMenu = () => {
+    const handleCloseNavMenu = (page?: string) => {
+        page && navigate(`/${page}`)
         setAnchorElNav(null);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
     };
 
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <WorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
                         variant="h6"
                         noWrap
@@ -47,7 +43,7 @@ function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        LOGO
+                        B-CARD
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -74,19 +70,21 @@ function Navbar() {
                                 horizontal: 'left',
                             }}
                             open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
+                            onClose={() => handleCloseNavMenu}
                             sx={{
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                                <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
+                                    <Typography textAlign="center">
+                                        {page}
+                                    </Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
                     </Box>
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                    {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
                         variant="h5"
                         noWrap
@@ -104,12 +102,12 @@ function Navbar() {
                         }}
                     >
                         LOGO
-                    </Typography>
+                    </Typography> */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button
                                 key={page}
-                                onClick={handleCloseNavMenu}
+                                onClick={() => handleCloseNavMenu(page)}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 {page}
@@ -118,39 +116,22 @@ function Navbar() {
                     </Box>
                     <Search />
                     {/* <Theme /> */}
-                    <Button color="inherit">Register</Button>
-                    <NavLink to="/signup" className="nav-link">
-                        Signup
-                    </NavLink>
-                    <Button color="inherit">Login</Button>
+                    <Typography marginX={1}>
+                        <NavLink to={`/Register`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            REGISTER
+                        </NavLink>
+                    </Typography>
+                    <Typography marginX={1}>
+                        <NavLink to={`/Login`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            LOGIN
+                        </NavLink>
+                    </Typography>
+
+
+                    {/* <Button color="inherit">Register</Button>
+                    <Button color="inherit">Login</Button> */}
                     <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
+                        <AccountCircle sx={{ p: 0, color: 'white' }} />
                     </Box>
                 </Toolbar>
             </Container>
