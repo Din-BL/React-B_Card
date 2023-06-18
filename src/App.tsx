@@ -7,19 +7,23 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import About from './pages/About';
 import { Box } from '@mui/material'
+import Favorite from './pages/Favorite';
+import My_Cards from './pages/My_Cards';
+import { Container } from '@mui/material';
+
 
 function App() {
   return (
     <>
       <Navbar />
-      <Box sx={{ backgroundColor: '#e4f2fd' }}>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/about' element={<About />} />
-        </Routes>
-      </Box>
+      <Routes>
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/favorite' element={<Favorite />} />
+        <Route path='/my cards' element={<My_Cards />} />
+      </Routes>
       <Footer />
     </>
   )

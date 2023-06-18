@@ -8,13 +8,13 @@ import image from '../assets/pexels-fauxels-3183197.jpg';
 import PhoneIcon from '@mui/icons-material/Phone';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box } from '@mui/material';
-
+import { Box, Stack } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 export default function B_Card() {
     return (
-        <Card sx={{ maxWidth: 345, marginY: 2 }}>
+        <Card sx={{ maxWidth: 345 }}>
             <CardMedia
                 component="img"
                 alt="green iguana"
@@ -22,7 +22,7 @@ export default function B_Card() {
                 image={image}
             />
             <CardContent>
-                <Typography variant="h5" component="div">
+                <Typography variant="h6" component="div">
                     Computer Company
                 </Typography>
                 <Typography paddingY={1} borderBottom={'1px solid #9d9d9d'} variant="body2" color="text.secondary">
@@ -39,11 +39,14 @@ export default function B_Card() {
                 </Typography>
             </CardContent>
             <CardActions sx={{ justifyContent: 'space-between' }}>
-                <DeleteIcon color='action' />
-                <Box>
-                    <PhoneIcon sx={{ marginRight: '10px' }} color='action' />
-                    <FavoriteIcon sx={{ marginRight: '10px' }} color='action' />
-                </Box>
+                <Stack direction={'row'} spacing={1} >
+                    <DeleteIcon color='action' />
+                    <EditIcon color='action' />
+                </Stack>
+                <Stack direction={'row'} spacing={1} >
+                    <PhoneIcon color='action' />
+                    <FavoriteIcon color='action' />
+                </Stack>
             </CardActions>
         </Card>
     );

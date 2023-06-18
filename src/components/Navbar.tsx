@@ -8,7 +8,7 @@ import Search from './Search';
 import Theme from './Theme';
 import { AccountCircle } from '@mui/icons-material';
 
-const pages = ['ABOUT', 'FAVORITE', 'MY CARDS'];
+const pages = ['About', 'Favorite', 'My Cards'];
 
 function Navbar() {
     const navigate = useNavigate()
@@ -30,20 +30,17 @@ function Navbar() {
                     <WorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
                         variant="h6"
-                        noWrap
                         component="a"
-                        href="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
                             fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
+                            fontSize: 27.5
                         }}
                     >
-                        B-CARD
+                        <NavLink to={`/`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            B-CARD
+                        </NavLink>
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -116,12 +113,12 @@ function Navbar() {
                     </Box>
                     <Search />
                     {/* <Theme /> */}
-                    <Typography marginX={1}>
+                    <Typography component={'a'} marginX={1}>
                         <NavLink to={`/Register`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             REGISTER
                         </NavLink>
                     </Typography>
-                    <Typography marginX={1}>
+                    <Typography component={'a'} marginX={1}>
                         <NavLink to={`/Login`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             LOGIN
                         </NavLink>
