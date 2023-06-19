@@ -29,8 +29,6 @@ function Navbar() {
                 <Toolbar disableGutters>
                     <WorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
-                        variant="h6"
-                        component="a"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -112,21 +110,17 @@ function Navbar() {
                         ))}
                     </Box>
                     <Search />
-                    {/* <Theme /> */}
-                    <Typography component={'a'} marginX={1}>
+                    <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
                         <NavLink to={`/Register`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             REGISTER
                         </NavLink>
                     </Typography>
-                    <Typography component={'a'} marginX={1}>
+                    <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
                         <NavLink to={`/Login`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             LOGIN
                         </NavLink>
                     </Typography>
-
-
-                    {/* <Button color="inherit">Register</Button>
-                    <Button color="inherit">Login</Button> */}
+                    <Theme />
                     <Box sx={{ flexGrow: 0 }}>
                         <AccountCircle sx={{ p: 0, color: 'white' }} />
                     </Box>

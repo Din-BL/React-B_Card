@@ -1,18 +1,18 @@
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
+import CheckBox from '@mui/material/Checkbox';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import image from '../assets/pexels-fauxels-3183197.jpg';
 import PhoneIcon from '@mui/icons-material/Phone';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import Favorite from '@mui/icons-material/Favorite';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Stack } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import { FavoriteBorder } from '@mui/icons-material';
 
-
-export default function B_Card() {
+export default function B_CARD() {
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia
@@ -45,7 +45,7 @@ export default function B_Card() {
                 </Stack>
                 <Stack direction={'row'} spacing={1} >
                     <PhoneIcon color='action' />
-                    <FavoriteIcon color='action' />
+                    <CheckBox icon={<FavoriteBorder />} checkedIcon={<Favorite />} color='error' sx={{ padding: 0 }} />
                 </Stack>
             </CardActions>
         </Card>

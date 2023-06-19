@@ -8,3 +8,14 @@ export interface RegisterField {
     label: string;
     type: string
 }
+
+export interface LoginField {
+    email: string;
+    password: string
+}
+
+export interface FooterLinkProps {
+    to: string,
+    icon: any,
+    text: string
+}

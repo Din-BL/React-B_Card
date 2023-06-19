@@ -17,8 +17,8 @@ function Register() {
                     Register
                 </Typography>
                 <Grid container spacing={2}>
-                    {RegisterFields.map((field) => {
-                        return <Grid item xs={6}>
+                    {RegisterFields.map((field, index) => {
+                        return <Grid item xs={6} key={index}>
                             <TextField
                                 sx={{ width: '100%' }}
                                 required={field.required}

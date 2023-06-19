@@ -46,17 +46,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function Search() {
     return (
-        <>
-            <SearchInput >
-                <SearchIconWrapper>
-                    <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
-                />
-            </SearchInput>
-        </>
+        <SearchInput >
+            <SearchIconWrapper>
+                <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+            />
+        </SearchInput>
     );
 }
 

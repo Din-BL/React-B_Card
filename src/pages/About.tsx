@@ -1,5 +1,12 @@
+import { Box } from "@mui/material";
+import FormValid from "./FormValid";
+
 function About() {
-    return (<h1>About Page</h1>);
+    return (
+        <Box component={'main'} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '85dvh' }}>
+            <FormValid />
+        </Box>
+    );
 }
 
 export default About;

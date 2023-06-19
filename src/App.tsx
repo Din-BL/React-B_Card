@@ -10,6 +10,7 @@ import { Box } from '@mui/material'
 import Favorite from './pages/Favorite';
 import My_Cards from './pages/My_Cards';
 import { Container } from '@mui/material';
+import FormValid from './pages/FormValid';
 
 
 function App() {
