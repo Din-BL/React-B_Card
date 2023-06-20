@@ -1,75 +1,81 @@
-import { RegisterField } from "../utils/types";
+import { RegisterField } from "./types";
 
 
 export const RegisterFields: RegisterField[] = [
     {
         required: true,
-        label: 'First Name',
+        label: 'first name',
+        state: 'firstName',
         type: 'text'
     },
     {
         required: false,
-        label: 'Middle Name',
+        label: 'middle name',
+        state: 'middleName',
         type: 'text'
     },
     {
         required: true,
-        label: 'Last Name',
+        label: 'last Name',
+        state: 'lastName',
         type: 'text'
     },
     {
         required: true,
-        label: 'Phone',
+        label: 'phone',
         type: 'number'
     },
     {
         required: true,
-        label: 'Email',
+        label: 'email',
         type: 'email'
     },
     {
         required: true,
-        label: 'Password',
+        label: 'password',
         type: 'password'
     },
     {
         required: false,
-        label: 'Image url',
+        label: 'image url',
+        state: 'imageUrl',
         type: 'url'
     },
     {
         required: false,
-        label: 'Image alt',
+        label: 'image alt',
+        state: 'imageAlt',
         type: 'text'
     },
     {
         required: false,
-        label: 'State',
+        label: 'state',
         type: 'text'
     },
     {
         required: true,
-        label: 'Country',
+        label: 'country',
         type: 'text'
     },
     {
         required: true,
-        label: 'City',
+        label: 'city',
         type: 'text'
     },
     {
         required: true,
-        label: 'Street',
+        label: 'street',
         type: 'text'
     },
     {
         required: true,
-        label: 'House number',
+        label: 'house number',
+        state: 'houseNumber',
         type: 'text'
     },
     {
         required: false,
-        label: 'Zip',
+        label: 'zip',
         type: 'text'
     },
 ]

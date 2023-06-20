@@ -1,3 +1,4 @@
+import { Box, Typography, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
@@ -8,25 +9,36 @@ const schema = Joi.object({
 }).required();
 
 export default function FormValid() {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: joiResolver(schema),
-    });
+    const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: joiResolver(schema), });
 
     const onSubmit = (data: any) => console.log(data);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <input {...register("firstName")} />
-            <p>{errors.firstName?.message as string}</p>
-
-            <input {...register("age")} />
-            <p>{errors.age?.message as string}</p>
-
-            <input type="submit" />
-        </form>
+        <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+            }}
+        >
+            <TextField
+                {...register("firstName")}
+                label="First Name"
+                error={!!errors.firstName}
+                helperText={errors.firstName?.message as string}
+            />
+            <TextField
+                {...register("age")}
+                label="Age"
+                type="number"
+                error={!!errors.age}
+                helperText={errors.age?.message as string}
+            />
+            <Button type="submit" variant="contained">
+                Submit
+            </Button>
+        </Box>
     );
 }

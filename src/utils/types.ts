@@ -6,6 +6,7 @@ export interface TitleProps {
 export interface RegisterField {
     required: boolean;
     label: string;
+    state?: string
     type: string
 }
 
