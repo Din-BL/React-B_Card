@@ -3,12 +3,26 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
+    firstName: {
+      type: String,
+      required: true,
+      minlength: 2
+    },
+    middleName: {
+      type: String,
+      required: false
+    },
+    lastName: {
+      type: String,
+      required: true,
+      minlength: 2
+    },
+    phone: {
       type: String,
       required: true,
       trim: true,
-      minlength: 3,
-      maxlength: 30,
+      minlength: 10,
+      match: /^(050|052|053|054|055)\d{7}$/,
     },
     email: {
       type: String,
@@ -23,6 +37,53 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
       minlength: 8,
+      maxlength: 128,
+    },
+    imageUrl: {
+      type: String,
+      required: false,
+      trim: true,
+      maxlength: 128,
+    },
+    imageAlt: {
+      type: String,
+      required: false,
+      trim: true,
+      maxlength: 128,
+    },
+    state: {
+      type: String,
+      required: false,
+      maxlength: 128,
+    },
+    country: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 128,
+    },
+    city: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 128,
+    },
+    street: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 128,
+    },
+    houseNumber: {
+      type: Number,
+      required: true,
+      trim: true,
+      maxlength: 128,
+    },
+    zip: {
+      type: Number,
+      required: false,
+      trim: true,
       maxlength: 128,
     },
     biz: {

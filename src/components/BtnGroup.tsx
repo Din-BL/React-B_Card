@@ -3,11 +3,12 @@ import SyncIcon from '@mui/icons-material/Sync';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate } from "react-router-dom";
 
-interface ResetBtn {
+interface HandleBtn {
     resetFields?: () => void;
+    isValid?: () => boolean;
 }
 
-function BtnGroup({ resetFields }: ResetBtn) {
+function BtnGroup({ resetFields, isValid = () => false }: HandleBtn) {
     const navigate = useNavigate()
     return (
         <Box sx={{ marginTop: 3 }}>
@@ -17,7 +18,7 @@ function BtnGroup({ resetFields }: ResetBtn) {
                     <SyncIcon />
                 </Button>
             </ButtonGroup>
-            <Button type="submit" sx={{ width: '100%', marginTop: 1, padding: 1 }} variant="contained" endIcon={<SendIcon />} >Submit</Button>
+            <Button disabled={isValid()} type="submit" sx={{ width: '100%', marginTop: 1, padding: 1 }} variant="contained" endIcon={<SendIcon />} >Submit</Button>
         </Box>
     );
 }

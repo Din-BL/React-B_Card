@@ -24,7 +24,7 @@ router.delete("/init", async (req, res) => {
 router.post("/register", userValidate, async (req, res) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).json(_.pick(user, ["_id", "name", "email"]));
+    res.status(201).json(_.pick(user, ["_id", "firstName", "email", "biz"]));
   } catch (error) {
     if (error.message.includes("email")) return res.status(400).send("Email already exists");
     res.status(400).send(error.message);
@@ -57,7 +57,7 @@ router.get("/", userAuthenticate, async (req, res) => {
   try {
     const userDetails = await User.findOne({ email: req.user.sub });
     if (!userDetails) return res.status(404).send("User doest exist");
-    res.status(200).json(_.pick(userDetails, ["_id", "name", "email", "biz"]));
+    res.status(200).json(_.pick(userDetails, ["_id", "firstName", "middleName", "lastName", "phone", "email", "imageUrl", "imageAlt", "state", "country", "city", "street", "houseNumber", "biz"]));
   } catch (error) {
     res.status(400).send(error.message);
   }

@@ -6,18 +6,20 @@ import { LoginField } from "../utils/types";
 
 function Login() {
 
-    const { fields, handleField, handleSubmit, resetFields } = useFields<LoginField>({ email: "Example@email.com", password: "Password" })
-
+    const { fields, handleField, handleSubmit, resetFields } = useFields<LoginField>({ email: "", password: "" })
+    const emailError = !fields.email.match(/^\S+@\S+\.\S+$/,) && fields.email.length > 0
+    const passwordError = fields.password.length > 0 && fields.password.length < 8
+    const isValid = () => (emailError || passwordError)
 
     return (
-        <Box component={'section'} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '85dvh' }}>
+        <Box component={'section'} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '85dvh', }}>
             <form onSubmit={handleSubmit} style={{ width: '50vw', height: '50vh' }} >
                 <Typography paddingBottom={2} textAlign={'center'} variant="h4" component={'h1'}>
                     Login
                 </Typography>
-
                 <TextField
                     required
+                    placeholder="Example@email.com"
                     value={fields.email}
                     name="email"
                     onChange={handleField}
@@ -25,6 +27,8 @@ function Login() {
                     id="Email"
                     label="Email"
                     type="email"
+                    error={emailError}
+                    helperText={emailError && 'Invalid email address format'}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -42,12 +46,13 @@ function Login() {
                     id="Password"
                     label="Password"
                     type="password"
+                    error={passwordError}
+                    helperText={passwordError && 'Password must be at least 8 characters long'}
                     autoComplete="current-password"
-                    helperText='Password must be at least 8 characters'
                     variant="outlined"
                 />
 
-                <BtnGroup resetFields={resetFields} />
+                <BtnGroup resetFields={resetFields} isValid={isValid} />
             </form>
         </Box >
     );

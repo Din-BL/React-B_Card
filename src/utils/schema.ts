@@ -2,13 +2,11 @@ import Joi from "joi";
 import { convertMsg } from "./helpers";
 
 const registerSchema = Joi.object({
-    firstName: Joi.string().trim().min(2).allow("").optional().messages({
+    firstName: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('First name', '2'),
     }),
-    middleName: Joi.string().trim().min(2).allow("").allow("").optional().messages({
-        "string.min": convertMsg('Middle name', '2'),
-    }),
-    lastName: Joi.string().min(2).trim().allow("").optional().messages({
+    middleName: Joi.string().allow("").allow("").optional(),
+    lastName: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('Last name', '2'),
     }),
     phone: Joi.string().allow("").trim().optional().min(10).pattern(/^(050|052|053|054|055)\d{7}$/,).messages({
@@ -23,16 +21,14 @@ const registerSchema = Joi.object({
     }),
     imageUrl: Joi.string().trim().uri().allow("").optional(),
     imageAlt: Joi.string().trim().allow("").optional(),
-    state: Joi.string().min(2).trim().allow("").optional().messages({
-        "string.min": convertMsg('State', '2'),
-    }),
-    country: Joi.string().min(2).trim().allow("").optional().messages({
+    state: Joi.string().allow("").optional(),
+    country: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('Country', '2'),
     }),
-    city: Joi.string().min(2).trim().allow("").optional().messages({
+    city: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('City', '2'),
     }),
-    street: Joi.string().min(2).trim().allow("").optional().messages({
+    street: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('Street', '2'),
     }),
     houseNumber: Joi.number().allow("").optional().messages({
