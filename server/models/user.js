@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       minlength: 10,
       match: /^(050|052|053|054|055)\d{7}$/,
+      message: "Invalid phone format",
     },
     email: {
       type: String,
@@ -31,6 +32,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       match: /^\S+@\S+\.\S+$/,
+      message: "Invalid email address format",
     },
     password: {
       type: String,

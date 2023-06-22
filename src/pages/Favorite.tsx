@@ -10,11 +10,11 @@ function Favorite() {
             <Box component={'main'} sx={{ minHeight: '85dvh' }}>
                 <Title main="Favorite Cards" sub="Here you can find your favorite cards from all catagories" />
                 <Stack paddingBottom={5} direction="row" spacing={2}>
+                    {/* <B_CARD />
                     <B_CARD />
                     <B_CARD />
                     <B_CARD />
-                    <B_CARD />
-                    <B_CARD />
+                    <B_CARD /> */}
                 </Stack>
             </Box>
         </Container>

@@ -11,8 +11,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Stack } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { FavoriteBorder } from '@mui/icons-material';
+import { BusinessCard } from '../utils/types';
 
-export default function B_CARD() {
+export default function B_CARD({ title, subtitle, phone, city }: BusinessCard) {
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia
@@ -23,7 +24,7 @@ export default function B_CARD() {
             />
             <CardContent>
                 <Typography variant="h6" component="div">
-                    Computer Company
+                    {title}
                 </Typography>
                 <Typography paddingY={1} borderBottom={'1px solid #9d9d9d'} variant="body2" color="text.secondary">
                     Computer Company Sub Title
