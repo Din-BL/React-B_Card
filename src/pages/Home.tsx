@@ -6,8 +6,10 @@ import { Container } from '@mui/material';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+    const navigate = useNavigate()
     return (
         <Container >
             <Box component={'main'} sx={{ minHeight: '85dvh' }}>
@@ -19,12 +21,9 @@ function Home() {
                     <B_CARD />
                     <B_CARD />
                 </Stack>
-                {/* <Box sx={{ position: 'relative', paddingTop: 2, paddingBottom: 15 }}>
-                    <AddCircleRoundedIcon sx={{ position: 'absolute', right: 0 }} style={{ fontSize: '50px' }} color='primary' />
-                </Box> */}
                 <Box sx={{ display: 'flex', justifyContent: 'end', pt: 3, pb: 12 }}>
                     <Fab color="primary" aria-label="add">
-                        <AddIcon />
+                        <AddIcon onClick={() => navigate('add card')} />
                     </Fab>
                 </Box>
 

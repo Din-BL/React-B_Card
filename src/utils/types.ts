@@ -1,9 +1,10 @@
+
 export interface TitleProps {
     main: string;
     sub: string
 }
 
-export interface RegisterField {
+export interface FormField {
     required: boolean;
     label: string;
     state?: string
@@ -20,3 +21,9 @@ export interface FooterLinkProps {
     icon: any,
     text: string
 }
+
+export type CheckField = {
+    checked: boolean;
+    setChecked: React.Dispatch<React.SetStateAction<boolean>>;
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};

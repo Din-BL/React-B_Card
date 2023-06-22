@@ -1,7 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function useFields<Fields>(initalValue: Fields) {
 
+    const navigate = useNavigate()
     const [fields, setFields] = useState(initalValue)
 
     const handleField = (e: ChangeEvent<HTMLInputElement>) => {
@@ -14,6 +16,7 @@ export default function useFields<Fields>(initalValue: Fields) {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         console.log(fields);
+        navigate('/')
     }
 
     const resetFields = () => {

@@ -1,6 +1,6 @@
-import { RegisterField } from "./types";
+import { FormField } from "./types";
 
-export const inputData = (field: RegisterField) => {
+export const inputData = (field: FormField) => {
     return field.state ? field.state : field.label
 }
 

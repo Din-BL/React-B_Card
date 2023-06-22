@@ -1,7 +1,7 @@
-import { RegisterField } from "./types";
+import { FormField } from "./types";
 
 
-export const RegisterFields: RegisterField[] = [
+export const RegisterFields: FormField[] = [
     {
         required: true,
         label: 'first name',
@@ -34,6 +34,82 @@ export const RegisterFields: RegisterField[] = [
         required: true,
         label: 'password',
         type: 'password'
+    },
+    {
+        required: false,
+        label: 'image url',
+        state: 'imageUrl',
+        type: 'url'
+    },
+    {
+        required: false,
+        label: 'image alt',
+        state: 'imageAlt',
+        type: 'text'
+    },
+    {
+        required: false,
+        label: 'state',
+        type: 'text'
+    },
+    {
+        required: true,
+        label: 'country',
+        type: 'text'
+    },
+    {
+        required: true,
+        label: 'city',
+        type: 'text'
+    },
+    {
+        required: true,
+        label: 'street',
+        type: 'text'
+    },
+    {
+        required: true,
+        label: 'house number',
+        state: 'houseNumber',
+        type: 'text'
+    },
+    {
+        required: false,
+        label: 'zip',
+        type: 'text'
+    },
+]
+
+export const CardFields: FormField[] = [
+    {
+        required: true,
+        label: 'title',
+        type: 'text'
+    },
+    {
+        required: true,
+        label: 'subtitle',
+        type: 'text'
+    },
+    {
+        required: true,
+        label: 'description',
+        type: 'text'
+    },
+    {
+        required: true,
+        label: 'phone',
+        type: 'number'
+    },
+    {
+        required: true,
+        label: 'email',
+        type: 'email'
+    },
+    {
+        required: false,
+        label: 'web',
+        type: 'url'
     },
     {
         required: false,

@@ -1,0 +1,44 @@
+{
+    "businessCards": [
+        {
+            "imageUrl": "https://example.com/business1.jpg",
+            "title": "Acme Corporation",
+            "subtitle": "Leading Provider of Widgets",
+            "phone": "123-456-7890",
+            "address": "123 Main Street, City",
+            "cardNumber": "1234567"
+        },
+        {
+            "imageUrl": "https://example.com/business2.jpg",
+            "title": "XYZ Industries",
+            "subtitle": "Innovative Solutions for All Industries",
+            "phone": "987-654-3210",
+            "address": "456 Elm Street, City",
+            "cardNumber": "2345678"
+        },
+        {
+            "imageUrl": "https://example.com/business3.jpg",
+            "title": "GlobeTech Solutions",
+            "subtitle": "Technology Consulting and Services",
+            "phone": "555-555-5555",
+            "address": "789 Oak Street, City",
+            "cardNumber": "3456789"
+        },
+        {
+            "imageUrl": "https://example.com/business4.jpg",
+            "title": "Apex Solutions",
+            "subtitle": "Your Partner for Success",
+            "phone": "111-222-3333",
+            "address": "567 Pine Street, City",
+            "cardNumber": "4567890"
+        },
+        {
+            "imageUrl": "https://example.com/business5.jpg",
+            "title": "Innovate Tech",
+            "subtitle": "Transforming Ideas into Reality",
+            "phone": "999-999-9999",
+            "address": "321 Cedar Street, City",
+            "cardNumber": "5678901"
+        }
+    ]
+}

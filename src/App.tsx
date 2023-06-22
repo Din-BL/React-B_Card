@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import About from './pages/About';
 import Favorite from './pages/Favorite';
 import My_Cards from './pages/My_Cards';
+import Add_Card from './pages/Add_Card';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path='/about' element={<About />} />
         <Route path='/favorite' element={<Favorite />} />
         <Route path='/my cards' element={<My_Cards />} />
+        <Route path='/add card' element={<Add_Card />} />
       </Routes>
       <Footer />
     </>
