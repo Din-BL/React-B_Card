@@ -5,26 +5,21 @@ import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { capitalizeFirstLetter, inputData } from "../utils/helpers";
 import { useNavigate } from "react-router-dom";
-import { CheckField, FormField } from "../utils/types";
+import { BusinessCard, CheckField, FormField, FormProps, UserCard } from "../utils/types";
 import { AnySchema } from "joi";
-
-
-interface FormProps {
-    FormTitle: string,
-    FormFields: FormField[],
-    FormSchema: AnySchema,
-    CheckField?: CheckField,
-    children?: ReactNode
-}
+import { registerUser } from "../utils/services";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormProps) {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(FormSchema), });
     const navigate = useNavigate()
 
     const onSubmit = (data: any) => {
-        const checked = CheckField && CheckField.checked
-        console.log({ ...data, checked })
-        navigate('/login')
+        const business = CheckField && CheckField.checked
+        registerUser({ ...data, business })
+            .then(() => navigate('/login'))
+            .catch(e => toast.error(e.response.data))
     };
 
     const handleReset = () => {

@@ -23,7 +23,7 @@ export const RegisterFields: FormField[] = [
     {
         required: true,
         label: 'phone',
-        type: 'number'
+        type: 'text'
     },
     {
         required: true,
@@ -71,7 +71,7 @@ export const RegisterFields: FormField[] = [
         required: true,
         label: 'house number',
         state: 'houseNumber',
-        type: 'text'
+        type: 'number'
     },
     {
         required: false,
@@ -99,7 +99,7 @@ export const CardFields: FormField[] = [
     {
         required: true,
         label: 'phone',
-        type: 'number'
+        type: 'text'
     },
     {
         required: true,
@@ -147,7 +147,7 @@ export const CardFields: FormField[] = [
         required: true,
         label: 'house number',
         state: 'houseNumber',
-        type: 'text'
+        type: 'number'
     },
     {
         required: false,

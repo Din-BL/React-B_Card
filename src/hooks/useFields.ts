@@ -1,7 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../utils/services";
+import { LoginField } from "../utils/types";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function useFields<Fields>(initalValue: Fields) {
+
+export default function useFields(initalValue: LoginField) {
 
     const navigate = useNavigate()
     const [fields, setFields] = useState(initalValue)
@@ -15,8 +20,9 @@ export default function useFields<Fields>(initalValue: Fields) {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(fields);
-        navigate('/')
+        loginUser(fields)
+            .then(() => navigate('/'))
+            .catch(e => toast.error(e.response.data))
     }
 
     const resetFields = () => {

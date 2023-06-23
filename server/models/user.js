@@ -88,7 +88,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       maxlength: 128,
     },
-    biz: {
+    business: {
       type: Boolean,
       default: false,
     },

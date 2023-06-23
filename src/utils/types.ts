@@ -1,7 +1,17 @@
+import { AnySchema } from "joi";
+import { ReactNode } from "react";
 
 export interface TitleProps {
     main: string;
     sub: string
+}
+
+export interface FormProps {
+    FormTitle: string,
+    FormFields: FormField[],
+    FormSchema: AnySchema,
+    CheckField?: CheckField,
+    children?: ReactNode
 }
 
 export interface FormField {
@@ -28,6 +38,25 @@ export type CheckField = {
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
+export interface UserCard {
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    password: string;
+    imageUrl?: string;
+    imageAlt?: string;
+    state?: string;
+    country: string;
+    city: string;
+    street: string;
+    houseNumber: number;
+    zip?: string;
+    business: boolean;
+    _id?: string
+}
+
 export interface BusinessCard {
     title: string;
     subtitle: string;
@@ -42,6 +71,6 @@ export interface BusinessCard {
     city: string;
     street: string;
     houseNumber: number;
-    zip?: number;
+    zip?: string;
     _id?: string
 }

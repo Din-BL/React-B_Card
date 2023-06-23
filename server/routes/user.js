@@ -24,9 +24,9 @@ router.delete("/init", async (req, res) => {
 router.post("/register", userValidate, async (req, res) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).json(_.pick(user, ["_id", "firstName", "email", "biz"]));
+    res.status(201).json(_.pick(user, ["_id", "firstName", "email", "business"]));
   } catch (error) {
-    if (error.message.includes("email")) return res.status(400).send("Email already exists");
+    if (error.message.includes("email")) return res.status(400).json("Email already exists");
     res.status(400).send(error.message);
   }
 });

@@ -10,7 +10,7 @@ module.exports.userValidate = (req, res, next) => {
   }
   const { error } = schema.validate(req.body, { abortEarly: false });
   if (error) {
-    res.status(400).send(error.details.map((msg) => msg.message));
+    res.status(400).json(error.details.map((msg) => msg.message));
   } else {
     next();
   }

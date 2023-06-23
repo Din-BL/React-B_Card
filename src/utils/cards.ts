@@ -15,7 +15,7 @@ export const defaultCards: BusinessCard[] = [
         city: "Tel Aviv",
         street: "Dizengoff",
         houseNumber: 12,
-        zip: 12345,
+        zip: '12345',
         _id: uuid()
     },
     {
@@ -31,7 +31,7 @@ export const defaultCards: BusinessCard[] = [
         city: "Jerusalem",
         street: "King George",
         houseNumber: 45,
-        zip: 54321,
+        zip: '54321',
         _id: uuid()
     },
     {
@@ -47,7 +47,7 @@ export const defaultCards: BusinessCard[] = [
         city: "Haifa",
         street: "Rothschild Boulevard",
         houseNumber: 17,
-        zip: 67890,
+        zip: '67890',
         _id: uuid()
     },
     {
@@ -63,7 +63,7 @@ export const defaultCards: BusinessCard[] = [
         city: "Netanya",
         street: "Herzl",
         houseNumber: 56,
-        zip: 98765,
+        zip: '98765',
         _id: uuid()
     }
 ];
