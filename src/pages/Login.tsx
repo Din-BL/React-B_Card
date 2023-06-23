@@ -3,10 +3,10 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import BtnGroup from "../components/BtnGroup";
 import useFields from "../hooks/useFields";
 import { LoginField } from "../utils/types";
+import { ToastContainer } from "react-toastify";
 
 function Login() {
-
-    const { fields, handleField, handleSubmit, resetFields } = useFields<LoginField>({ email: "", password: "" })
+    const { fields, handleField, handleSubmit, resetFields } = useFields({ email: "", password: "" })
     const emailError = !fields.email.match(/^\S+@\S+\.\S+$/,) && fields.email.length > 0
     const passwordError = fields.password.length > 0 && fields.password.length < 8
     const isValid = () => (emailError || passwordError)
@@ -51,7 +51,6 @@ function Login() {
                     autoComplete="current-password"
                     variant="outlined"
                 />
-
                 <BtnGroup resetFields={resetFields} isValid={isValid} />
             </form>
         </Box >
