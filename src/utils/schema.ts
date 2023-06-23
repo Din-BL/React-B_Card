@@ -9,10 +9,12 @@ const registerSchema: AnySchema = Joi.object({
     lastName: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('Last name', '2'),
     }),
-    phone: Joi.string().allow("").trim().optional().min(10).pattern(/^(050|052|053|054|055)\d{7}$/,).messages({
-        "string.pattern.base": "Invalid phone format",
-        "string.min": convertMsg('Phone', '10'),
-    }),
+    phone: Joi.string().allow("").trim().optional().min(10).max(10).pattern(/^(050|052|053|054|055|058)/)
+        .messages({
+            'string.pattern.base': 'Phone number must start with 050, 052, 053, 054, 055, or 058',
+            "string.min": convertMsg('Phone', '10'),
+            "string.max": `Phone length must be less then or equal to 10 characters long`
+        }),
     email: Joi.string().trim().pattern(/^\S+@\S+\.\S+$/,).allow("").optional().messages({
         "string.pattern.base": "Invalid email address format",
     }),

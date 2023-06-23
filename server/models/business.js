@@ -21,9 +21,10 @@ const businessSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    minlength: 10,
-    match: /^(050|052|053|054|055)\d{7}$/,
+    match: /^(050|052|053|054|055|058)/,
     message: "Invalid phone format",
+    minlength: 10,
+    maxlength: 10,
   },
   email: {
     type: String,

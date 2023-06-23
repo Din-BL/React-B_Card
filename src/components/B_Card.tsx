@@ -12,31 +12,32 @@ import { Box, Stack } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { FavoriteBorder } from '@mui/icons-material';
 import { BusinessCard } from '../utils/types';
+import { addressFormatter, phoneFormatter } from '../utils/helpers';
 
-export default function B_CARD({ title, subtitle, phone, city }: BusinessCard) {
+export default function B_CARD({ imageUrl, imageAlt, title, subtitle, phone, country, city, street, houseNumber, zip }: BusinessCard) {
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia
                 component="img"
-                alt="green iguana"
+                alt={imageAlt}
                 height="140"
-                image={image}
+                image={imageUrl}
             />
             <CardContent>
                 <Typography variant="h6" component="div">
                     {title}
                 </Typography>
                 <Typography paddingY={1} borderBottom={'1px solid #9d9d9d'} variant="body2" color="text.secondary">
-                    Computer Company Sub Title
+                    {subtitle}
                 </Typography>
                 <Typography paddingTop={1} variant="body2" color="text.secondary">
-                    <span style={{ fontWeight: "bold" }}> Phone:</span> 0532445677
+                    <span style={{ fontWeight: "bold" }}> Phone:</span> {phoneFormatter(phone)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    <span style={{ fontWeight: "bold" }}> Address:</span> test 56
+                    <span style={{ fontWeight: "bold" }}> Address:</span> {addressFormatter(city, street, houseNumber)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    <span style={{ fontWeight: "bold" }}> Card Number:</span> 456345
+                    <span style={{ fontWeight: "bold" }}> Card Number:</span> {zip}
                 </Typography>
             </CardContent>
             <CardActions sx={{ justifyContent: 'space-between' }}>

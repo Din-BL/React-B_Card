@@ -11,3 +11,11 @@ export function capitalizeFirstLetter(field: string) {
 export function convertMsg(msg: string, num: string) {
     return `${msg} length must be at least ${num} characters long`
 }
+
+export function phoneFormatter(phone: string) {
+    return phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+}
+
+export function addressFormatter(city: string, street: string, houseNumber: number) {
+    return `${street} ${houseNumber} ${city}`
+}
