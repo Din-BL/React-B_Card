@@ -99,10 +99,7 @@ const businessSchema = new mongoose.Schema({
 //   next();
 // });
 
-const DefaultCards = mongoose.model("DefaultCards", businessSchema)
-const Business = mongoose.model("Business", businessSchema)
+module.exports = mongoose.model("Business", businessSchema)
 
-module.exports = {
-  DefaultCards,
-  Business
-}
+
+
