@@ -13,6 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { FavoriteBorder } from '@mui/icons-material';
 import { BusinessCard } from '../utils/types';
 import { addressFormatter, phoneFormatter } from '../utils/helpers';
+import { getData } from '../utils/token';
 
 export default function B_CARD({ imageUrl, imageAlt, title, subtitle, phone, country, city, street, houseNumber, zip }: BusinessCard) {
     return (
@@ -47,7 +48,9 @@ export default function B_CARD({ imageUrl, imageAlt, title, subtitle, phone, cou
                 </Stack>
                 <Stack direction={'row'} spacing={1} >
                     <PhoneIcon color='action' />
-                    <CheckBox icon={<FavoriteBorder />} checkedIcon={<Favorite />} color='error' sx={{ padding: 0 }} />
+                    {getData('token') &&
+                        <CheckBox icon={<FavoriteBorder />} checkedIcon={<Favorite />} color='error' sx={{ padding: 0 }} />
+                    }
                 </Stack>
             </CardActions>
         </Card>

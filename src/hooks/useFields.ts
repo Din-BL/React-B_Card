@@ -4,6 +4,7 @@ import { loginUser } from "../utils/services";
 import { LoginField } from "../utils/types";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { setData } from "../utils/token";
 
 
 export default function useFields(initalValue: LoginField) {
@@ -21,7 +22,12 @@ export default function useFields(initalValue: LoginField) {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         loginUser(fields)
-            .then(() => navigate('/'))
+            .then((user) => {
+                console.log(user.data);
+                setData('token', user.data.token)
+                setData('user', user.data.email)
+                navigate('/')
+            })
             .catch(e => toast.error(e.response.data))
     }
 

@@ -7,8 +7,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Search from './Search';
 import Theme from './Theme';
 import { AccountCircle } from '@mui/icons-material';
+import { getData } from '../utils/token';
 
-const pages = ['About', 'Favorite', 'My Cards'];
+const pages = ['About', 'Favorite', 'My Cards', 'SandBox'];
+const connection = ['Register', 'Login'];
 
 function Navbar() {
     const navigate = useNavigate()
@@ -70,7 +72,8 @@ function Navbar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
+
+                            {pages.filter((page) => page === 'About' || getData('token')).map((page) => (
                                 <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
                                     <Typography textAlign="center">
                                         {page}
@@ -99,7 +102,7 @@ function Navbar() {
                         LOGO
                     </Typography> */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
+                        {pages.filter((page) => page === 'About' || getData('token')).map((page) => (
                             <Button
                                 key={page}
                                 onClick={() => handleCloseNavMenu(page)}
@@ -110,18 +113,29 @@ function Navbar() {
                         ))}
                     </Box>
                     <Search />
-                    <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
-                        <NavLink to={`/Register`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                            REGISTER
-                        </NavLink>
-                    </Typography>
-                    <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
-                        <NavLink to={`/Login`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                            LOGIN
-                        </NavLink>
-                    </Typography>
+
+                    {connection.filter(() => !getData('token')).map(page => (
+                        <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
+                            <NavLink to={`/${page}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                {page}
+                            </NavLink>
+                        </Typography>
+                    ))}
+                    {getData('token') &&
+                        <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
+                            <NavLink to={`/Login`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                LOGOUT
+                            </NavLink>
+                        </Typography>
+                    }
                     <Theme />
+                    {getData('token') &&
+                        <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
+                            {getData('user')}
+                        </Typography>
+                    }
                     <Box sx={{ flexGrow: 0 }}>
+
                         <AccountCircle sx={{ p: 0, color: 'white' }} />
                     </Box>
                 </Toolbar>

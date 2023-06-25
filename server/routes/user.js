@@ -46,7 +46,7 @@ router.post("/login", userValidate, async (req, res) => {
       const token = jwt.sign(payload, config.get("ACCESS_TOKEN_SECRET"));
       findUser = findUser.toObject();
       findUser.token = token;
-      res.status(200).json(_.pick(findUser, ["_id", "biz", "token"]));
+      res.status(200).json(_.pick(findUser, ["_id", "business", "email", "token"]));
     } else res.status(400).send("Incorrect password");
   } catch (error) {
     res.status(400).send(error.message);
