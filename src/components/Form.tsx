@@ -4,7 +4,7 @@ import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { capitalizeFirstLetter, inputData } from "../utils/helpers";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { BusinessCard, CheckField, FormField, FormProps, UserCard } from "../utils/types";
 import { AnySchema } from "joi";
 import { registerUser } from "../utils/services";
@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormProps) {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(FormSchema), });
     const navigate = useNavigate()
+    const location = useLocation()
 
     const onSubmit = (data: any) => {
         const business = CheckField && CheckField.checked
@@ -53,6 +54,13 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                     {children}
                 </Grid>
                 <BtnGroup resetFields={handleReset} />
+                {location.pathname === '/register' &&
+                    <Typography paddingTop={3} paddingLeft={1} color={'text.secondary'}>
+                        Already have an account?
+                        <NavLink to={`/login`} style={{ paddingLeft: 5, textDecoration: 'none', color: 'black' }}>
+                            Login now
+                        </NavLink>
+                    </Typography>}
             </Box>
         </Container >
     )

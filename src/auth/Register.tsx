@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel } from "@mui/material";
+import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { useState } from "react";
 import { RegisterFields } from "../utils/fields";
 import { registerSchema } from "../utils/schema";
@@ -13,7 +13,6 @@ function Register() {
 
     return (
         <Form FormTitle='Register' FormFields={RegisterFields} FormSchema={registerSchema} CheckField={{ checked, setChecked, handleChange }}>
-
             <FormControlLabel sx={{ marginLeft: 1, paddingTop: 1 }} control={
                 <Checkbox
                     checked={checked}

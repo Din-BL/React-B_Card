@@ -23,7 +23,6 @@ export default function useFields(initalValue: LoginField) {
         e.preventDefault()
         loginUser(fields)
             .then((user) => {
-                console.log(user.data);
                 setData('token', user.data.token)
                 setData('user', user.data.email)
                 navigate('/')

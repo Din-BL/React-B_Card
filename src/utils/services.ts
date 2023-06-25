@@ -12,7 +12,3 @@ export function registerUser(form: UserCard) {
 export function loginUser(form: LoginField) {
     return axios.post(`${url}/user/login`, form)
 }
-
-// export function getUser() {
-//     return axios.get(`${url}/user/login`)
-// }

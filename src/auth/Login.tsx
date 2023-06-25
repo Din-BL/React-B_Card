@@ -1,7 +1,8 @@
-import { Box, Typography, TextField, InputAdornment } from "@mui/material";
+import { Box, Typography, TextField, InputAdornment, colors } from "@mui/material";
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import BtnGroup from "../components/BtnGroup";
 import useFields from "../hooks/useFields";
+import { NavLink } from "react-router-dom";
 
 function Login() {
     const { fields, handleField, handleSubmit, resetFields } = useFields({ email: "", password: "" })
@@ -50,6 +51,12 @@ function Login() {
                     variant="outlined"
                 />
                 <BtnGroup resetFields={resetFields} isValid={isValid} />
+                <Typography paddingTop={3} paddingLeft={1} color={'text.secondary'}>
+                    Dont have an account yet?
+                    <NavLink to={`/register`} style={{ paddingLeft: 5, textDecoration: 'none', color: 'black' }}>
+                        Register now
+                    </NavLink>
+                </Typography>
             </form>
         </Box >
     );
