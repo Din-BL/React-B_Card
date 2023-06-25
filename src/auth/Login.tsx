@@ -2,8 +2,6 @@ import { Box, Typography, TextField, InputAdornment } from "@mui/material";
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import BtnGroup from "../components/BtnGroup";
 import useFields from "../hooks/useFields";
-import { LoginField } from "../utils/types";
-import { ToastContainer } from "react-toastify";
 
 function Login() {
     const { fields, handleField, handleSubmit, resetFields } = useFields({ email: "", password: "" })

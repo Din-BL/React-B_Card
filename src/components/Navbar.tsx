@@ -7,7 +7,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Search from './Search';
 import Theme from './Theme';
 import { AccountCircle } from '@mui/icons-material';
-import { getData } from '../utils/token';
+import { getData, removeData } from '../utils/token';
 
 const pages = ['About', 'Favorite', 'My Cards', 'SandBox'];
 const connection = ['Register', 'Login'];
@@ -20,10 +20,24 @@ function Navbar() {
         setAnchorElNav(event.currentTarget);
     };
 
+    const toggleMenu = (event: React.MouseEvent<HTMLElement>) => {
+        if (!anchorElNav) {
+            setAnchorElNav(event.currentTarget);
+        } else {
+            setAnchorElNav(event.currentTarget);
+        }
+    }
+
     const handleCloseNavMenu = (page?: string) => {
         page && navigate(`/${page}`)
         setAnchorElNav(null);
     };
+
+    const logout = () => {
+        navigate('/login')
+        removeData('token')
+        removeData('user')
+    }
 
     return (
         <AppBar position="static">
@@ -33,7 +47,7 @@ function Navbar() {
                     <Typography
                         sx={{
                             mr: 2,
-                            display: { xs: 'none', md: 'flex' },
+                            display: { xs: 'none', lg: 'flex' },
                             fontWeight: 700,
                             fontSize: 27.5
                         }}
@@ -82,12 +96,10 @@ function Navbar() {
                             ))}
                         </Menu>
                     </Box>
-                    {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                    <WorkIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
                         variant="h5"
                         noWrap
-                        component="a"
-                        href=""
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -99,8 +111,10 @@ function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        LOGO
-                    </Typography> */}
+                        <NavLink to={`/`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            B-CARD
+                        </NavLink>
+                    </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.filter((page) => page === 'About' || getData('token')).map((page) => (
                             <Button
@@ -114,30 +128,32 @@ function Navbar() {
                     </Box>
                     <Search />
 
-                    {connection.filter(() => !getData('token')).map(page => (
-                        <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
+                    {connection.filter(() => !getData('token')).map((page, index) => (
+                        <Typography key={index} fontWeight={500} fontSize={'0.875rem'} marginX={1}>
                             <NavLink to={`/${page}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                 {page}
                             </NavLink>
                         </Typography>
                     ))}
                     {getData('token') &&
-                        <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
-                            <NavLink to={`/Login`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                LOGOUT
-                            </NavLink>
-                        </Typography>
+                        <Button
+                            onClick={logout}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Logout
+                        </Button>
                     }
                     <Theme />
                     {getData('token') &&
-                        <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
+                        <Typography sx={{ display: { xs: 'none', md: 'block' } }} fontWeight={500} fontSize={'0.875rem'} marginX={1}>
                             {getData('user')}
                         </Typography>
                     }
-                    <Box sx={{ flexGrow: 0 }}>
-
-                        <AccountCircle sx={{ p: 0, color: 'white' }} />
-                    </Box>
+                    {!getData('token') &&
+                        <Box sx={{ flexGrow: 0 }}>
+                            <AccountCircle sx={{ p: 0, color: 'white' }} />
+                        </Box>
+                    }
                 </Toolbar>
             </Container>
         </AppBar >
