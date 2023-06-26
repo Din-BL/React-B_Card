@@ -8,8 +8,8 @@ function Favorite() {
     return (
         <Container >
             <Box component={'main'} sx={{ minHeight: '85dvh' }}>
-                <Title main="Favorite Cards" sub="Here you can find your favorite cards from all catagories" />
-                <Stack paddingBottom={5} direction="row" spacing={2}>
+                <Title main="Favorite Cards" sub="Here you can find business cards from all catagories" />
+                <Stack direction="row" spacing={2} paddingBottom={3}>
                     {/* Favorite Cards */}
                 </Stack>
             </Box>

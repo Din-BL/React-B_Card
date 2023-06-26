@@ -27,14 +27,14 @@ router.post("/register", userValidate, async (req, res) => {
     res.status(201).json(_.pick(user, ["_id", "firstName", "email", "business"]));
   } catch (error) {
     if (error.message.includes("email")) return res.status(400).json("Email already exists");
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 });
 
 router.post("/login", userValidate, async (req, res) => {
   try {
     let findUser = await User.findOne({ email: req.body.email });
-    if (!findUser) return res.status(404).send("Email doest exist");
+    if (!findUser) return res.status(404).json("Email doest exist");
     if (await bcrypt.compare(req.body.password, findUser.password)) {
       const iat = Math.floor(Date.now() / 1000);
       const exp = iat + 60 * 60;
@@ -47,19 +47,9 @@ router.post("/login", userValidate, async (req, res) => {
       findUser = findUser.toObject();
       findUser.token = token;
       res.status(200).json(_.pick(findUser, ["_id", "business", "email", "token"]));
-    } else res.status(400).send("Incorrect password");
+    } else res.status(400).json("Incorrect password");
   } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-router.get("/", userAuthenticate, async (req, res) => {
-  try {
-    const userDetails = await User.findOne({ email: req.user.sub });
-    if (!userDetails) return res.status(404).send("User doest exist");
-    res.status(200).json(_.pick(userDetails, ["_id", "firstName", "middleName", "lastName", "phone", "email", "imageUrl", "imageAlt", "state", "country", "city", "street", "houseNumber", "biz"]));
-  } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 });
 

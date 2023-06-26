@@ -74,3 +74,9 @@ export interface BusinessCard {
     zip?: string;
     _id?: string
 }
+
+export interface UserStorage {
+    email: string;
+    token: string;
+    business: string
+}

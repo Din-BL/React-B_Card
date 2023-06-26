@@ -8,7 +8,7 @@ import Theme from './Theme';
 import { getData, removeData } from '../utils/token';
 import UserIcon from './UserIcon';
 
-const pages = ['About', 'Favorite', 'My Cards', 'SandBox'];
+const pages = ['About', 'Favorite', 'My Cards'];
 
 function Navbar() {
     const navigate = useNavigate()
@@ -72,7 +72,7 @@ function Navbar() {
                             onClose={handleCloseNavMenu}
                             sx={{ display: { xs: 'block', md: 'none' } }}
                         >
-                            {pages.filter((page) => page === 'About' || getData('token')).map((page) => (
+                            {pages.filter((page) => page === 'About' || (page === 'Favorite' && getData('user', 'token')) || getData('user', 'business')).map((page) => (
                                 <MenuItem key={page} onClick={() => handleNavigation(page)}>
                                     <Typography textAlign="center">
                                         {page}
@@ -101,7 +101,7 @@ function Navbar() {
                     </Box>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.filter((page) => page === 'About' || getData('token')).map((page) => (
+                        {pages.filter((page) => page === 'About' || (page === 'Favorite' && getData('user', 'token')) || getData('user', 'business')).map((page) => (
                             <Button
                                 key={page}
                                 onClick={() => handleNavigation(page)}
@@ -113,14 +113,14 @@ function Navbar() {
                     </Box>
                     <Search />
                     <Theme />
-                    {!getData('token') &&
+                    {!getData('user', 'token') &&
                         <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
                             <NavLink to={`/login`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                 LOGIN
                             </NavLink>
                         </Typography>
                     }
-                    {getData('token') && <UserIcon />}
+                    {getData('user', 'token') && <UserIcon />}
                 </Toolbar>
             </Container>
         </AppBar >

@@ -23,8 +23,7 @@ export default function useFields(initalValue: LoginField) {
         e.preventDefault()
         loginUser(fields)
             .then((user) => {
-                setData('token', user.data.token)
-                setData('user', user.data.email)
+                setData('user', user.data)
                 navigate('/')
             })
             .catch(e => toast.error(e.response.data))

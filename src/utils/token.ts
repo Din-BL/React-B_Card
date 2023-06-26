@@ -1,9 +1,15 @@
-export function setData(key: string, value: string) {
-    localStorage.setItem(key, value)
+import { UserStorage } from "./types"
+
+export function setData(key: string, value: UserStorage) {
+    localStorage.setItem(key, JSON.stringify(value))
 }
 
-export function getData(key: string) {
-    return localStorage.getItem(key)
+export function getData(key: string, value: string) {
+    const user = localStorage.getItem(key)
+    if (user) {
+        const data = JSON.parse(user);
+        return data[value]
+    }
 }
 
 export function removeData(key: string) {

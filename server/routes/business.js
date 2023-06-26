@@ -21,14 +21,14 @@ router.delete("/init", async (req, res) => {
 router.post("/", userAuthenticate, userValidate, async (req, res) => {
   try {
     const user = await User.findOne({ email: req.user.sub });
-    if (!user) return res.status(404).send("User doest exist");
-    if (!user.biz) return res.status(403).send("Must be a business owner");
+    if (!user) return res.status(404).json("User doest exist");
+    if (!user.business) return res.status(403).json("Must be a business owner");
     const business = new Business(req.body);
     business.user_id = user.id;
     await business.save();
     res.status(201).json(business);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 });
 
