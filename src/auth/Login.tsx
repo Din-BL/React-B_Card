@@ -7,12 +7,12 @@ import { NavLink } from "react-router-dom";
 function Login() {
     const { fields, handleField, handleSubmit, resetFields } = useFields({ email: "", password: "" })
     const emailError = !fields.email.match(/^\S+@\S+\.\S+$/,) && fields.email.length > 0
-    const passwordError = fields.password.length > 0 && fields.password.length < 8
+    const passwordError = !fields.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8}$/) && fields.password.length > 0
     const isValid = () => (emailError || passwordError)
 
     return (
         <Box component={'section'} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '85dvh', }}>
-            <form onSubmit={handleSubmit} style={{ width: '50vw', height: '50vh' }} >
+            <form onSubmit={handleSubmit} style={{ width: '50vw' }} >
                 <Typography paddingBottom={2} textAlign={'center'} variant="h4" component={'h1'}>
                     Login
                 </Typography>
@@ -46,7 +46,7 @@ function Login() {
                     label="Password"
                     type="password"
                     error={passwordError}
-                    helperText={passwordError && 'Password must be at least 8 characters long'}
+                    helperText={passwordError && "Must contain at least one lowercase and uppercase letter, four or more numbers, one special character and a minimum length of 8 characters  "}
                     autoComplete="current-password"
                     variant="outlined"
                 />

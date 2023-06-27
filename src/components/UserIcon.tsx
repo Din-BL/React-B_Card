@@ -25,7 +25,6 @@ export default function UserIcon() {
 
     const logout = () => {
         navigate('/login')
-        removeData('token')
         removeData('user')
     }
 

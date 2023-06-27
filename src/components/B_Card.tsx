@@ -23,7 +23,6 @@ interface B_CardProps {
 export default function B_CARD({ card }: B_CardProps) {
     const location = useLocation()
     const favoriteCard = () => {
-        // if(email is valid)
         const favData = localStorage.getItem(getData('user', 'email'))
         if (favData) {
             if (JSON.parse(favData).some((data: BusinessCard) => data.zip === card.zip)) {
