@@ -27,6 +27,7 @@ router.post("/register", userValidate, async (req, res) => {
     res.status(201).json(_.pick(user, ["_id", "firstName", "email", "business"]));
   } catch (error) {
     if (error.message.includes("email")) return res.status(400).json("Email already exists");
+    if (error.message.includes("userName")) return res.status(400).json("User name already exists");
     res.status(400).json(error.message);
   }
 });
@@ -46,7 +47,7 @@ router.post("/login", userValidate, async (req, res) => {
       const token = jwt.sign(payload, config.get("ACCESS_TOKEN_SECRET"));
       findUser = findUser.toObject();
       findUser.token = token;
-      res.status(200).json(_.pick(findUser, ["_id", "business", "email", "token"]));
+      res.status(200).json(_.pick(findUser, ["business", "token", 'userName']));
     } else res.status(400).json("Incorrect password");
   } catch (error) {
     res.status(400).json(error.message);

@@ -23,15 +23,15 @@ interface B_CardProps {
 export default function B_CARD({ card }: B_CardProps) {
     const location = useLocation()
     const favoriteCard = () => {
-        const favData = localStorage.getItem(getData('user', 'email'))
+        const favData = localStorage.getItem(getData('user', 'userName'))
         if (favData) {
             if (JSON.parse(favData).some((data: BusinessCard) => data.zip === card.zip)) {
-                localStorage.setItem(getData('user', 'email'), JSON.stringify(JSON.parse(favData).filter((cardInfo: BusinessCard) => cardInfo.zip !== card.zip)));
+                localStorage.setItem(getData('user', 'userName'), JSON.stringify(JSON.parse(favData).filter((cardInfo: BusinessCard) => cardInfo.zip !== card.zip)));
             } else {
-                localStorage.setItem(getData('user', 'email'), JSON.stringify([...JSON.parse(favData), card]));
+                localStorage.setItem(getData('user', 'userName'), JSON.stringify([...JSON.parse(favData), card]));
             }
         } else {
-            localStorage.setItem(getData('user', 'email'), JSON.stringify([card]))
+            localStorage.setItem(getData('user', 'userName'), JSON.stringify([card]))
         }
 
     }

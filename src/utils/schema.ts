@@ -5,9 +5,11 @@ const registerSchema: AnySchema = Joi.object({
     firstName: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('First name', '2'),
     }),
-    middleName: Joi.string().allow("").optional(),
     lastName: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('Last name', '2'),
+    }),
+    userName: Joi.string().min(2).allow("").optional().messages({
+        "string.min": convertMsg('User name', '2'),
     }),
     phone: Joi.string().allow("").trim().optional().min(10).max(10).pattern(/^(050|052|053|054|055|058)\d{7}$/)
         .messages({
@@ -19,7 +21,7 @@ const registerSchema: AnySchema = Joi.object({
         "string.pattern.base": "Invalid email address format",
     }),
     password: Joi.string().trim().allow("").optional().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8}$/).messages({
-        "string.pattern.base": "Must contain at least one lowercase letter, one uppercase letter, four or more numbers, and one special character (!@#$%^&*?) character minimum length should be 8 ",
+        "string.pattern.base": "Password must contain at least one lowercase and uppercase letter, four or more numbers, one special character (!@#$%^&*?), and a minimum length of 8 characters ",
     }),
     imageUrl: Joi.string().trim().uri().allow("").optional(),
     imageAlt: Joi.string().trim().allow("").optional(),

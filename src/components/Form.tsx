@@ -23,7 +23,6 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                 navigate('/login')
                 toast.success('Successfully registered')
             })
-
             .catch(e => toast.error(e.response.data))
     };
 

@@ -55,7 +55,7 @@ export default function UserIcon() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem >{getData('user', 'email')}</MenuItem>
+                <MenuItem >{getData('user', 'userName')}</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
         </Box>

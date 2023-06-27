@@ -8,14 +8,16 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 2
     },
-    middleName: {
-      type: String,
-      required: false
-    },
     lastName: {
       type: String,
       required: true,
       minlength: 2
+    },
+    userName: {
+      type: String,
+      required: true,
+      minlength: 2,
+      unique: true,
     },
     phone: {
       type: String,

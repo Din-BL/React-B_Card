@@ -8,16 +8,17 @@ export const RegisterFields: FormField[] = [
         state: 'firstName',
         type: 'text'
     },
-    {
-        required: false,
-        label: 'middle name',
-        state: 'middleName',
-        type: 'text'
-    },
+
     {
         required: true,
         label: 'last Name',
         state: 'lastName',
+        type: 'text'
+    },
+    {
+        required: true,
+        label: 'user name',
+        state: 'userName',
         type: 'text'
     },
     {

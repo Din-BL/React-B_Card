@@ -7,7 +7,7 @@ import { getData } from '../utils/token';
 import { BusinessCard } from '../utils/types';
 
 function Favorite() {
-    const favCards = localStorage.getItem(getData('user', 'email')) || '[]'
+    const favCards = localStorage.getItem(getData('user', 'userName')) || '[]'
     return (
         <Container >
             <Box component={'main'} sx={{ minHeight: '85dvh' }}>

@@ -46,7 +46,7 @@ function Login() {
                     label="Password"
                     type="password"
                     error={passwordError}
-                    helperText={passwordError && "Must contain at least one lowercase and uppercase letter, four or more numbers, one special character and a minimum length of 8 characters  "}
+                    helperText={passwordError && "Password must contain at least one lowercase and uppercase letter, 4 numbers, one special character, and a minimum length of 8 characters"}
                     autoComplete="current-password"
                     variant="outlined"
                 />
