@@ -10,6 +10,7 @@ import { AnySchema } from "joi";
 import { registerUser } from "../utils/services";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormProps) {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(FormSchema), });
@@ -35,7 +36,8 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
         <Container maxWidth='md' >
             <Box onSubmit={handleSubmit(onSubmit)}
                 sx={{ minHeight: '85dvh', flexGrow: 1, paddingBottom: 5 }} component={'form'}>
-                <Typography paddingY={4} textAlign={'center'} variant="h4" component={'h1'}>
+                <Box paddingTop={5} textAlign={'center'}><LockOpenIcon fontSize="large" /></Box>
+                <Typography paddingBottom={5} textAlign={'center'} variant="h4" component={'h1'}>
                     {FormTitle}
                 </Typography>
                 <Grid container spacing={2}>

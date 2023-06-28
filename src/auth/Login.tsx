@@ -3,6 +3,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import BtnGroup from "../components/BtnGroup";
 import useFields from "../hooks/useFields";
 import { NavLink } from "react-router-dom";
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 function Login() {
     const { fields, handleField, handleSubmit, resetFields } = useFields({ email: "", password: "" })
@@ -13,6 +14,7 @@ function Login() {
     return (
         <Box component={'section'} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '85dvh', }}>
             <form onSubmit={handleSubmit} style={{ width: '50vw' }} >
+                <Box textAlign={'center'}><LockOpenIcon fontSize="large" /></Box>
                 <Typography paddingBottom={2} textAlign={'center'} variant="h4" component={'h1'}>
                     Login
                 </Typography>

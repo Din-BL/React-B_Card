@@ -7,6 +7,7 @@ import Search from './Search';
 import Theme from './Theme';
 import { getData, removeData } from '../utils/token';
 import UserIcon from './UserIcon';
+import logo from '../assets/business-card.png'
 
 const pages = ['About', 'Favorite', 'My Cards'];
 
@@ -31,15 +32,19 @@ function Navbar() {
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <WorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                    <Typography
+                    <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }}>
+                        <img src={logo} height={40} alt="Card-Logo" />
+                    </Box>
+                    <Typography variant="h5" noWrap
                         sx={{
-                            mr: 2,
+                            mr: 3,
                             display: { xs: 'none', md: 'flex' },
-                            fontWeight: 700,
-                            fontSize: 27.5
-                        }}
-                    >
+                            fontFamily: 'monospace',
+                            fontWeight: 100,
+                            letterSpacing: '.2rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }} >
                         <NavLink to={`/`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             B-CARD
                         </NavLink>
@@ -80,23 +85,10 @@ function Navbar() {
                                 </MenuItem>
                             ))}
                         </Menu>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <WorkIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                            <Typography variant="h5" noWrap
-                                sx={{
-                                    mr: 2,
-                                    display: { xs: 'flex', md: 'none' },
-                                    flexGrow: 1,
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: 'inherit',
-                                    textDecoration: 'none',
-                                }} >
-                                <NavLink to={`/`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                    B-CARD
-                                </NavLink>
-                            </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', marginX: 2 }}>
+                            <NavLink to={`/`} >
+                                <img src={logo} height={35} alt="Card-Logo" />
+                            </NavLink>
                         </Box>
                     </Box>
 
