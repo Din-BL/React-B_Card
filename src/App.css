@@ -1,3 +1,88 @@
 body{
     background-color: #e4f2fd;
 }
+
+/* About */
+
+.about_us {
+    min-height: 560px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 45px;
+  }
+  .about_us #section_graphic {
+    position: absolute;
+    right: 55%;
+  }
+  .about_us #section_graphic img {
+    height: 500px;
+  }
+  .about_us figure {
+    max-width: 390px;
+    position: relative;
+  }
+  .about_us figure img {
+    height: 390px;
+    width: 100%;
+  }
+  .about_us article {
+    max-width: 390px;
+  }
+  .about_us article h1 {
+    color: #2196f3;
+    height: 60px;
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    
+    .about_us {
+      flex-direction: column-reverse;
+    }
+    .about_us figure {
+      margin-top: 15px;
+    }
+    .about_us figure img {
+      height: 260px;
+      width: 100%;
+    }
+    .about_us article {
+      max-width: 300px;
+    }
+    .about_us article br + p {
+      margin-top: 10px;
+    }
+    .about_us article p {
+      font-size: 10px;
+    }
+    .about_us article br {
+      display: none;
+    }
+    .about_us #section_graphic {
+      right: 15%;
+      top: 38%;
+    }
+    .about_us #section_graphic img {
+      height: 325px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    /* Section */
+    .about_us {
+      flex-direction: column-reverse;
+    }
+    .about_us article {
+      margin-bottom: 35px;
+    }
+    .about_us figure {
+      margin-top: 35px;
+    }
+    .about_us #section_graphic {
+      right: 28%;
+      top: 35%;
+    }
+  }
+  

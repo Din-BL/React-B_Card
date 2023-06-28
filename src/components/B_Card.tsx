@@ -56,7 +56,7 @@ export default function B_CARD({ card }: B_CardProps) {
             <CardMedia
                 component="img"
                 alt={card.imageAlt}
-                height="140"
+                height="220"
                 image={card.imageUrl}
             />
             <CardContent>
