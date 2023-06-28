@@ -15,23 +15,39 @@ import { BusinessCard } from '../utils/types';
 import { addressFormatter, phoneFormatter } from '../utils/helpers';
 import { getData } from '../utils/token';
 import { useLocation } from 'react-router-dom';
+import { useToggle } from '../hooks/useToggle';
 
 interface B_CardProps {
-    card: BusinessCard
+    card: BusinessCard;
 }
 
 export default function B_CARD({ card }: B_CardProps) {
     const location = useLocation()
+
+    // function favoriteStatus() {
+    //     const favData = localStorage.getItem(getData('user', 'userName'))
+    //     if (favData) {
+    //         const status = JSON.parse(favData);
+    //         status.forEach((favCard: BusinessCard) => {
+    //             if (favCard._id === card._id) {
+    //                 return true
+    //             }
+    //         });
+    //         return false
+    //     }
+    //     return false
+    // }
+
     const favoriteCard = () => {
         const favData = localStorage.getItem(getData('user', 'userName'))
         if (favData) {
             if (JSON.parse(favData).some((data: BusinessCard) => data.zip === card.zip)) {
                 localStorage.setItem(getData('user', 'userName'), JSON.stringify(JSON.parse(favData).filter((cardInfo: BusinessCard) => cardInfo.zip !== card.zip)));
             } else {
-                localStorage.setItem(getData('user', 'userName'), JSON.stringify([...JSON.parse(favData), card]));
+                localStorage.setItem(getData('user', 'userName'), JSON.stringify([...JSON.parse(favData), { ...card, isFavorite: true }]));
             }
         } else {
-            localStorage.setItem(getData('user', 'userName'), JSON.stringify([card]))
+            localStorage.setItem(getData('user', 'userName'), JSON.stringify([{ ...card, isFavorite: true }]))
         }
 
     }
@@ -71,7 +87,7 @@ export default function B_CARD({ card }: B_CardProps) {
                 <Stack direction={'row'} spacing={1} >
                     <PhoneIcon color='action' />
                     {getData('user', 'token') &&
-                        <CheckBox onClick={favoriteCard} icon={<FavoriteBorder />} checkedIcon={<Favorite />} color='error' sx={{ padding: 0 }} />
+                        <CheckBox onClick={favoriteCard} /*checked={favoriteStatus()}*/ icon={<FavoriteBorder />} checkedIcon={<Favorite />} color='error' sx={{ padding: 0 }} />
                     }
                 </Stack>
             </CardActions>
