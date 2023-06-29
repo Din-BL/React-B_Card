@@ -16,7 +16,7 @@ function Home() {
             <Box component={'main'} sx={{ minHeight: '85dvh' }}>
                 <Title main="Cards Page" sub="Here you can find business cards from all catagories" />
                 <Stack direction="row" spacing={2} paddingBottom={3}>
-                    {cards.map((card: BusinessCard, index: number) => {
+                    {cards.map((card: BusinessCard) => {
                         return <B_CARD key={card._id} card={card} />
                     })}
                 </Stack>

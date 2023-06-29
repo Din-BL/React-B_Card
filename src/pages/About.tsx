@@ -1,5 +1,5 @@
-import { Box, Container } from "@mui/material";
-import Pic from "../assets/Business.png"
+import { Box, Container, Paper } from "@mui/material";
+import Pic from "../assets/Business.jpg"
 import BackGround from "../assets/B-Symbol.png"
 import '../styles/About.css';
 
@@ -11,11 +11,12 @@ function About() {
                     <img src={BackGround} alt="image background" />
                 </div>
                 <article >
-                    <h1 className="title" style={{ fontSize: "25px" }}> About Page: </h1>
-                    <p>B-Card is a business management platform that helps entrepreneurs promote their businesses effectively. Our digital business cards provide exposure and detailed information to potential customers.</p>
-                    <br />
-                    <h2 className="title" style={{ fontSize: "20px" }}>  About Us:</h2>
-                    <p> B-Card, founded in 2005, is a leading company in business management. We empower entrepreneurs by simplifying business management and maximizing their reach. Our platform connects businesses with customers, creating opportunities for success.</p>
+                    <Paper elevation={3} sx={{ padding: 2 }}>
+                        <h1 className="title" style={{ fontSize: "25px" }}> About Us: </h1>
+                        <p>B-Card is a leading business management platform empowering entrepreneurs to effectively promote their businesses.<br /> Our digital business cards provide exposure and detailed information to potential customers, maximizing reach and creating opportunities for success.
+                            <br />Founded in 2005, we've been simplifying operations and connecting businesses with customers.<br /> Headquartered in Tel-Aviv, our dedicated team works passionately to enhance our platform and support your entrepreneurial journey.
+                            <br /> Join B-Card to unlock your business's potential, together let's shape a future where dreams become reality and businesses thrive.</p>
+                    </Paper>
                 </article>
                 <figure>
                     <img src={Pic} alt="main-page image" />

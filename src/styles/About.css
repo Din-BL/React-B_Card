@@ -8,7 +8,7 @@
   }
   .about_us #section_graphic {
     position: absolute;
-    right: 55%;
+    right: 60%;
   }
   .about_us #section_graphic img {
     height: 500px;
@@ -23,7 +23,7 @@
     width: 100%;
   }
   .about_us article {
-    max-width: 390px;
+    max-width: 520px;
     z-index: 1;
   }
   .about_us article .title {
@@ -34,7 +34,6 @@
   .about_us article p {
     line-height: 1.5;
     font-family: system-ui;
-    font-weight: 500;
   }
 
   @media (max-width: 480px) {
