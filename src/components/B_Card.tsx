@@ -13,7 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { FavoriteBorder } from '@mui/icons-material';
 import { BusinessCard } from '../utils/types';
 import { addressFormatter, phoneFormatter } from '../utils/helpers';
-import { getData } from '../utils/token';
+import { getData } from '../utils/localStorage';
 import { useLocation } from 'react-router-dom';
 import { useToggle } from '../hooks/useToggle';
 

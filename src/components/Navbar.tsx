@@ -2,12 +2,13 @@ import * as React from 'react';
 import { AppBar, Menu, Avatar, Button, Tooltip, MenuItem, Container, IconButton, Typography, Toolbar, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import WorkIcon from '@mui/icons-material/Work';
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import Search from './Search';
 import Theme from './Theme';
-import { getData, removeData } from '../utils/token';
+import { getData, removeData } from '../utils/localStorage';
 import UserIcon from './UserIcon';
 import logo from '../assets/business-card.png'
+import NoAccountsIcon from '@mui/icons-material/NoAccounts';
 
 const pages = ['About', 'Favorite', 'My Cards'];
 
@@ -113,6 +114,7 @@ function Navbar() {
                         </Typography>
                     }
                     {getData('user', 'token') && <UserIcon />}
+                    {!getData('user', 'token') && <NoAccountsIcon />}
                 </Toolbar>
             </Container>
         </AppBar >

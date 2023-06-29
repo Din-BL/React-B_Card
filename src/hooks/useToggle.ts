@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BusinessCard } from "../utils/types";
-import { getData } from "../utils/token";
+import { getData } from "../utils/localStorage";
 
 export function useToggle(card: BusinessCard): [boolean, () => void] {
     const [checked, setChecked] = useState<boolean>(false);

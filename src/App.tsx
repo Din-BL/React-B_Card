@@ -19,14 +19,14 @@ function App() {
       <Routes>
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/' element={<Home />} />
+        <Route path='/:id?' element={<Home />} />
         <Route path='/about' element={<About />} />
-        <Route path='/favorite' element={<Favorite />} />
-        <Route path='/my cards' element={<My_Cards />} />
-        <Route path='/add card' element={<Add_Card />} />
+        <Route path='/favorite/:id?' element={<Favorite />} />
+        <Route path='/my cards/:id?' element={<My_Cards />} />
+        <Route path='/add card/:id?' element={<Add_Card />} />
       </Routes>
-      <ToastContainer />
       <Footer />
+      <ToastContainer />
     </>
   )
 }

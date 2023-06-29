@@ -4,8 +4,13 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { getData, removeData } from '../utils/token';
-import { useNavigate } from 'react-router-dom';
+import { getData, removeData } from '../utils/localStorage';
+import { useNavigate, useParams } from 'react-router-dom';
+import { deleteUser } from '../utils/services';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import PersonIcon from '@mui/icons-material/Person';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import { toast } from 'react-toastify';
 
 export default function UserIcon() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -15,18 +20,30 @@ export default function UserIcon() {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleLogout = () => {
-        logout()
-        setAnchorEl(null);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
     const logout = () => {
         navigate('/login')
         removeData('user')
     }
+
+    const handleLogout = () => {
+        logout()
+        setAnchorEl(null);
+    };
+
+    const deleteAccount = () => {
+        deleteUser(getData('user', '_id'))
+            .then(() => {
+                toast.success(`${getData('user', 'userName')} has been removed`)
+                removeData('userName')
+                logout()
+                setAnchorEl(null);
+            })
+            .catch(e => toast.error(e.response.data))
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <Box>
@@ -55,8 +72,16 @@ export default function UserIcon() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem >{getData('user', 'userName')}</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem > {getData('user', 'userName')}
+                    <PersonIcon sx={{ paddingLeft: 1 }} />
+                </MenuItem>
+                <MenuItem onClick={deleteAccount}>Remove
+                    <PersonRemoveIcon sx={{ paddingLeft: 1 }} />
+                </MenuItem>
+
+                <MenuItem onClick={handleLogout}>Logout
+                    <MeetingRoomIcon sx={{ paddingLeft: 1 }} />
+                </MenuItem>
             </Menu>
         </Box>
     );

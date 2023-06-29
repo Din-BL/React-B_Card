@@ -3,7 +3,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import { FooterLink } from './FooterLink'
-import { getData } from '../utils/token';
+import { getData } from '../utils/localStorage';
 import { useState } from 'react';
 
 export default function Footer() {

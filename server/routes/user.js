@@ -21,6 +21,16 @@ router.delete("/init", async (req, res) => {
   }
 });
 
+router.delete("/:id",/* userAuthenticate,*/ async (req, res) => {
+  try {
+    const deleteUser = await User.findByIdAndDelete(req.params.id);
+    if (!deleteUser) return res.status(404).send("User doest exist");
+    res.status(200).send("User been deleted");
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
 router.post("/register", userValidate, async (req, res) => {
   try {
     const user = await User.create(req.body);
@@ -47,8 +57,8 @@ router.post("/login", userValidate, async (req, res) => {
       const token = jwt.sign(payload, config.get("ACCESS_TOKEN_SECRET"));
       findUser = findUser.toObject();
       findUser.token = token;
-      res.status(200).json(_.pick(findUser, ["business", "token", 'userName']));
-    } else res.status(400).json("Incorrect password");
+      res.status(200).json(_.pick(findUser, ["_id", "business", "token", 'userName']));
+    } else res.status(400).send("Incorrect password");
   } catch (error) {
     res.status(400).json(error.message);
   }

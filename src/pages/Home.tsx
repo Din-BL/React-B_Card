@@ -7,7 +7,7 @@ import Fab from '@mui/material/Fab';
 import { useNavigate } from 'react-router-dom';
 import useCards from '../hooks/useCards';
 import { BusinessCard } from '../utils/types';
-import { getData } from '../utils/token';
+import { getData } from '../utils/localStorage';
 
 function Home() {
     const cards = useCards()

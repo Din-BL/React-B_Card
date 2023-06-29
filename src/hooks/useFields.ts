@@ -4,7 +4,7 @@ import { loginUser } from "../utils/services";
 import { LoginField } from "../utils/types";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { setData } from "../utils/token";
+import { setData } from "../utils/localStorage";
 
 
 export default function useFields(initalValue: LoginField) {
@@ -24,7 +24,7 @@ export default function useFields(initalValue: LoginField) {
         loginUser(fields)
             .then((user) => {
                 setData('user', user.data)
-                navigate('/')
+                navigate(`/${user.data._id}`)
             })
             .catch(e => toast.error(e.response.data))
     }

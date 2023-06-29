@@ -12,3 +12,6 @@ export function registerUser(form: UserCard) {
 export function loginUser(form: LoginField) {
     return axios.post(`${url}/user/login`, form)
 }
+export function deleteUser(id: string) {
+    return axios.delete(`${url}/user/${id}`)
+}

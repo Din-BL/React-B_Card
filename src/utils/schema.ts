@@ -20,7 +20,7 @@ const registerSchema: AnySchema = Joi.object({
     email: Joi.string().trim().pattern(/^\S+@\S+\.\S+$/,).allow("").optional().messages({
         "string.pattern.base": "Invalid email address format",
     }),
-    password: Joi.string().trim().allow("").optional().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8}$/).messages({
+    password: Joi.string().trim().allow("").optional().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/).messages({
         "string.pattern.base": "Password must contain at least one lowercase and uppercase letter, four or more numbers, one special character (!@#$%^&*?), and a minimum length of 8 characters ",
     }),
     imageUrl: Joi.string().trim().uri().allow("").optional(),
