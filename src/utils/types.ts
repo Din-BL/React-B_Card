@@ -73,10 +73,12 @@ export interface BusinessCard {
     houseNumber: number;
     zip?: string;
     _id?: string
+    isFavorite?: boolean
 }
 
 export interface UserStorage {
-    email: string;
     token: string;
     business: string
+    userName: string;
+    _id: string
 }

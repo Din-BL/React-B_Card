@@ -13,7 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { FavoriteBorder } from '@mui/icons-material';
 import { BusinessCard } from '../utils/types';
 import { addressFormatter, phoneFormatter } from '../utils/helpers';
-import { getData } from '../utils/localStorage';
+import { getData, setData } from '../utils/localStorage';
 import { useLocation } from 'react-router-dom';
 import { useToggle } from '../hooks/useToggle';
 
@@ -31,14 +31,14 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
         let favData = localStorage.getItem(getData('user', 'userName'))
         if (favData) {
             if (JSON.parse(favData).some((data: BusinessCard) => data._id === card._id)) {
-                localStorage.setItem(getData('user', 'userName'), JSON.stringify(JSON.parse(favData).filter((cardInfo: BusinessCard) => cardInfo._id !== card._id)));
+                setData(getData('user', 'userName'), JSON.parse(favData).filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
                 favData = localStorage.getItem(getData('user', 'userName'));
                 setCards && setCards(JSON.parse(favData as string))
             } else {
-                localStorage.setItem(getData('user', 'userName'), JSON.stringify([...JSON.parse(favData), { ...card, isFavorite: true }]));
+                setData(getData('user', 'userName'), [...JSON.parse(favData), { ...card, isFavorite: true }])
             }
         } else {
-            localStorage.setItem(getData('user', 'userName'), JSON.stringify([{ ...card, isFavorite: true }]))
+            setData(getData('user', 'userName'), [{ ...card, isFavorite: true }])
         }
 
     }
