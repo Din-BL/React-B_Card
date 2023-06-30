@@ -4,10 +4,10 @@ import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { capitalizeFirstLetter, inputData } from "../utils/helpers";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { BusinessCard, CheckField, FormField, FormProps, UserCard } from "../utils/types";
 import { AnySchema } from "joi";
-import { registerUser } from "../utils/services";
+import { addCard, registerUser } from "../utils/services";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -16,15 +16,26 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(FormSchema), });
     const navigate = useNavigate()
     const location = useLocation()
+    const { id } = useParams();
+
 
     const onSubmit = (data: any) => {
-        const business = CheckField && CheckField.checked
-        registerUser({ ...data, business })
-            .then(() => {
-                navigate('/login')
-                toast.success('Successfully registered')
-            })
-            .catch(e => toast.error(e.response.data))
+        if (CheckField) {
+            const business = CheckField.checked
+            registerUser({ ...data, business })
+                .then(() => {
+                    navigate('/login')
+                    toast.success('Successfully registered')
+                })
+                .catch(e => toast.error(e.response.data))
+        } else if (location.pathname === `/add%20card/${id}`) {
+            addCard(data)
+                .then(() => {
+                    navigate(`/my cards/${id}`)
+                    toast.success('Business added')
+                })
+                .catch(e => toast.error(e.response.data))
+        }
     };
 
     const handleReset = () => {

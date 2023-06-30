@@ -53,7 +53,7 @@ function Search() {
     function searchCards(e: ChangeEvent<HTMLInputElement>) {
         typeof setCards === 'function' && setCards((currentCards: BusinessCard[]) => {
             const filteredCards = currentCards.filter((card: BusinessCard) => {
-                return card.title.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())
+                return card.title.toLocaleLowerCase().startsWith(e.target.value.toLocaleLowerCase())
             })
             return e.target.value === "" ? defaultCards : filteredCards
         })

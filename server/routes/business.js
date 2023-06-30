@@ -35,20 +35,20 @@ router.post("/", userAuthenticate, userValidate, async (req, res) => {
 router.get("/:id", userAuthenticate, async (req, res) => {
   try {
     const findBusiness = await Business.findById(req.params.id);
-    if (!findBusiness) return res.status(404).send("Business doest exist");
+    if (!findBusiness) return res.status(404).json("Business doest exist");
     res.status(200).json(findBusiness);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 });
 
 router.put("/:id", userAuthenticate, async (req, res) => {
   try {
     const updateBusiness = await Business.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-    if (!updateBusiness) return res.status(404).send("Business doest exist");
+    if (!updateBusiness) return res.status(404).json("Business doest exist");
     res.status(201).json(updateBusiness);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 });
 
@@ -56,9 +56,9 @@ router.delete("/:id", userAuthenticate, async (req, res) => {
   try {
     const deleteBusiness = await Business.findByIdAndDelete(req.params.id);
     if (!deleteBusiness) return res.status(404).send("Business doest exist");
-    res.status(200).send("Business been deleted");
+    res.status(200).json("Business been deleted");
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 });
 
@@ -70,7 +70,7 @@ router.get("", userAuthenticate, async (req, res) => {
     if (!findBusinesses) return res.status(404).send("User has no registered businesses");
     res.status(200).json(findBusinesses);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 });
 

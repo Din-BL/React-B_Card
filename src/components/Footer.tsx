@@ -15,10 +15,10 @@ export default function Footer() {
                 <Stack direction="row" spacing={9}>
                     <FooterLink to="/about" icon={<InfoIcon color="action" />} text="About" />
                     {getData('user', 'token') &&
-                        <FooterLink to="/favorite" icon={<FavoriteIcon color="action" />} text="Favorite" />
+                        <FooterLink to={`/favorite/${getData('user', '_id')}`} icon={<FavoriteIcon color="action" />} text="Favorite" />
                     }
                     {getData('user', 'business') &&
-                        <FooterLink to="/my cards" icon={<RecentActorsIcon color="action" />} text="My Cards" />
+                        <FooterLink to={`/my cards/${getData('user', '_id')}`} icon={<RecentActorsIcon color="action" />} text="My Cards" />
                     }
                 </Stack>
             </Box>

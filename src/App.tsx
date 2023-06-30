@@ -1,13 +1,13 @@
 import './styles/App.css';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar'
-import Register from './auth/Register'
+import Register from './forms/Register'
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home';
-import Login from './auth/Login';
+import Login from './forms/Login';
 import About from './pages/About';
 import Favorite from './pages/Favorite';
-import My_Cards from './pages/My_Cards';
+import My_Cards from './forms/My_Cards';
 import Add_Card from './pages/Add_Card';
 import { ToastContainer } from 'react-toastify';
 import Cards from './context/Cards';
