@@ -20,14 +20,16 @@ function Navbar() {
         setAnchorElNav(event.currentTarget);
     };
 
+    const userId = () => {
+        return getData('user', '_id') ? getData('user', '_id') : ""
+    }
+
     const handleNavigation = (page: string) => {
-        page && navigate(`/${page}`)
+        page === 'About' ? navigate(`/${page}`) : navigate(`/${page}/${getData('user', '_id')}`)
         setAnchorElNav(null);
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
+    const handleCloseNavMenu = () => setAnchorElNav(null);
 
     return (
         <AppBar position="static">
@@ -46,7 +48,7 @@ function Navbar() {
                             color: 'inherit',
                             textDecoration: 'none',
                         }} >
-                        <NavLink to={`/`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <NavLink to={`/${userId()}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             B-CARD
                         </NavLink>
                     </Typography>
@@ -87,7 +89,7 @@ function Navbar() {
                             ))}
                         </Menu>
                         <Box sx={{ display: 'flex', alignItems: 'center', marginX: 2 }}>
-                            <NavLink to={`/`} >
+                            <NavLink to={`/${userId()}`} >
                                 <img src={logo} height={35} alt="Card-Logo" />
                             </NavLink>
                         </Box>

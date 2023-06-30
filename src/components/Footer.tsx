@@ -5,9 +5,10 @@ import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import { FooterLink } from './FooterLink'
 import { getData } from '../utils/localStorage';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Footer() {
-    const [icons, setIcons] = useState({ user: false, admin: false })
+    useNavigate() /* makes the icons re-render after login */
     return (
         <Paper sx={{ paddingY: '10px' }} elevation={3}>
             <Box display="flex" justifyContent="center" alignItems="center" paddingBottom='10px'>

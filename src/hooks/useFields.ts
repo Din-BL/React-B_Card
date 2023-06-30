@@ -29,9 +29,7 @@ export default function useFields(initalValue: LoginField) {
             .catch(e => toast.error(e.response.data))
     }
 
-    const resetFields = () => {
-        setFields(initalValue)
-    }
+    const resetFields = () => setFields(initalValue)
 
     return { fields, handleField, handleSubmit, resetFields }
 }
