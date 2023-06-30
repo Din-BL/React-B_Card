@@ -1,6 +1,10 @@
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
+import { ChangeEvent, FormEventHandler, useContext } from 'react';
+import { CardsContext } from '../context/Cards';
+import { BusinessCard } from '../utils/types';
+import { defaultCards } from '../utils/cards';
 
 const SearchInput = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -45,8 +49,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function Search() {
+    const { setCards } = useContext(CardsContext)
+    function searchCards(e: ChangeEvent<HTMLInputElement>) {
+        typeof setCards === 'function' && setCards((currentCards: BusinessCard[]) => {
+            const filteredCards = currentCards.filter((card: BusinessCard) => {
+                return card.title.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())
+            })
+            return e.target.value === "" ? defaultCards : filteredCards
+        })
+    }
+
     return (
-        <SearchInput >
+        <SearchInput onChange={searchCards} >
             <SearchIconWrapper>
                 <SearchIcon />
             </SearchIconWrapper>

@@ -41,9 +41,7 @@ export default function UserIcon() {
             .catch(e => toast.error(e.response.data))
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const handleClose = () => setAnchorEl(null);
 
     return (
         <Box>

@@ -8,15 +8,17 @@ import { useNavigate } from 'react-router-dom';
 import useCards from '../hooks/useCards';
 import { BusinessCard } from '../utils/types';
 import { getData } from '../utils/localStorage';
+import { useContext } from 'react';
+import { CardsContext } from '../context/Cards';
 
 function Home() {
-    const cards = useCards()
+    const { cards } = useContext(CardsContext)
     return (
         <Container >
             <Box component={'main'} sx={{ minHeight: '85dvh' }}>
                 <Title main="Cards Page" sub="Here you can find business cards from all catagories" />
                 <Stack direction="row" spacing={2} paddingBottom={3}>
-                    {cards.map((card: BusinessCard) => {
+                    {Array.isArray(cards) && cards.map((card: BusinessCard) => {
                         return <B_CARD key={card._id} card={card} />
                     })}
                 </Stack>

@@ -97,11 +97,7 @@ function Navbar() {
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.filter((page) => page === 'About' || (page === 'Favorite' && getData('user', 'token')) || getData('user', 'business')).map((page) => (
-                            <Button
-                                key={page}
-                                onClick={() => handleNavigation(page)}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
+                            <Button key={page} onClick={() => handleNavigation(page)} sx={{ my: 2, color: 'white', display: 'block' }}>
                                 {page}
                             </Button>
                         ))}
