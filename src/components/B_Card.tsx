@@ -28,14 +28,14 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
 
     const favoriteCard = () => {
         toggle()
-        let favData = localStorage.getItem(getData('user', 'userName'))
+        let favData = getData((getData('user', 'userName')))
         if (favData) {
-            if (JSON.parse(favData).some((data: BusinessCard) => data._id === card._id)) {
-                setData(getData('user', 'userName'), JSON.parse(favData).filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
-                favData = localStorage.getItem(getData('user', 'userName'));
-                setCards && setCards(JSON.parse(favData as string))
+            if (favData.some((data: BusinessCard) => data._id === card._id)) {
+                setData(getData('user', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
+                favData = getData((getData('user', 'userName')))
+                setCards && setCards(favData)
             } else {
-                setData(getData('user', 'userName'), [...JSON.parse(favData), { ...card, isFavorite: true }])
+                setData(getData('user', 'userName'), [...favData, { ...card, isFavorite: true }])
             }
         } else {
             setData(getData('user', 'userName'), [{ ...card, isFavorite: true }])

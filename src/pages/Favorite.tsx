@@ -9,8 +9,8 @@ import { useEffect, useState } from 'react';
 
 function Favorite() {
     const [cards, setCards] = useState(() => {
-        const favCards = localStorage.getItem(getData('user', 'userName')) || '[]'
-        return JSON.parse(favCards)
+        let favCards = getData((getData('user', 'userName'))) || []
+        return favCards
     })
 
     return (
