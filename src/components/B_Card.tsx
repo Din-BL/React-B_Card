@@ -12,10 +12,16 @@ import { Box, Stack } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { FavoriteBorder } from '@mui/icons-material';
 import { BusinessCard } from '../utils/types';
-import { addressFormatter, phoneFormatter } from '../utils/helpers';
+import { addressFormatter, defaultAlt, defaultImage, phoneFormatter } from '../utils/helpers';
 import { getData, setData } from '../utils/localStorage';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useToggle } from '../hooks/useToggle';
+import { deleteCard } from '../utils/services';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
+import { DataContext } from '../context/Cards';
+import { useContext } from 'react';
+
 
 interface B_CardProps {
     card: BusinessCard;
@@ -26,6 +32,9 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
     const location = useLocation()
     const [checked, toggle] = useToggle(card)
     const { id } = useParams()
+    const { deleteData } = useContext(DataContext)
+    const navigate = useNavigate()
+
 
     const favoriteCard = () => {
         toggle()
@@ -43,13 +52,43 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
         }
 
     }
+
+    function removeCard() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (card._id) {
+                    deleteCard(card._id)
+                        .then(() => {
+                            toast.success('Business been removed')
+                            // deleteData(card._id)
+                        })
+                        .catch(e => toast.error(e.response.data))
+                }
+            }
+        })
+    }
+
+    function pathUrl(url: string) {
+        return location.pathname.toLowerCase() === `${url}${id}`
+    }
+
+
+
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia
                 component="img"
-                alt={card.imageAlt}
+                alt={defaultAlt(card.imageAlt)}
                 height="220"
-                image={card.imageUrl}
+                image={defaultImage(card.imageUrl)}
             />
             <CardContent>
                 <Typography variant="h6" component="div">
@@ -70,10 +109,10 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
             </CardContent>
             <CardActions sx={{ justifyContent: 'space-between' }}>
                 <Stack direction={'row'} spacing={1} >
-                    {location.pathname === `/my%20cards/${id}` &&
-                        <DeleteIcon color='action' />}
-                    {location.pathname === `/my%20cards/${id}` &&
-                        <EditIcon color='action' />
+                    {pathUrl(`/my%20cards/`) &&
+                        <DeleteIcon onClick={removeCard} color='action' />}
+                    {pathUrl(`/my%20cards/`) &&
+                        <EditIcon onClick={() => navigate(`/edit/${id}`)} color='action' />
                     }
                 </Stack>
                 <Stack direction={'row'} spacing={1} >

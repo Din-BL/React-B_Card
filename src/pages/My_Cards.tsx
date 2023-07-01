@@ -6,25 +6,27 @@ import { getCard } from "../utils/services";
 import { BusinessCard } from "../utils/types";
 import B_CARD from "../components/B_Card";
 import { useData } from "../hooks/useData";
+import { useContext } from "react";
+import { DataContext } from "../context/Cards";
 
 
 function My_Cards() {
     const navigate = useNavigate()
     const { id } = useParams();
-    const cards = useData()
+    const { data } = useContext(DataContext)
 
     return (
         <Container >
             <Box component={'main'} sx={{ minHeight: '85dvh' }}>
                 <Title main="My Cards" sub="Here you can find business cards from all catagories" />
                 <Stack direction="row" spacing={2} paddingBottom={3}>
-                    {cards.map((card: BusinessCard) => {
+                    {Array.isArray(data) && data.map((card: BusinessCard) => {
                         return <B_CARD key={card._id} card={card} />
                     })}
                 </Stack>
                 <Box sx={{ display: 'flex', justifyContent: 'end', pb: 12 }}>
                     <Fab color="primary" aria-label="add">
-                        <AddIcon onClick={() => navigate(`/add card/${id}`)} />
+                        <AddIcon onClick={() => navigate(`/add/${id}`)} />
                     </Fab>
                 </Box>
             </Box>
@@ -33,4 +35,3 @@ function My_Cards() {
 }
 
 export default My_Cards;
-

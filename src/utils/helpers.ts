@@ -1,4 +1,7 @@
 import { FormField } from "./types";
+import Unknown from "../assets/Unknown.jpg"
+
+const defaultImageUrl = Unknown;
 
 export const inputData = (field: FormField) => {
     return field.state ? field.state : field.label
@@ -18,4 +21,11 @@ export function phoneFormatter(phone: string) {
 
 export function addressFormatter(city: string, street: string, houseNumber: number) {
     return `${street} ${houseNumber} ${city}`
+}
+
+export function defaultImage(imageUrl?: string) {
+    return imageUrl?.length === 0 ? defaultImageUrl : imageUrl
+}
+export function defaultAlt(imageAlt?: string) {
+    return imageAlt?.length === 0 ? 'Unknown' : imageAlt
 }

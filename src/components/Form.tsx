@@ -27,7 +27,7 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                     toast.success('Successfully registered')
                 })
                 .catch(e => toast.error(e.response.data))
-        } else if (location.pathname === `/add%20card/${id}`) {
+        } else if (location.pathname === `/add/${id}`) {
             addCard(data)
                 .then(() => {
                     navigate(`/my cards/${id}`)

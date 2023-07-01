@@ -7,10 +7,11 @@ import Home from './pages/Home';
 import Login from './forms/Login';
 import About from './pages/About';
 import Favorite from './pages/Favorite';
-import My_Cards from './forms/My_Cards';
-import Add_Card from './pages/Add_Card';
+import My_Cards from './pages/My_Cards';
 import { ToastContainer } from 'react-toastify';
 import Cards from './context/Cards';
+import Add from './forms/Add';
+import Edit from './forms/Edit';
 
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
           <Route path='/:id?' element={<Home />} />
           <Route path='/favorite/:id' element={<Favorite />} />
           <Route path='/my cards/:id' element={<My_Cards />} />
-          <Route path='/add card/:id' element={<Add_Card />} />
+          <Route path='/add/:id' element={<Add />} />
+          <Route path='/edit/:id' element={<Edit />} />
           {/* <Route path='*' element={<Error_Page />} /> */}
         </Routes>
         <Footer />

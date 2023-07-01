@@ -34,7 +34,7 @@ export default function UserIcon() {
         deleteUser(getData('user', '_id'))
             .then(() => {
                 toast.success(`${getData('user', 'userName')} has been removed`)
-                removeData('userName')
+                removeData(getData('user', 'userName'))
                 logout()
                 setAnchorEl(null);
             })

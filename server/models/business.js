@@ -47,7 +47,7 @@ const businessSchema = new mongoose.Schema({
     type: String,
     required: false,
     trim: true,
-    maxlength: 128,
+    maxlength: 128
   },
   state: {
     type: String,
