@@ -11,7 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Stack } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { FavoriteBorder } from '@mui/icons-material';
-import { BusinessCard } from '../utils/types';
+import { B_CardProps, BusinessCard } from '../utils/types';
 import { addressFormatter, defaultAlt, defaultImage, phoneFormatter } from '../utils/helpers';
 import { getData, setData } from '../utils/localStorage';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -21,12 +21,10 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { DataContext } from '../context/Cards';
 import { useContext } from 'react';
+import { favoriteCard } from '../utils/favorite';
 
 
-interface B_CardProps {
-    card: BusinessCard;
-    setCards?: React.Dispatch<any>
-}
+
 
 export default function B_CARD({ card, setCards }: B_CardProps) {
     const location = useLocation()
@@ -35,23 +33,6 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
     const { deleteData } = useContext(DataContext)
     const navigate = useNavigate()
 
-
-    const favoriteCard = () => {
-        toggle()
-        let favData = getData((getData('user', 'userName')))
-        if (favData) {
-            if (favData.some((data: BusinessCard) => data._id === card._id)) {
-                setData(getData('user', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
-                favData = getData((getData('user', 'userName')))
-                setCards && setCards(favData)
-            } else {
-                setData(getData('user', 'userName'), [...favData, { ...card, isFavorite: true }])
-            }
-        } else {
-            setData(getData('user', 'userName'), [{ ...card, isFavorite: true }])
-        }
-
-    }
 
     function removeCard() {
         Swal.fire({
@@ -68,7 +49,7 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
                     deleteCard(card._id)
                         .then(() => {
                             toast.success('Business been removed')
-                            // deleteData(card._id)
+                            deleteData(card._id)
                         })
                         .catch(e => toast.error(e.response.data))
                 }
@@ -76,11 +57,7 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
         })
     }
 
-    function pathUrl(url: string) {
-        return location.pathname.toLowerCase() === `${url}${id}`
-    }
-
-
+    const pathUrl = (url: string) => location.pathname.toLowerCase() === `${url}${id}`
 
     return (
         <Card sx={{ maxWidth: 345 }}>
@@ -118,7 +95,7 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
                 <Stack direction={'row'} spacing={1} >
                     <PhoneIcon onClick={() => console.log(location.pathname)} color='action' />
                     {getData('user', 'token') &&
-                        <CheckBox onClick={favoriteCard} checked={checked} icon={<FavoriteBorder />} checkedIcon={<Favorite />} color='error' sx={{ padding: 0 }} />
+                        <CheckBox onClick={() => favoriteCard(toggle, card, setCards as React.Dispatch<any>)} checked={checked} icon={<FavoriteBorder />} checkedIcon={<Favorite />} color='error' sx={{ padding: 0 }} />
                     }
                 </Stack>
             </CardActions>

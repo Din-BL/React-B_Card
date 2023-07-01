@@ -8,14 +8,13 @@ export function useData() {
     const [data, setData] = useState<BusinessCard[]>([])
 
     function deleteData(id: string) {
-        setData((currentData) => {
-            return currentData.filter((data) => data._id !== id)
-        })
+        setData((currentData) => currentData.filter((data) => data._id !== id))
     }
+
     useEffect(() => {
         getCard()
             .then((res: AxiosResponse<BusinessCard[]>) => setData(res.data))
-            .catch(e => toast.error(e.response.data))
+            .catch(e => toast.warning(e.response.data))
     }, [])
 
     return { data, deleteData }

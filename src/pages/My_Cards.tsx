@@ -9,7 +9,6 @@ import { useData } from "../hooks/useData";
 import { useContext } from "react";
 import { DataContext } from "../context/Cards";
 
-
 function My_Cards() {
     const navigate = useNavigate()
     const { id } = useParams();

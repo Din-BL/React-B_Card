@@ -15,7 +15,6 @@ function Cards(props: React.PropsWithChildren<{}>) {
     const [cards, setCards] = useCards();
     const { data, deleteData } = useData()
 
-
     return (
         <CardsContext.Provider value={{ cards, setCards }}>
             <DataContext.Provider value={{ data, deleteData }}>
