@@ -21,11 +21,11 @@ router.delete("/init", async (req, res) => {
   }
 });
 
-router.delete("/:id",/* userAuthenticate,*/ async (req, res) => {
+router.delete("/:id", userAuthenticate, async (req, res) => {
   try {
     const deleteUser = await User.findByIdAndDelete(req.params.id);
     if (!deleteUser) return res.status(404).send("User doest exist");
-    res.status(200).send("User been deleted");
+    res.status(200).json("User been deleted");
   } catch (error) {
     res.status(400).send(error.message);
   }

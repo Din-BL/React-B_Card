@@ -65,9 +65,9 @@ router.delete("/:id", userAuthenticate, async (req, res) => {
 router.get("", userAuthenticate, async (req, res) => {
   try {
     const userInfo = await User.findOne({ email: req.user.sub });
-    if (!userInfo) return res.status(404).send("User doest exist");
+    if (!userInfo) return res.status(404).json("User doest exist");
     const findBusinesses = await Business.find({ user_id: userInfo.id });
-    if (!findBusinesses) return res.status(404).send("User has no registered businesses");
+    if (!findBusinesses) return res.status(404).json("User has no registered businesses");
     res.status(200).json(findBusinesses);
   } catch (error) {
     res.status(400).json(error.message);

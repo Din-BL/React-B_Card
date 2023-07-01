@@ -4,11 +4,12 @@ import { LoginField, UserCard } from "../utils/types"
 import { getData } from './localStorage';
 
 const url = 'http://localhost:8000'
+
 const config: AxiosRequestConfig = {
     headers: {
-        'Authorization': getData('user', 'token'),
+        'authorization': getData('user', 'token'),
         'Content-Type': 'application/json',
-    },
+    }
 };
 
 // userApi
@@ -21,11 +22,15 @@ export function loginUser(form: LoginField) {
     return axios.post(`${url}/user/login`, form)
 }
 export function deleteUser(id: string) {
-    return axios.delete(`${url}/user/${id}`)
+    return axios.delete(`${url}/user/${id}`, config)
 }
 
 // BusinessApi
 
 export function addCard(form: BusinessCard) {
     return axios.post(`${url}/business`, form, config)
+}
+
+export function getCard() {
+    return axios.get(`${url}/business`, config)
 }

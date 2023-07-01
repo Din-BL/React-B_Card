@@ -18,7 +18,6 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
     const location = useLocation()
     const { id } = useParams();
 
-
     const onSubmit = (data: any) => {
         if (CheckField) {
             const business = CheckField.checked
@@ -35,6 +34,9 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                     toast.success('Business added')
                 })
                 .catch(e => toast.error(e.response.data))
+        } else {
+            console.log('edit card page');
+
         }
     };
 

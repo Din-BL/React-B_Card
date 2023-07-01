@@ -14,7 +14,7 @@ import { FavoriteBorder } from '@mui/icons-material';
 import { BusinessCard } from '../utils/types';
 import { addressFormatter, phoneFormatter } from '../utils/helpers';
 import { getData, setData } from '../utils/localStorage';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useToggle } from '../hooks/useToggle';
 
 interface B_CardProps {
@@ -25,6 +25,7 @@ interface B_CardProps {
 export default function B_CARD({ card, setCards }: B_CardProps) {
     const location = useLocation()
     const [checked, toggle] = useToggle(card)
+    const { id } = useParams()
 
     const favoriteCard = () => {
         toggle()
@@ -69,14 +70,14 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
             </CardContent>
             <CardActions sx={{ justifyContent: 'space-between' }}>
                 <Stack direction={'row'} spacing={1} >
-                    {location.pathname === '/my cards' &&
+                    {location.pathname === `/my%20cards/${id}` &&
                         <DeleteIcon color='action' />}
-                    {location.pathname === '/my cards' &&
+                    {location.pathname === `/my%20cards/${id}` &&
                         <EditIcon color='action' />
                     }
                 </Stack>
                 <Stack direction={'row'} spacing={1} >
-                    <PhoneIcon color='action' />
+                    <PhoneIcon onClick={() => console.log(location.pathname)} color='action' />
                     {getData('user', 'token') &&
                         <CheckBox onClick={favoriteCard} checked={checked} icon={<FavoriteBorder />} checkedIcon={<Favorite />} color='error' sx={{ padding: 0 }} />
                     }

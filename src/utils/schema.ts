@@ -1,5 +1,9 @@
 import Joi, { AnySchema } from "joi";
 import { convertMsg } from "./helpers";
+import Unknown from "../assets/Unknown.jpg"
+
+const defaultImageUrl = Unknown;
+const defaultImageAlt = "Unknown";
 
 const registerSchema: AnySchema = Joi.object({
     firstName: Joi.string().min(2).allow("").optional().messages({
@@ -65,8 +69,8 @@ const cardSchema: AnySchema = Joi.object({
         "string.min": convertMsg('Password', '8'),
     }),
     web: Joi.string().trim().uri().allow("").optional(),
-    imageUrl: Joi.string().trim().uri().allow("").optional(),
-    imageAlt: Joi.string().trim().allow("").optional(),
+    imageUrl: Joi.string().trim().uri().allow("").optional().default(defaultImageUrl),
+    imageAlt: Joi.string().trim().allow("").optional().default(defaultImageAlt),
     state: Joi.string().allow("").optional(),
     country: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('Country', '2'),
