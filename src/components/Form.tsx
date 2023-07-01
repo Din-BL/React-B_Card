@@ -3,7 +3,7 @@ import BtnGroup from "../components/BtnGroup";
 import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
-import { capitalizeFirstLetter, inputData } from "../utils/helpers";
+import { capitalizeFirstLetter, inputData, pathUrl } from "../utils/helpers";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { BusinessCard, CheckField, FormField, FormProps, UserCard } from "../utils/types";
 import { AnySchema } from "joi";
@@ -27,7 +27,7 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                     toast.success('Successfully registered')
                 })
                 .catch(e => toast.error(e.response.data))
-        } else if (location.pathname === `/add/${id}`) {
+        } else if (pathUrl(`/add/`, location, id)) {
             addCard(data)
                 .then(() => {
                     navigate(`/my cards/${id}`)
@@ -72,7 +72,7 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                     {children}
                 </Grid>
                 <BtnGroup resetFields={handleReset} />
-                {location.pathname === '/register' &&
+                {pathUrl(`/register/`, location) &&
                     <Typography paddingTop={3} paddingLeft={1} color={'text.secondary'}>
                         Already have an account?
                         <NavLink to={`/login`} style={{ paddingLeft: 5, textDecoration: 'none', color: 'black' }}>

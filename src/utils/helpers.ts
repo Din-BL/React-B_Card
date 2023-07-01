@@ -1,6 +1,8 @@
 import { FormField } from "./types";
 import Unknown from "../assets/Unknown.jpg"
+import { Location, useLocation } from "react-router-dom";
 
+// const location = useLocation()
 const defaultImageUrl = Unknown;
 
 export const inputData = (field: FormField) => {
@@ -28,4 +30,8 @@ export function defaultImage(imageUrl?: string) {
 }
 export function defaultAlt(imageAlt?: string) {
     return imageAlt?.length === 0 ? 'Unknown' : imageAlt
+}
+
+export const pathUrl = (url: string, location: Location, id?: string) => {
+    return location.pathname.toLowerCase() === `${url}${id}`;
 }

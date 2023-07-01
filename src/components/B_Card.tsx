@@ -12,7 +12,7 @@ import { Box, Stack } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { FavoriteBorder } from '@mui/icons-material';
 import { B_CardProps, BusinessCard } from '../utils/types';
-import { addressFormatter, defaultAlt, defaultImage, phoneFormatter } from '../utils/helpers';
+import { addressFormatter, defaultAlt, defaultImage, pathUrl, phoneFormatter } from '../utils/helpers';
 import { getData, setData } from '../utils/localStorage';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useToggle } from '../hooks/useToggle';
@@ -22,8 +22,6 @@ import Swal from 'sweetalert2';
 import { DataContext } from '../context/Cards';
 import { useContext } from 'react';
 import { favoriteCard } from '../utils/favorite';
-
-
 
 
 export default function B_CARD({ card, setCards }: B_CardProps) {
@@ -57,7 +55,7 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
         })
     }
 
-    const pathUrl = (url: string) => location.pathname.toLowerCase() === `${url}${id}`
+    // const pathUrl = (url: string) => location.pathname.toLowerCase() === `${url}${id}`
 
     return (
         <Card sx={{ maxWidth: 345 }}>
@@ -75,10 +73,12 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
                     {card.subtitle}
                 </Typography>
                 <Typography paddingTop={1} variant="body2" color="text.secondary">
-                    <span style={{ fontWeight: "bold" }}> Phone:</span> {phoneFormatter(card.phone)}
+                    <span style={{ fontWeight: "bold" }}> Phone:</span>
+                    {phoneFormatter(card.phone)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    <span style={{ fontWeight: "bold" }}> Address:</span> {addressFormatter(card.city, card.street, card.houseNumber)}
+                    <span style={{ fontWeight: "bold" }}> Address:</span>
+                    {addressFormatter(card.city, card.street, card.houseNumber)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     <span style={{ fontWeight: "bold" }}> Card Number:</span> {card.zip}
@@ -86,16 +86,21 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
             </CardContent>
             <CardActions sx={{ justifyContent: 'space-between' }}>
                 <Stack direction={'row'} spacing={1} >
-                    {pathUrl(`/my%20cards/`) &&
+                    {pathUrl(`/my%20cards/`, location, id) &&
                         <DeleteIcon onClick={removeCard} color='action' />}
-                    {pathUrl(`/my%20cards/`) &&
+                    {pathUrl(`/my%20cards/`, location, id) &&
                         <EditIcon onClick={() => navigate(`/edit/${id}`)} color='action' />
                     }
                 </Stack>
                 <Stack direction={'row'} spacing={1} >
                     <PhoneIcon onClick={() => console.log(location.pathname)} color='action' />
                     {getData('user', 'token') &&
-                        <CheckBox onClick={() => favoriteCard(toggle, card, setCards as React.Dispatch<any>)} checked={checked} icon={<FavoriteBorder />} checkedIcon={<Favorite />} color='error' sx={{ padding: 0 }} />
+                        <CheckBox onClick={() => favoriteCard(toggle, card, setCards as React.Dispatch<any>)}
+                            checked={checked}
+                            icon={<FavoriteBorder />}
+                            checkedIcon={<Favorite />}
+                            color='error'
+                            sx={{ padding: 0 }} />
                     }
                 </Stack>
             </CardActions>
