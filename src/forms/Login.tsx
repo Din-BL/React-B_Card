@@ -1,6 +1,6 @@
 import { Box, Typography, TextField, InputAdornment, colors } from "@mui/material";
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import BtnGroup from "../components/BtnGroup";
+import BtnGroup from "./BtnGroup";
 import useFields from "../hooks/useFields";
 import { NavLink } from "react-router-dom";
 import LockOpenIcon from '@mui/icons-material/LockOpen';

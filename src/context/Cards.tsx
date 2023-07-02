@@ -9,15 +9,16 @@ export interface CardsContextType {
 }
 
 export const CardsContext = createContext<CardsContextType>(null!);
-export const DataContext = createContext<any>(null!);
+export const DataContext = createContext<ReturnType<typeof useData>>(null!);
+
 
 function Cards(props: React.PropsWithChildren<{}>) {
     const [cards, setCards] = useCards();
-    const { data, deleteData } = useData()
+    const { data, deleteData, addData } = useData()
 
     return (
         <CardsContext.Provider value={{ cards, setCards }}>
-            <DataContext.Provider value={{ data, deleteData }}>
+            <DataContext.Provider value={{ data, deleteData, addData }}>
                 {props.children}
             </DataContext.Provider>
         </CardsContext.Provider>

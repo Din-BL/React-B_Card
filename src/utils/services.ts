@@ -29,9 +29,12 @@ export function deleteUser(id: string) {
 export function addCard(form: BusinessCard) {
     return axios.post(`${url}/business`, form, config)
 }
-export function getCard() {
+export function getCards() {
     return axios.get(`${url}/business`, config)
 }
 export function deleteCard(id: string) {
     return axios.delete(`${url}/business/${id}`, config)
+}
+export function getCard(id: string) {
+    return axios.get(`${url}/business/${id}`, config)
 }

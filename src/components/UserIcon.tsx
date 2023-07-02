@@ -11,6 +11,7 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import PersonIcon from '@mui/icons-material/Person';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import { toast } from 'react-toastify';
+import { logout } from '../utils/helpers';
 
 export default function UserIcon() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -20,13 +21,8 @@ export default function UserIcon() {
         setAnchorEl(event.currentTarget);
     };
 
-    const logout = () => {
-        navigate('/login')
-        removeData('user')
-    }
-
     const handleLogout = () => {
-        logout()
+        logout(navigate)
         setAnchorEl(null);
     };
 
@@ -35,7 +31,7 @@ export default function UserIcon() {
             .then(() => {
                 toast.success(`${getData('user', 'userName')} has been removed`)
                 removeData(getData('user', 'userName'))
-                logout()
+                logout(navigate)
                 setAnchorEl(null);
             })
             .catch(e => toast.error(e.response.data))

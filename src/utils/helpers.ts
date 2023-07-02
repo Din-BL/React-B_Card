@@ -1,9 +1,8 @@
 import { FormField } from "./types";
 import Unknown from "../assets/Unknown.jpg"
-import { Location, useLocation } from "react-router-dom";
+import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
+import { removeData } from "./localStorage";
 
-// const location = useLocation()
-const defaultImageUrl = Unknown;
 
 export const inputData = (field: FormField) => {
     return field.state ? field.state : field.label
@@ -26,8 +25,9 @@ export function addressFormatter(city: string, street: string, houseNumber: numb
 }
 
 export function defaultImage(imageUrl?: string) {
-    return imageUrl?.length === 0 ? defaultImageUrl : imageUrl
+    return imageUrl?.length === 0 ? Unknown : imageUrl
 }
+
 export function defaultAlt(imageAlt?: string) {
     return imageAlt?.length === 0 ? 'Unknown' : imageAlt
 }
@@ -35,3 +35,9 @@ export function defaultAlt(imageAlt?: string) {
 export const pathUrl = (url: string, location: Location, id?: string) => {
     return location.pathname.toLowerCase() === `${url}${id}`;
 }
+
+export const logout = (navigate: NavigateFunction) => {
+    navigate('/login')
+    removeData('user')
+}
+

@@ -2,7 +2,7 @@ import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { useState } from "react";
 import { RegisterFields } from "../utils/fields";
 import { registerSchema } from "../utils/schema";
-import Form from "../components/Form";
+import Form from "./Form";
 
 function Register() {
     const [checked, setChecked] = useState(false);

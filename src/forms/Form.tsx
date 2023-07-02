@@ -1,22 +1,34 @@
 import { Box, Typography, TextField, Container, Grid, Checkbox, FormControlLabel } from "@mui/material";
-import BtnGroup from "../components/BtnGroup";
-import { ReactNode, useState } from "react";
+import BtnGroup from "./BtnGroup";
+import { ReactNode, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { capitalizeFirstLetter, inputData, pathUrl } from "../utils/helpers";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { BusinessCard, CheckField, FormField, FormProps, UserCard } from "../utils/types";
 import { AnySchema } from "joi";
-import { addCard, registerUser } from "../utils/services";
+import { addCard, getCard, registerUser } from "../utils/services";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { DataContext } from "../context/Cards";
 
 function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormProps) {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(FormSchema), });
     const navigate = useNavigate()
     const location = useLocation()
     const { id } = useParams();
+    const { addData } = useContext(DataContext)
+
+    const initialValue = async (field: string) => {
+        if (id) {
+            const res = await getCard(id)
+            const data = res.data[field]
+            return data
+        }
+    }
+    // console.log(initialValue('title'))
+
 
     const onSubmit = (data: any) => {
         if (CheckField) {
@@ -29,7 +41,8 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                 .catch(e => toast.error(e.response.data))
         } else if (pathUrl(`/add/`, location, id)) {
             addCard(data)
-                .then(() => {
+                .then((info) => {
+                    addData(info.data)
                     navigate(`/my cards/${id}`)
                     toast.success('Business added')
                 })
@@ -63,6 +76,7 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                                 id={field.label}
                                 label={capitalizeFirstLetter(field.label)}
                                 type={field.type}
+                                // defaultValue={ initialValue(field.label)}
                                 variant="outlined"
                                 error={!!errors[inputData(field)]}
                                 helperText={errors[inputData(field)]?.message as string}

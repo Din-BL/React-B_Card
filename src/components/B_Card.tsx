@@ -47,15 +47,13 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
                     deleteCard(card._id)
                         .then(() => {
                             toast.success('Business been removed')
-                            deleteData(card._id)
+                            deleteData(card._id as string)
                         })
                         .catch(e => toast.error(e.response.data))
                 }
             }
         })
     }
-
-    // const pathUrl = (url: string) => location.pathname.toLowerCase() === `${url}${id}`
 
     return (
         <Card sx={{ maxWidth: 345 }}>
@@ -89,7 +87,7 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
                     {pathUrl(`/my%20cards/`, location, id) &&
                         <DeleteIcon onClick={removeCard} color='action' />}
                     {pathUrl(`/my%20cards/`, location, id) &&
-                        <EditIcon onClick={() => navigate(`/edit/${id}`)} color='action' />
+                        <EditIcon onClick={() => navigate(`/edit/${card._id}`)} color='action' />
                     }
                 </Stack>
                 <Stack direction={'row'} spacing={1} >

@@ -2,10 +2,8 @@ import { Box, Container, Fab, Stack } from "@mui/material";
 import Title from "../components/Title";
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, useParams } from "react-router-dom";
-import { getCard } from "../utils/services";
 import { BusinessCard } from "../utils/types";
 import B_CARD from "../components/B_Card";
-import { useData } from "../hooks/useData";
 import { useContext } from "react";
 import { DataContext } from "../context/Cards";
 
@@ -14,12 +12,14 @@ function My_Cards() {
     const { id } = useParams();
     const { data } = useContext(DataContext)
 
+    console.log(data);
+
     return (
         <Container >
             <Box component={'main'} sx={{ minHeight: '85dvh' }}>
                 <Title main="My Cards" sub="Here you can find business cards from all catagories" />
                 <Stack direction="row" spacing={2} paddingBottom={3}>
-                    {Array.isArray(data) && data.map((card: BusinessCard) => {
+                    {data.map((card: BusinessCard) => {
                         return <B_CARD key={card._id} card={card} />
                     })}
                 </Stack>

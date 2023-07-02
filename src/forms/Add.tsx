@@ -1,4 +1,4 @@
-import Form from "../components/Form";
+import Form from "./Form";
 import { CardFields } from "../utils/fields";
 import { cardSchema } from "../utils/schema";
 
