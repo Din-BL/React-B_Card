@@ -5,36 +5,45 @@ import { getData } from './localStorage';
 
 const url = 'http://localhost:8000'
 
-const config: AxiosRequestConfig = {
-    headers: {
-        'authorization': getData('user', 'token'),
-        'Content-Type': 'application/json',
-    }
+const getToken = () => getData('user', 'token');
+
+const createConfig = (): AxiosRequestConfig => {
+    return {
+        headers: {
+            'authorization': getToken(),
+            'Content-Type': 'application/json',
+        }
+    };
 };
 
 // userApi
 
 export function registerUser(form: UserCard) {
-    return axios.post(`${url}/user/register`, form)
+    return axios.post(`${url}/user/register`, form);
 }
+
 export function loginUser(form: LoginField) {
-    return axios.post(`${url}/user/login`, form)
+    return axios.post(`${url}/user/login`, form);
 }
+
 export function deleteUser(id: string) {
-    return axios.delete(`${url}/user/${id}`, config)
+    return axios.delete(`${url}/user/${id}`, createConfig());
 }
 
 // BusinessApi
 
 export function addCard(form: BusinessCard) {
-    return axios.post(`${url}/business`, form, config)
+    return axios.post(`${url}/business`, form, createConfig());
 }
+
 export function getCards() {
-    return axios.get(`${url}/business`, config)
+    return axios.get(`${url}/business`, createConfig());
 }
+
 export function deleteCard(id: string) {
-    return axios.delete(`${url}/business/${id}`, config)
+    return axios.delete(`${url}/business/${id}`, createConfig());
 }
+
 export function getCard(id: string) {
-    return axios.get(`${url}/business/${id}`, config)
+    return axios.get(`${url}/business/${id}`, createConfig());
 }

@@ -12,27 +12,31 @@ import { ToastContainer } from 'react-toastify';
 import Cards from './context/Cards';
 import Add from './forms/Add';
 import Edit from './forms/Edit';
+import Data from './context/Cards';
+import Business from './context/Business';
 
 
 function App() {
   return (
     <>
-      <Cards>
-        <Navbar />
-        <Routes>
-          <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/:id?' element={<Home />} />
-          <Route path='/favorite/:id' element={<Favorite />} />
-          <Route path='/my cards/:id' element={<My_Cards />} />
-          <Route path='/add/:id' element={<Add />} />
-          <Route path='/edit/:id' element={<Edit />} />
-          {/* <Route path='*' element={<Error_Page />} /> */}
-        </Routes>
-        <Footer />
-        <ToastContainer />
-      </Cards>
+      <Business>
+        <Cards>
+          <Navbar />
+          <Routes>
+            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/:id?' element={<Home />} />
+            <Route path='/favorite/:id' element={<Favorite />} />
+            <Route path='/my cards/:id' element={<My_Cards />} />
+            <Route path='/add/:id' element={<Add />} />
+            <Route path='/edit/:id' element={<Edit />} />
+            {/* <Route path='*' element={<Error_Page />} /> */}
+          </Routes>
+          <Footer />
+          <ToastContainer />
+        </Cards>
+      </Business>
     </>
   )
 }

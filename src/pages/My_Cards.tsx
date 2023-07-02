@@ -12,8 +12,6 @@ function My_Cards() {
     const { id } = useParams();
     const { data } = useContext(DataContext)
 
-    console.log(data);
-
     return (
         <Container >
             <Box component={'main'} sx={{ minHeight: '85dvh' }}>
