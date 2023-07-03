@@ -20,6 +20,16 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
     const { id } = useParams();
     const { addData } = useContext(DataContext)
 
+    // const [initialValues, setInitialValues] = useState<any>({});
+
+    // const fetchInitialValue = async (field: string) => {
+    //     if (id) {
+    //         const res = await getCard(id);
+    //         const data = res.data[field];
+    //         setInitialValues((prevValues) => ({ ...prevValues, [field]: data }));
+    //     }
+    // };
+
     const initialValue = async (field: string) => {
         if (id) {
             const res = await getCard(id)
@@ -27,7 +37,7 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
             return data
         }
     }
-    // console.log(initialValue('title'))
+
 
 
     const onSubmit = (data: any) => {
@@ -76,7 +86,7 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                                 id={field.label}
                                 label={capitalizeFirstLetter(field.label)}
                                 type={field.type}
-                                // defaultValue={ initialValue(field.label)}
+                                // defaultValue={initialValue(field.label)}
                                 variant="outlined"
                                 error={!!errors[inputData(field)]}
                                 helperText={errors[inputData(field)]?.message as string}
