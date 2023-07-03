@@ -32,6 +32,7 @@ function App() {
             <Route path='/add/:id' element={<Add />} />
             <Route path='/edit/:id' element={<Edit />} />
             {/* <Route path='*' element={<Error_Page />} /> */}
+            {/* If user logged in the "back button navigate to `home`" */}
           </Routes>
           <Footer />
           <ToastContainer />

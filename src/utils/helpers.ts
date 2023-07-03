@@ -1,9 +1,7 @@
 import { FormField } from "./types";
 import Unknown from "../assets/Unknown.jpg"
-import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
+import { Location, NavigateFunction } from "react-router-dom";
 import { removeData } from "./localStorage";
-import { useContext } from "react";
-import { BusinessContext } from "../context/Business";
 
 
 export const inputData = (field: FormField) => {

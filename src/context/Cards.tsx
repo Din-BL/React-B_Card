@@ -16,11 +16,11 @@ export const DataContext = createContext<ReturnType<typeof useData>>(null!);
 function Cards(props: React.PropsWithChildren<{}>) {
 
     const [cards, setCards] = useCards();
-    const { data, deleteData, addData } = useData()
+    const { data, deleteData, addData, editData } = useData()
 
     return (
         <CardsContext.Provider value={{ cards, setCards }}>
-            <DataContext.Provider value={{ data, deleteData, addData }}>
+            <DataContext.Provider value={{ data, deleteData, addData, editData }}>
                 {props.children}
             </DataContext.Provider>
         </CardsContext.Provider>

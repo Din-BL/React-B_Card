@@ -47,3 +47,7 @@ export function deleteCard(id: string) {
 export function getCard(id: string) {
     return axios.get(`${url}/business/${id}`, createConfig());
 }
+
+export function editCard(id: string, form: BusinessCard) {
+    return axios.put(`${url}/business/${id}`, form, createConfig());
+}

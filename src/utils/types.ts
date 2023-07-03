@@ -7,6 +7,11 @@ export interface TitleProps {
     sub: string
 }
 
+export type BusinessCards = {
+    [key: string]: string;
+    // Other properties of BusinessCard
+};
+
 export interface FormProps {
     FormTitle: string,
     FormFields: FormField[],

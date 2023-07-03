@@ -79,7 +79,7 @@ const businessSchema = new mongoose.Schema({
     maxlength: 128,
   },
   zip: {
-    type: Number,
+    type: String,
     required: false,
     trim: true,
     maxlength: 128,

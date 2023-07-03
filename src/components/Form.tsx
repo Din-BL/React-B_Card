@@ -1,44 +1,50 @@
 import { Box, Typography, TextField, Container, Grid, Checkbox, FormControlLabel } from "@mui/material";
 import BtnGroup from "./BtnGroup";
-import { ReactNode, useContext, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { capitalizeFirstLetter, inputData, pathUrl } from "../utils/helpers";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { BusinessCard, CheckField, FormField, FormProps, UserCard } from "../utils/types";
 import { AnySchema } from "joi";
-import { addCard, getCard, registerUser } from "../utils/services";
+import { addCard, editCard, getCard, registerUser } from "../utils/services";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { DataContext } from "../context/Cards";
+import { getData } from "../utils/localStorage";
 
 function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormProps) {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(FormSchema), });
     const navigate = useNavigate()
     const location = useLocation()
     const { id } = useParams();
-    const { addData } = useContext(DataContext)
-
-    // const [initialValues, setInitialValues] = useState<any>({});
-
-    // const fetchInitialValue = async (field: string) => {
-    //     if (id) {
-    //         const res = await getCard(id);
-    //         const data = res.data[field];
-    //         setInitialValues((prevValues) => ({ ...prevValues, [field]: data }));
-    //     }
-    // };
-
-    const initialValue = async (field: string) => {
-        if (id) {
-            const res = await getCard(id)
-            const data = res.data[field]
-            return data
-        }
-    }
+    const { addData, editData } = useContext(DataContext)
 
 
+    type BusinessCards = {
+        [key: string]: string;
+        // Other properties of BusinessCard
+    };
+
+    // const [initialValue, setInitialValue] = useState<BusinessCards>()
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         if (id) {
+    //             try {
+    //                 const res = await getCard(id);
+    //                 setInitialValue(res.data);
+    //                 console.log(res.data);
+
+    //                 reset(res.data);
+    //             } catch (error) {
+    //                 console.error(error);
+    //             }
+    //         }
+    //     };
+    //     fetchData();
+    // }, [id]);
 
     const onSubmit = (data: any) => {
         if (CheckField) {
@@ -58,8 +64,12 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                 })
                 .catch(e => toast.error(e.response.data))
         } else {
-            console.log('edit card page');
-
+            if (id) editCard(id, data)
+                .then((info) => {
+                    editData(id, info.data)
+                    navigate(`/my cards/${getData('user', '_id')}`)
+                    toast.success('Business added')
+                })
         }
     };
 
@@ -86,7 +96,7 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                                 id={field.label}
                                 label={capitalizeFirstLetter(field.label)}
                                 type={field.type}
-                                // defaultValue={initialValue(field.label)}
+                                // defaultValue={initialValue ? initialValue[field.label] : ""}
                                 variant="outlined"
                                 error={!!errors[inputData(field)]}
                                 helperText={errors[inputData(field)]?.message as string}

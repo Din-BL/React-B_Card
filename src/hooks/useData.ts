@@ -23,6 +23,12 @@ export function useData() {
         setData((currentData) => currentData.filter((data) => data._id !== id))
     }
 
+    function editData(id: string, data: BusinessCard) {
+        setData((currentData) => currentData.map((card) => {
+            return card._id === id ? data : card
+        }))
+    }
+
     useEffect(() => {
         if (getData('user', 'business')) {
             getCards()
@@ -34,5 +40,5 @@ export function useData() {
         }
     }, [business])
 
-    return { data, deleteData, addData }
+    return { data, deleteData, addData, editData }
 }
