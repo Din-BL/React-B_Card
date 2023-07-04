@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../utils/helpers";
 import { getData } from "../utils/localStorage";
-import { BusinessContext } from "../context/Business";
+import { BusinessContext } from "../context/LoginInfo";
 import { log } from "console";
 
 

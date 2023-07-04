@@ -2,7 +2,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import { ChangeEvent, FormEventHandler, useContext } from 'react';
-import { CardsContext, DataContext } from '../context/Cards';
+import { CardsContext, DataContext, FavoriteContext } from '../context/Cards';
 import { BusinessCard } from '../utils/types';
 import { defaultCards } from '../utils/cards';
 
@@ -51,10 +51,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function Search() {
     const { searchDefaultCards } = useContext(CardsContext)
     const { searchData } = useContext(DataContext)
+    const { searchFavorite } = useContext(FavoriteContext)
 
     function searchCards(e: ChangeEvent<HTMLInputElement>) {
         searchDefaultCards(e)
         searchData(e)
+        searchFavorite(e)
     }
 
     return (

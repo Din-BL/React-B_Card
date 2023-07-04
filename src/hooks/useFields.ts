@@ -5,7 +5,7 @@ import { LoginField } from "../utils/types";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getData, setData } from "../utils/localStorage";
-import { BusinessContext } from "../context/Business";
+import { BusinessContext, LoggedContext } from "../context/LoginInfo";
 
 
 export default function useFields(initalValue: LoginField) {
@@ -13,6 +13,7 @@ export default function useFields(initalValue: LoginField) {
     const navigate = useNavigate()
     const [fields, setFields] = useState(initalValue)
     const { setBusiness } = useContext(BusinessContext)
+    const { setLogged } = useContext(LoggedContext)
 
     const handleField = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -27,6 +28,7 @@ export default function useFields(initalValue: LoginField) {
             .then((user) => {
                 setData('user', user.data)
                 getData('user', 'business') && setBusiness(true)
+                setLogged(currentState => !currentState)
                 navigate(`/${user.data._id}`)
             })
             .catch(e => toast.error(e.response.data))

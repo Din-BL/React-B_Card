@@ -8,18 +8,26 @@ export interface BusinessContextType {
     business: boolean;
     setBusiness: React.Dispatch<React.SetStateAction<boolean>>;
 }
+export interface LoggedContextType {
+    logged: boolean;
+    setLogged: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export const BusinessContext = createContext<BusinessContextType>(null!);
+export const LoggedContext = createContext<LoggedContextType>(null!);
 
-function Business(props: React.PropsWithChildren<{}>) {
+function LoginInfo(props: React.PropsWithChildren<{}>) {
 
     const [business, setBusiness] = useState<boolean>(false);
+    const [logged, setLogged] = useState<boolean>(false);
 
     return (
         <BusinessContext.Provider value={{ business, setBusiness }}>
-            {props.children}
+            <LoggedContext.Provider value={{ logged, setLogged }}>
+                {props.children}
+            </LoggedContext.Provider>
         </BusinessContext.Provider>
     );
 }
 
-export default Business;
+export default LoginInfo;

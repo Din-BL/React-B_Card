@@ -36,9 +36,10 @@ export const pathUrl = (url: string, location: Location, id?: string) => {
     return location.pathname.toLowerCase() === `${url}${id}`;
 }
 
-export const logout = (navigate: NavigateFunction, business: boolean, setBusiness: React.Dispatch<React.SetStateAction<boolean>>) => {
+export const logout = (navigate: NavigateFunction, business: boolean, setBusiness: React.Dispatch<React.SetStateAction<boolean>>, setLogged: React.Dispatch<React.SetStateAction<boolean>>) => {
     navigate('/login')
     business && setBusiness(false)
     removeData('user')
+    setLogged(currentState => !currentState)
 }
 

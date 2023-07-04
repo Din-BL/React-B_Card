@@ -93,5 +93,4 @@ export interface UserStorage {
 
 export interface B_CardProps {
     card: BusinessCard;
-    setCards?: React.Dispatch<any>
 }

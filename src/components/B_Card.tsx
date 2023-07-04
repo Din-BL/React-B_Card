@@ -19,16 +19,17 @@ import { useToggle } from '../hooks/useToggle';
 import { deleteCard } from '../utils/services';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
-import { DataContext } from '../context/Cards';
+import { DataContext, FavoriteContext } from '../context/Cards';
 import { useContext } from 'react';
 import { favoriteCard } from '../utils/favorite';
 
 
-export default function B_CARD({ card, setCards }: B_CardProps) {
+export default function B_CARD({ card }: B_CardProps) {
     const location = useLocation()
     const [checked, toggle] = useToggle(card)
     const { id } = useParams()
     const { deleteData } = useContext(DataContext)
+    const { setFavorite } = useContext(FavoriteContext)
     const navigate = useNavigate()
 
 
@@ -93,7 +94,7 @@ export default function B_CARD({ card, setCards }: B_CardProps) {
                 <Stack direction={'row'} spacing={1} >
                     <PhoneIcon onClick={() => console.log(location.pathname)} color='action' />
                     {getData('user', 'token') &&
-                        <CheckBox onClick={() => favoriteCard(toggle, card, setCards as React.Dispatch<any>)}
+                        <CheckBox onClick={() => favoriteCard(toggle, card, setFavorite)}
                             checked={checked}
                             icon={<FavoriteBorder />}
                             checkedIcon={<Favorite />}
