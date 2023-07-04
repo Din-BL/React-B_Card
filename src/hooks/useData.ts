@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { BusinessCard } from "../utils/types";
 import { getCards } from "../utils/services";
 import { AxiosResponse } from "axios";
@@ -29,6 +29,21 @@ export function useData() {
         }))
     }
 
+    const searchData = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value !== "") {
+            setData((currentCards: BusinessCard[]) => {
+                return currentCards.filter((card: BusinessCard) => {
+                    return card.title.toLocaleLowerCase().startsWith(e.target.value.toLocaleLowerCase())
+                })
+            })
+        }
+        else {
+            getCards()
+                .then((res: AxiosResponse<BusinessCard[]>) => setData(res.data))
+                .catch(e => toast.warning(e.response.data))
+        }
+    }
+
     useEffect(() => {
         if (getData('user', 'business')) {
             getCards()
@@ -40,5 +55,5 @@ export function useData() {
         }
     }, [business])
 
-    return { data, deleteData, addData, editData }
+    return { data, deleteData, addData, editData, searchData }
 }

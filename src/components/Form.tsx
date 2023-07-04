@@ -1,31 +1,24 @@
 import { Box, Typography, TextField, Container, Grid, Checkbox, FormControlLabel } from "@mui/material";
 import BtnGroup from "./BtnGroup";
-import { ReactNode, useContext, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { capitalizeFirstLetter, inputData, pathUrl } from "../utils/helpers";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { BusinessCard, CheckField, FormField, FormProps, UserCard } from "../utils/types";
-import { AnySchema } from "joi";
-import { addCard, editCard, getCard, registerUser } from "../utils/services";
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import { DataContext } from "../context/Cards";
-import { getData } from "../utils/localStorage";
 
-function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormProps) {
+function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleRegister, handleAdd, handleEdit }: FormProps) {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(FormSchema), });
-    const navigate = useNavigate()
     const location = useLocation()
     const { id } = useParams();
-    const { addData, editData } = useContext(DataContext)
 
 
-    type BusinessCards = {
-        [key: string]: string;
-        // Other properties of BusinessCard
-    };
+    // type BusinessCards = {
+    //     [key: string]: string;
+    //     // Other properties of BusinessCard
+    // };
 
     // const [initialValue, setInitialValue] = useState<BusinessCards>()
 
@@ -35,8 +28,6 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
     //             try {
     //                 const res = await getCard(id);
     //                 setInitialValue(res.data);
-    //                 console.log(res.data);
-
     //                 reset(res.data);
     //             } catch (error) {
     //                 console.error(error);
@@ -44,32 +35,21 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
     //         }
     //     };
     //     fetchData();
-    // }, [id]);
+    // }, []);
+
+    // console.log(initialValue);
+
 
     const onSubmit = (data: any) => {
         if (CheckField) {
             const business = CheckField.checked
-            registerUser({ ...data, business })
-                .then(() => {
-                    navigate('/login')
-                    toast.success('Successfully registered')
-                })
-                .catch(e => toast.error(e.response.data))
+            handleRegister(data, business)
         } else if (pathUrl(`/add/`, location, id)) {
-            addCard(data)
-                .then((info) => {
-                    addData(info.data)
-                    navigate(`/my cards/${id}`)
-                    toast.success('Business added')
-                })
-                .catch(e => toast.error(e.response.data))
+            handleAdd(data)
         } else {
-            if (id) editCard(id, data)
-                .then((info) => {
-                    editData(id, info.data)
-                    navigate(`/my cards/${getData('user', '_id')}`)
-                    toast.success('Business added')
-                })
+            if (id) {
+                handleEdit(id, data)
+            }
         }
     };
 
@@ -77,6 +57,8 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
         reset();
         CheckField && CheckField.setChecked(false)
     }
+
+    const childrenArray = React.Children.toArray(children);
 
     return (
         <Container maxWidth='md' >
@@ -96,26 +78,30 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children }: FormP
                                 id={field.label}
                                 label={capitalizeFirstLetter(field.label)}
                                 type={field.type}
-                                // defaultValue={initialValue ? initialValue[field.label] : ""}
+                                // defaultValue={initialValue?.[field.label]}
                                 variant="outlined"
                                 error={!!errors[inputData(field)]}
                                 helperText={errors[inputData(field)]?.message as string}
                             />
                         </Grid>
                     })}
-                    {children}
+                    {childrenArray[0]}
                 </Grid>
                 <BtnGroup resetFields={handleReset} />
-                {pathUrl(`/register/`, location) &&
-                    <Typography paddingTop={3} paddingLeft={1} color={'text.secondary'}>
-                        Already have an account?
-                        <NavLink to={`/login`} style={{ paddingLeft: 5, textDecoration: 'none', color: 'black' }}>
-                            Login now
-                        </NavLink>
-                    </Typography>}
+                {childrenArray[1]}
             </Box>
         </Container >
     )
 }
 
 export default Form;
+
+
+
+
+
+
+
+
+
+

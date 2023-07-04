@@ -7,17 +7,19 @@ export interface TitleProps {
     sub: string
 }
 
-export type BusinessCards = {
-    [key: string]: string;
-    // Other properties of BusinessCard
-};
+// export type BusinessCards = {
+//     [key: string]: string;
+// };
 
 export interface FormProps {
     FormTitle: string,
     FormFields: FormField[],
     FormSchema: AnySchema,
     CheckField?: CheckField,
-    children?: ReactNode
+    children?: ReactNode,
+    handleRegister?: any,
+    handleAdd?: any
+    handleEdit?: any
 }
 
 export interface FormField {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { defaultCards } from "../utils/cards";
 import { BusinessCard } from "../utils/types";
 import { getData, setData } from "../utils/localStorage";
@@ -12,9 +12,18 @@ export default function useCards() {
         return storedCards;
     });
 
+    const searchDefaultCards = (e: ChangeEvent<HTMLInputElement>) => {
+        setCards((currentCards: BusinessCard[]) => {
+            const filteredCards = currentCards.filter((card: BusinessCard) => {
+                return card.title.toLocaleLowerCase().startsWith(e.target.value.toLocaleLowerCase())
+            })
+            return e.target.value === "" ? defaultCards : filteredCards
+        })
+    }
+
     useEffect(() => {
         setData("defaultCards", cards)
     }, [cards]);
 
-    return [cards, setCards];
+    return { cards, searchDefaultCards };
 }
