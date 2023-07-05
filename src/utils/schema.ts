@@ -83,5 +83,18 @@ const cardSchema: AnySchema = Joi.object({
     }),
 }).required();
 
-
-export { registerSchema, cardSchema };
+const contactSchema: AnySchema = Joi.object({
+    fullName: Joi.string().min(2).allow("").optional().messages({
+        "string.min": convertMsg('Full name', '2'),
+    }),
+    email: Joi.string().trim().pattern(/^\S+@\S+\.\S+$/,).allow("").optional().messages({
+        "string.pattern.base": "Invalid email address format",
+    }),
+    subject: Joi.string().min(2).allow("").optional().messages({
+        "string.min": convertMsg('Subject', '2'),
+    }),
+    message: Joi.string().min(10).allow("").optional().messages({
+        "string.min": convertMsg('Message', '10'),
+    })
+});
+export { registerSchema, cardSchema, contactSchema };

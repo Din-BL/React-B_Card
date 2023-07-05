@@ -6,85 +6,125 @@ import EmailIcon from '@mui/icons-material/Email';
 import LanguageIcon from '@mui/icons-material/Language';
 import { BusinessCard } from '../utils/types';
 import { addressFormatter } from '../utils/helpers';
-import AddIcon from '@mui/icons-material/Add';
-import { blueGrey } from '@mui/material/colors';
-
-// import '../styles/Business.css';
-
+import { MouseEvent } from 'react';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { AnySchema } from 'joi';
+import Swal from 'sweetalert2';
 
 interface ContactProps {
-    businessInfo: BusinessCard[]
+    businessInfo: BusinessCard[],
+    contactSchema: AnySchema,
 }
 
-function Contact({ businessInfo }: ContactProps) {
+function Contact({ businessInfo, contactSchema }: ContactProps) {
+
+    function onSubmit() {
+        reset()
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Thank you!',
+            text: 'Your submission has been sent',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+
+    const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(contactSchema), });
+    const contactItems = [
+        { icon: <LocationOnIcon />, label: 'Address', value: addressFormatter(businessInfo[0].city, businessInfo[0].street, businessInfo[0].houseNumber, businessInfo[0].country) },
+        { icon: <LocalPhoneIcon />, label: 'Phone', value: businessInfo[0].phone, link: `tel://${businessInfo[0].phone}` },
+        { icon: <EmailIcon />, label: 'Email', value: businessInfo[0].email, link: `mailto:${businessInfo[0].email}` },
+        { icon: <LanguageIcon />, label: 'Website', value: businessInfo[0].web, link: businessInfo[0].web }
+    ];
+
     return (
-        <Grid paddingTop={10} container sx={{ backgroundColor: '#eceff1' }}>
-            <Grid item xs={12}>
-                <Grid container spacing={3} mb={5}>
-                    <Grid item xs={12} md={7}>
-                        <Box paddingLeft={5}>
-                            <Typography color={'primary'} variant="h3" component="h3" mb={4}>Contact Us</Typography>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} md={6}>
-                                    <TextField label="Full Name" fullWidth placeholder="Name" />
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField label="Email Address" fullWidth placeholder="Email" />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField label="Subject" fullWidth placeholder="Subject" />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField label="Message" fullWidth multiline rows={4} placeholder="Message" />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button variant="contained" color="primary">Send Message</Button>
-                                </Grid>
+        <Box component={'section'} sx={{ backgroundColor: '#eceff1' }} >
+            <Container>
+                <Grid paddingTop={10} container >
+                    <Grid item xs={12}>
+                        <Grid container spacing={3} mb={5}>
+                            <Grid item xs={12} md={7}>
+                                <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
+                                    <Typography color={'primary'} variant="h3" component="h3" mb={4}>Contact Us</Typography>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} md={6}>
+                                            <TextField
+                                                {...register('fullName')}
+                                                required
+                                                label="Full name"
+                                                fullWidth
+                                                placeholder="Full name"
+                                                error={!!errors['fullName']}
+                                                helperText={errors['fullName']?.message as string}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <TextField
+                                                {...register('email')}
+                                                required
+                                                label="Email Address"
+                                                fullWidth
+                                                placeholder="Email"
+                                                error={!!errors['email']}
+                                                helperText={errors['email']?.message as string}
+                                            />
+
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                {...register('subject')}
+                                                required
+                                                label="Subject"
+                                                fullWidth
+                                                placeholder="Subject"
+                                                error={!!errors['subject']}
+                                                helperText={errors['subject']?.message as string}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                {...register('message')}
+                                                required
+                                                label="Message"
+                                                fullWidth
+                                                multiline
+                                                rows={4}
+                                                placeholder="Message"
+                                                error={!!errors['message']}
+                                                helperText={errors['message']?.message as string}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Button type='submit' variant="contained" color="primary">Send Message</Button>
+                                        </Grid>
+                                    </Grid>
+                                </Box>
                             </Grid>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} md={5} paddingRight={5}>
-                        <iframe style={{ height: '100%', width: '100%', border: '0' }} src={`https://www.google.com/maps/embed/v1/place?q=${businessInfo[0].street}+${businessInfo[0].houseNumber}+${businessInfo[0].city}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8`}></iframe>
-                    </Grid>
-                </Grid>
-                <Grid paddingY={10} container>
-                    <Grid item xs={12} md={3}>
-                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'}   >
-                            <Fab color="primary" aria-label="add">
-                                <LocationOnIcon />
-                            </Fab>
-                            <Typography textAlign={'center'} width={160} paddingTop={3}><span>Address:</span> {addressFormatter(businessInfo[0].city, businessInfo[0].street, businessInfo[0].houseNumber, businessInfo[0].country)}</Typography>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'}   >
-                            <Fab color="primary" aria-label="add">
-                                <LocalPhoneIcon />
-                            </Fab>
-                            <Typography paddingTop={3}><span>Phone:</span> <a href={`tel://${businessInfo[0].phone}`}>{businessInfo[0].phone}</a></Typography>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'}   >
-                            <Fab color="primary" aria-label="add">
-                                <EmailIcon />
-                            </Fab>
-                            <Typography paddingTop={3}><span>Email:</span> <a href={`mailto:${businessInfo[0].email}`}>{businessInfo[0].email}</a></Typography>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'}   >
-                            <Fab color="primary" aria-label="add">
-                                <LanguageIcon />
-                            </Fab>
-                            <Typography paddingTop={3}><span>Website</span> <a href={businessInfo[0].web}>{businessInfo[0].web}</a></Typography>
-                        </Box>
+                            <Grid item xs={12} md={5}>
+                                <iframe style={{ height: '100%', width: '100%', border: '0' }} src={`https://www.google.com/maps/embed/v1/place?q=${businessInfo[0].street}+${businessInfo[0].houseNumber}+${businessInfo[0].city}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8`}></iframe>
+                            </Grid>
+                        </Grid>
+                        <Grid paddingY={5} container>
+                            {contactItems.map((item, index) => (
+                                <Grid key={index} item xs={12} md={3}>
+                                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'}   >
+                                        <Fab color="primary" aria-label="add">
+                                            {item.icon}
+                                        </Fab>
+                                        <Box textAlign={'center'} paddingTop={3}>
+                                            <span>{item.label}:</span> {item.link ? <a style={{ textDecoration: 'none' }} href={item.link}>{item.value}</a> : <Typography color="text.secondary" variant="body1" display="inline" > {item.value} </Typography>}
+                                        </Box>
+                                    </Box>
+                                </Grid>
+                            ))}
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
-        </Grid>
+            </Container>
+        </Box>
     );
 }
-
 
 export default Contact;

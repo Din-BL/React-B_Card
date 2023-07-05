@@ -82,6 +82,7 @@ export interface BusinessCard {
     zip?: string;
     _id?: string
     isFavorite?: boolean
+    [key: string]: any;
 }
 
 export interface UserStorage {

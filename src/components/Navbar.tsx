@@ -2,19 +2,21 @@ import * as React from 'react';
 import { AppBar, Menu, Avatar, Button, Tooltip, MenuItem, Container, IconButton, Typography, Toolbar, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import WorkIcon from '@mui/icons-material/Work';
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import Search from './Search';
 import Theme from './Theme';
 import { getData, removeData } from '../utils/localStorage';
 import UserIcon from './UserIcon';
 import logo from '../assets/business-card.png'
 import NoAccountsIcon from '@mui/icons-material/NoAccounts';
+import { pathUrl } from '../utils/helpers';
 
 const pages = ['About', 'Favorite', 'My Cards'];
 
 function Navbar() {
     const navigate = useNavigate()
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    const location = useLocation();
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -102,7 +104,7 @@ function Navbar() {
                             </Button>
                         ))}
                     </Box>
-                    <Search />
+                    {!pathUrl('business', location) && <Search />}
                     <Theme />
                     {!getData('user', 'token') &&
                         <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
