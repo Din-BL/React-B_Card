@@ -72,15 +72,15 @@ export default function B_CARD({ card }: B_CardProps) {
                     {card.subtitle}
                 </Typography>
                 <Typography paddingTop={1} variant="body2" color="text.secondary">
-                    <span style={{ fontWeight: "bold" }}> Phone:</span>
+                    <span style={{ fontWeight: "bold" }}> Phone: </span>
                     {phoneFormatter(card.phone)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    <span style={{ fontWeight: "bold" }}> Address:</span>
+                    <span style={{ fontWeight: "bold" }}> Address: </span>
                     {addressFormatter(card.city, card.street, card.houseNumber)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    <span style={{ fontWeight: "bold" }}> Card Number:</span> {card.zip}
+                    <span style={{ fontWeight: "bold" }}> Card Number: </span>{card.zip}
                 </Typography>
             </CardContent>
             <CardActions sx={{ justifyContent: 'space-between' }}>
@@ -92,7 +92,7 @@ export default function B_CARD({ card }: B_CardProps) {
                     }
                 </Stack>
                 <Stack direction={'row'} spacing={1} >
-                    <PhoneIcon onClick={() => console.log(location.pathname)} color='action' />
+                    <PhoneIcon onClick={() => navigate(`/business/${card._id}`)} color='action' />
                     {getData('user', 'token') &&
                         <CheckBox onClick={() => favoriteCard(toggle, card, setFavorite)}
                             checked={checked}

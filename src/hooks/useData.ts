@@ -45,6 +45,7 @@ export function useData() {
     }
 
     useEffect(() => {
+        // if (business)
         if (getData('user', 'business')) {
             getCards()
                 .then((res: AxiosResponse<BusinessCard[]>) => setData(res.data))

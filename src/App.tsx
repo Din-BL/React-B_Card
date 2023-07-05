@@ -13,13 +13,15 @@ import Cards from './context/Cards';
 import Add from './forms/Add';
 import Edit from './forms/Edit';
 import Data from './context/Cards';
-import Business from './context/LoginInfo';
+import LoginInfo from './context/LoginInfo';
+import Business from './pages/Business';
+
 
 
 function App() {
   return (
     <>
-      <Business>
+      <LoginInfo>
         <Cards>
           <Navbar />
           <Routes>
@@ -31,13 +33,14 @@ function App() {
             <Route path='/my cards/:id' element={<My_Cards />} />
             <Route path='/add/:id' element={<Add />} />
             <Route path='/edit/:id' element={<Edit />} />
+            <Route path='/business/:id' element={<Business />} />
             {/* <Route path='*' element={<Error_Page />} /> */}
             {/* If user logged in the "back button navigate to `home`" */}
           </Routes>
           <Footer />
           <ToastContainer />
         </Cards>
-      </Business>
+      </LoginInfo>
     </>
   )
 }
