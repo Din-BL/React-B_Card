@@ -39,7 +39,7 @@ function Business() {
                 <article >
                     <Typography component={'h1'} className="title" paddingLeft={1} sx={{ fontSize: "40px" }}>{isBusiness && businessInfo[0].title}</Typography>
                     <Paper elevation={3} sx={{ padding: 2 }}>
-                        <h1 className="title" style={{ fontSize: "25px" }}> About Us: </h1>
+                        <h1 className="title" style={{ fontSize: "20px" }}>{isBusiness && businessInfo[0].subtitle} </h1>
                         <p>{isBusiness && businessInfo[0].description}</p>
                     </Paper>
                 </article>

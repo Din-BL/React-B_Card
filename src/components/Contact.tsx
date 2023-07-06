@@ -1,4 +1,3 @@
-import '../styles/Contact.css';
 import { Container, Grid, TextField, Button, Typography, Fab, Box } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
