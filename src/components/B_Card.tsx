@@ -22,12 +22,15 @@ import Swal from 'sweetalert2';
 import { DataContext, FavoriteContext } from '../context/Cards';
 import { useContext } from 'react';
 import { favoriteCard } from '../utils/favorite';
+import { LoginInfoContext } from '../context/LoginInfo';
 
 
 export default function B_CARD({ card }: B_CardProps) {
     const location = useLocation()
     const [checked, toggle] = useToggle(card)
     const { id } = useParams()
+    const { loginInfo } = useContext(LoginInfoContext)
+    const { logged } = loginInfo
     const { deleteData } = useContext(DataContext)
     const { setFavorite } = useContext(FavoriteContext)
     const navigate = useNavigate()
@@ -93,7 +96,7 @@ export default function B_CARD({ card }: B_CardProps) {
                 </Stack>
                 <Stack direction={'row'} spacing={1} >
                     <PhoneIcon onClick={() => navigate(`/business/${card._id}`)} color='action' />
-                    {getData('user', 'token') &&
+                    {logged &&
                         <CheckBox onClick={() => favoriteCard(toggle, card, setFavorite)}
                             checked={checked}
                             icon={<FavoriteBorder />}

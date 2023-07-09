@@ -5,13 +5,16 @@ import { CardFields } from "../utils/fields";
 import { cardSchema } from "../utils/schema";
 import { editCard } from "../utils/services";
 import { toast } from "react-toastify";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { DataContext } from "../context/Cards";
 import { getData } from "../utils/localStorage";
+import { LoginInfoContext } from "../context/LoginInfo";
+import { logout } from "../utils/helpers";
 
 function Edit() {
     const { editData } = useContext(DataContext)
     const navigate = useNavigate()
+    const { setLoginInfo } = React.useContext(LoginInfoContext)
 
     const handleEdit = (id: string, data: any) => {
         editCard(id, data)
@@ -20,10 +23,7 @@ function Edit() {
                 navigate(`/my cards/${getData('user', '_id')}`)
                 toast.success('Business updated')
             })
-            .catch(e => {
-                toast.warning(e.response.data)
-                // logout(navigate, business, setBusiness, setLogged)
-            })
+            .catch(e => toast.error(e.response.data))
     }
 
     return <Form

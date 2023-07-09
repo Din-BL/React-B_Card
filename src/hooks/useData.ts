@@ -43,13 +43,12 @@ export function useData() {
     }
 
     useEffect(() => {
-        console.log(business);
         if (business) {
             getCards()
                 .then((res: AxiosResponse<BusinessCard[]>) => setData(res.data))
                 .catch(e => {
-                    toast.warning(e.response.data)
-                    logout(navigate, setLoginInfo)
+                    // toast.warning(e.response.data)
+                    logout(navigate, setLoginInfo, e.response.data)
                 })
         }
     }, [business])

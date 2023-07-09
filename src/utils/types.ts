@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import { AnySchema } from "joi";
 import { ReactNode } from "react";
+import { Login } from "../hooks/useLogin";
 
 export interface TitleProps {
     main: string;
@@ -94,4 +95,9 @@ export interface UserStorage {
 
 export interface B_CardProps {
     card: BusinessCard;
+}
+
+export interface LoginContextType {
+    loginInfo: Login
+    setLoginInfo: React.Dispatch<React.SetStateAction<Login>>
 }

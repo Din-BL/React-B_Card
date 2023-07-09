@@ -5,11 +5,14 @@ import { cardSchema } from "../utils/schema";
 import { addCard } from "../utils/services";
 import { useNavigate, useParams } from "react-router-dom";
 import { DataContext } from "../context/Cards";
-import { useContext } from "react";
+import React, { useContext } from "react";
+import { LoginInfoContext } from "../context/LoginInfo";
+import { logout } from "../utils/helpers";
 
 function Add() {
     const { id } = useParams();
     const navigate = useNavigate()
+    const { setLoginInfo } = React.useContext(LoginInfoContext)
     const { addData } = useContext(DataContext)
 
 
@@ -20,10 +23,7 @@ function Add() {
                 navigate(`/my cards/${id}`)
                 toast.success('Business added')
             })
-            .catch(e => {
-                toast.warning(e.response.data)
-                // logout(navigate, business, setBusiness, setLogged)
-            })
+            .catch(e => toast.error(e.response.data))
     }
 
     return <Form

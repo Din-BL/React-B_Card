@@ -1,11 +1,6 @@
 import { createContext } from "react";
 import { Login, useLogin } from "../hooks/useLogin";
-
-
-export interface LoginContextType {
-    loginInfo: Login
-    setLoginInfo: React.Dispatch<React.SetStateAction<Login>>
-}
+import { LoginContextType } from "../utils/types";
 
 export const LoginInfoContext = createContext<LoginContextType>(null!);
 

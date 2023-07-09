@@ -11,7 +11,6 @@ function Cards(props: React.PropsWithChildren<{}>) {
     const { cards, searchDefaultCards } = useCards();
     const { data, deleteData, addData, editData, searchData } = useData()
     const { favorite, setFavorite, searchFavorite } = useFavorite()
-    console.log('test');
 
     return (
         <CardsContext.Provider value={{ cards, searchDefaultCards }}>

@@ -3,6 +3,7 @@ import Unknown from "../assets/Unknown.jpg"
 import { Location, NavigateFunction } from "react-router-dom";
 import { getData, removeData } from "./localStorage";
 import { Login } from "../hooks/useLogin";
+import { toast } from "react-toastify";
 
 
 export const inputData = (field: FormField) => {
@@ -38,9 +39,11 @@ export const pathUrl = (url: string, location: Location, id?: string) => {
     return id ? path.toLowerCase() === `${url}${id}` : path.startsWith(`/${url}`)
 }
 
-export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<Login>>) => {
+export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<Login>>, errorMsg?: string) => {
     navigate('/login')
     removeData('user')
     setLoginInfo({ business: getData('user', 'business'), logged: getData('user') })
+    errorMsg && toast.warning(errorMsg)
+
 }
 
