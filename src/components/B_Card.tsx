@@ -12,7 +12,7 @@ import { Box, Stack } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { FavoriteBorder } from '@mui/icons-material';
 import { B_CardProps, BusinessCard } from '../utils/types';
-import { addressFormatter, defaultAlt, defaultImage, pathUrl, phoneFormatter } from '../utils/helpers';
+import { addressFormatter, defaultAlt, defaultImage, logout, pathUrl, phoneFormatter } from '../utils/helpers';
 import { getData, setData } from '../utils/localStorage';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useToggle } from '../hooks/useToggle';
@@ -29,7 +29,7 @@ export default function B_CARD({ card }: B_CardProps) {
     const location = useLocation()
     const [checked, toggle] = useToggle(card)
     const { id } = useParams()
-    const { loginInfo } = useContext(LoginInfoContext)
+    const { loginInfo, setLoginInfo } = useContext(LoginInfoContext)
     const { logged } = loginInfo
     const { deleteData } = useContext(DataContext)
     const { setFavorite } = useContext(FavoriteContext)
@@ -53,7 +53,11 @@ export default function B_CARD({ card }: B_CardProps) {
                             toast.success('Business been removed')
                             deleteData(card._id as string)
                         })
-                        .catch(e => toast.error(e.response.data))
+                        .catch(e => {
+                            const errMsg = e.response.data
+                            toast.warning(errMsg)
+                            errMsg.includes('expired') && logout(navigate, setLoginInfo)
+                        })
                 }
             }
         })

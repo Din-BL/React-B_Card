@@ -39,11 +39,9 @@ export const pathUrl = (url: string, location: Location, id?: string) => {
     return id ? path.toLowerCase() === `${url}${id}` : path.startsWith(`/${url}`)
 }
 
-export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<Login>>, errorMsg?: string) => {
+export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<Login>>) => {
     navigate('/login')
     removeData('user')
     setLoginInfo({ business: getData('user', 'business'), logged: getData('user') })
-    errorMsg && toast.warning(errorMsg)
-
 }
 

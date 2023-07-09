@@ -23,7 +23,11 @@ function Add() {
                 navigate(`/my cards/${id}`)
                 toast.success('Business added')
             })
-            .catch(e => toast.error(e.response.data))
+            .catch(e => {
+                const errMsg = e.response.data
+                toast.error(errMsg)
+                errMsg.includes('expired') && logout(navigate, setLoginInfo)
+            })
     }
 
     return <Form

@@ -3,8 +3,8 @@ import { BusinessCard } from "../utils/types";
 import { getCards } from "../utils/services";
 import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { logout } from "../utils/helpers";
+import { useLocation, useNavigate } from "react-router-dom";
+import { logout, pathUrl } from "../utils/helpers";
 import { LoginInfoContext } from "../context/LoginInfo";
 
 export function useData() {
@@ -12,6 +12,7 @@ export function useData() {
     const { loginInfo, setLoginInfo } = useContext(LoginInfoContext)
     const { business } = loginInfo
     const [data, setData] = useState<BusinessCard[]>([])
+    let error = 0
 
     function addData(data: BusinessCard) {
         setData((currentData) => [...currentData, data])
@@ -47,8 +48,10 @@ export function useData() {
             getCards()
                 .then((res: AxiosResponse<BusinessCard[]>) => setData(res.data))
                 .catch(e => {
-                    // toast.warning(e.response.data)
-                    logout(navigate, setLoginInfo, e.response.data)
+                    const errMsg = e.response.data
+                    error > 0 && toast.warning(errMsg)
+                    error += 1
+                    errMsg.includes('expired') && logout(navigate, setLoginInfo)
                 })
         }
     }, [business])
