@@ -8,10 +8,6 @@ export interface TitleProps {
     sub: string
 }
 
-// export type BusinessCards = {
-//     [key: string]: string;
-// };
-
 export interface FormProps {
     FormTitle: string,
     FormFields: FormField[],
@@ -21,6 +17,7 @@ export interface FormProps {
     handleRegister?: any,
     handleAdd?: any
     handleEdit?: any
+    initialValue?: BusinessCard
 }
 
 export interface FormField {
@@ -60,7 +57,7 @@ export interface UserCard {
     country: string;
     city: string;
     street: string;
-    houseNumber: number;
+    houseNumber: string;
     zip?: string;
     business: boolean;
     _id?: string
@@ -79,7 +76,7 @@ export interface BusinessCard {
     country: string;
     city: string;
     street: string;
-    houseNumber: number;
+    houseNumber: string;
     zip?: string;
     _id?: string
     isFavorite?: boolean

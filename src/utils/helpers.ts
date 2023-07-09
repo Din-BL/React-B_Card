@@ -22,7 +22,7 @@ export function phoneFormatter(phone: string) {
     return phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
 }
 
-export function addressFormatter(city: string, street: string, houseNumber: number, country: string = '') {
+export function addressFormatter(city: string, street: string, houseNumber: string, country: string = '') {
     return `${street} ${houseNumber} ${city} ${country}`
 }
 

@@ -41,7 +41,6 @@ const businessSchema = new mongoose.Schema({
     type: String,
     required: false,
     trim: true,
-    maxlength: 128,
   },
   imageAlt: {
     type: String,
@@ -73,7 +72,7 @@ const businessSchema = new mongoose.Schema({
     maxlength: 128,
   },
   houseNumber: {
-    type: Number,
+    type: String,
     required: true,
     trim: true,
     maxlength: 128,

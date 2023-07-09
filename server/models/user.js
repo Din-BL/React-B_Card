@@ -46,8 +46,7 @@ const userSchema = new mongoose.Schema(
     imageUrl: {
       type: String,
       required: false,
-      trim: true,
-      maxlength: 128,
+      trim: true
     },
     imageAlt: {
       type: String,
@@ -79,13 +78,13 @@ const userSchema = new mongoose.Schema(
       maxlength: 128,
     },
     houseNumber: {
-      type: Number,
+      type: String,
       required: true,
       trim: true,
       maxlength: 128,
     },
     zip: {
-      type: Number,
+      type: String,
       required: false,
       trim: true,
       maxlength: 128,

@@ -35,7 +35,9 @@ const registerSchema: AnySchema = Joi.object({
     street: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('Street', '2'),
     }),
-    houseNumber: Joi.number().allow("").optional(),
+    houseNumber: Joi.string().allow("").optional().pattern(/^\d+$/).messages({
+        "string.pattern.base": "House number can only contain numbers",
+    }),
     zip: Joi.string().allow("").optional().pattern(/^\d+$/).messages({
         "string.pattern.base": "Zip can only contain numbers",
     }),
@@ -77,7 +79,9 @@ const cardSchema: AnySchema = Joi.object({
     street: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('Street', '2'),
     }),
-    houseNumber: Joi.number().allow("").optional(),
+    houseNumber: Joi.string().allow("").optional().pattern(/^\d+$/).messages({
+        "string.pattern.base": "House number can only contain numbers",
+    }),
     zip: Joi.string().allow("").optional().pattern(/^\d+$/).messages({
         "string.pattern.base": "Zip can only contain numbers",
     }),

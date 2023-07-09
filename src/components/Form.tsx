@@ -9,36 +9,11 @@ import { BusinessCard, CheckField, FormField, FormProps, UserCard } from "../uti
 import 'react-toastify/dist/ReactToastify.css';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
-function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleRegister, handleAdd, handleEdit }: FormProps) {
+function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleRegister, handleAdd, handleEdit, initialValue }: FormProps) {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(FormSchema), });
+    const childrenArray = React.Children.toArray(children);
     const location = useLocation()
     const { id } = useParams();
-
-
-    // type BusinessCards = {
-    //     [key: string]: string;
-    //     // Other properties of BusinessCard
-    // };
-
-    // const [initialValue, setInitialValue] = useState<BusinessCards>()
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         if (id) {
-    //             try {
-    //                 const res = await getCard(id);
-    //                 setInitialValue(res.data);
-    //                 reset(res.data);
-    //             } catch (error) {
-    //                 toast.warning(e.response.data)
-    //                 logout(navigate, business, setBusiness, setLogged)
-    //             }
-    //         }
-    //     };
-    //     fetchData();
-    // }, []);
-
-    // console.log(initialValue);
 
 
     const onSubmit = (data: any) => {
@@ -59,7 +34,6 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
         CheckField && CheckField.setChecked(false)
     }
 
-    const childrenArray = React.Children.toArray(children);
 
     return (
         <Container maxWidth='md' >
@@ -79,7 +53,7 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
                                 id={field.label}
                                 label={capitalizeFirstLetter(field.label)}
                                 type={field.type}
-                                // defaultValue={initialValue?.[field.label]}
+                                defaultValue={initialValue?.[inputData(field)]}
                                 variant="outlined"
                                 error={!!errors[inputData(field)]}
                                 helperText={errors[inputData(field)]?.message as string}

@@ -72,7 +72,7 @@ export const RegisterFields: FormField[] = [
         required: true,
         label: 'house number',
         state: 'houseNumber',
-        type: 'number'
+        type: 'text'
     },
     {
         required: false,
@@ -148,7 +148,7 @@ export const CardFields: FormField[] = [
         required: true,
         label: 'house number',
         state: 'houseNumber',
-        type: 'number'
+        type: 'text'
     },
     {
         required: false,

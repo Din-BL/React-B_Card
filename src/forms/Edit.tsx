@@ -3,17 +3,20 @@ import { Box, Typography, TextField, Container, Grid, Checkbox, FormControlLabel
 import Form from "../components/Form";
 import { CardFields } from "../utils/fields";
 import { cardSchema } from "../utils/schema";
-import { editCard } from "../utils/services";
+import { editCard, getCard } from "../utils/services";
 import { toast } from "react-toastify";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataContext } from "../context/Cards";
 import { getData } from "../utils/localStorage";
 import { LoginInfoContext } from "../context/LoginInfo";
 import { logout } from "../utils/helpers";
+import { BusinessCard } from "../utils/types";
 
 function Edit() {
     const { editData } = useContext(DataContext)
+    const { id } = useParams();
     const navigate = useNavigate()
+    const [initialValue, setInitialValue] = useState<BusinessCard>()
     const { setLoginInfo } = React.useContext(LoginInfoContext)
 
     const handleEdit = (id: string, data: any) => {
@@ -30,12 +33,36 @@ function Edit() {
             })
     }
 
-    return <Form
-        FormTitle='Edit Card'
-        FormFields={CardFields}
-        FormSchema={cardSchema}
-        handleEdit={handleEdit}>
-    </Form>
+    useEffect(() => {
+        const fetchData = async () => {
+            if (id) {
+                try {
+                    const res = await getCard(id);
+                    setInitialValue(res.data);
+                } catch (e: any) {
+                    const errMsg = e.response.data
+                    toast.error(errMsg)
+                    errMsg.includes('expired') && logout(navigate, setLoginInfo)
+                }
+            }
+        };
+        fetchData();
+    }, []);
+
+    return (
+        <>
+            {initialValue && (
+                <Form
+                    FormTitle='Edit Card'
+                    FormFields={CardFields}
+                    FormSchema={cardSchema}
+                    handleEdit={handleEdit}
+                    initialValue={initialValue}
+                />
+            )}
+        </>
+    );
+
 }
 
 export default Edit;
