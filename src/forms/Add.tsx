@@ -20,7 +20,10 @@ function Add() {
                 navigate(`/my cards/${id}`)
                 toast.success('Business added')
             })
-            .catch(e => toast.error(e.response.data))
+            .catch(e => {
+                toast.warning(e.response.data)
+                // logout(navigate, business, setBusiness, setLogged)
+            })
     }
 
     return <Form

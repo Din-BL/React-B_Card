@@ -20,6 +20,10 @@ function Edit() {
                 navigate(`/my cards/${getData('user', '_id')}`)
                 toast.success('Business updated')
             })
+            .catch(e => {
+                toast.warning(e.response.data)
+                // logout(navigate, business, setBusiness, setLogged)
+            })
     }
 
     return <Form

@@ -1,7 +1,8 @@
 import { FormField } from "./types";
 import Unknown from "../assets/Unknown.jpg"
 import { Location, NavigateFunction } from "react-router-dom";
-import { removeData } from "./localStorage";
+import { getData, removeData } from "./localStorage";
+import { Login } from "../hooks/useLogin";
 
 
 export const inputData = (field: FormField) => {
@@ -37,10 +38,9 @@ export const pathUrl = (url: string, location: Location, id?: string) => {
     return id ? path.toLowerCase() === `${url}${id}` : path.startsWith(`/${url}`)
 }
 
-export const logout = (navigate: NavigateFunction, business: boolean, setBusiness: React.Dispatch<React.SetStateAction<boolean>>, setLogged: React.Dispatch<React.SetStateAction<boolean>>) => {
+export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<Login>>) => {
     navigate('/login')
-    business && setBusiness(false)
     removeData('user')
-    setLogged(currentState => !currentState)
+    setLoginInfo({ business: getData('user', 'business'), logged: getData('user') })
 }
 

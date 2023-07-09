@@ -87,7 +87,7 @@ export interface BusinessCard {
 
 export interface UserStorage {
     token: string;
-    business: string
+    business: boolean
     userName: string;
     _id: string
 }

@@ -5,6 +5,7 @@ import { ChangeEvent, FormEventHandler, useContext } from 'react';
 import { CardsContext, DataContext, FavoriteContext } from '../context/Cards';
 import { BusinessCard } from '../utils/types';
 import { defaultCards } from '../utils/cards';
+import { LoginInfoContext } from '../context/LoginInfo';
 
 const SearchInput = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -52,11 +53,13 @@ function Search() {
     const { searchDefaultCards } = useContext(CardsContext)
     const { searchData } = useContext(DataContext)
     const { searchFavorite } = useContext(FavoriteContext)
+    const { loginInfo } = useContext(LoginInfoContext)
+    const { business, logged } = loginInfo
 
     function searchCards(e: ChangeEvent<HTMLInputElement>) {
         searchDefaultCards(e)
-        searchData(e)
-        searchFavorite(e)
+        business && searchData(e)
+        logged && searchFavorite(e)
     }
 
     return (

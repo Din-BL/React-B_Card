@@ -5,14 +5,12 @@ import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../utils/helpers";
-import { getData } from "../utils/localStorage";
-import { BusinessContext } from "../context/LoginInfo";
-import { log } from "console";
-
+import { LoginInfoContext } from "../context/LoginInfo";
 
 export function useData() {
-    // const navigate = useNavigate()
-    const { business } = useContext(BusinessContext)
+    const navigate = useNavigate()
+    const { loginInfo, setLoginInfo } = useContext(LoginInfoContext)
+    const { business } = loginInfo
     const [data, setData] = useState<BusinessCard[]>([])
 
     function addData(data: BusinessCard) {
@@ -45,13 +43,13 @@ export function useData() {
     }
 
     useEffect(() => {
-        // if (business)
-        if (getData('user', 'business')) {
+        console.log(business);
+        if (business) {
             getCards()
                 .then((res: AxiosResponse<BusinessCard[]>) => setData(res.data))
                 .catch(e => {
                     toast.warning(e.response.data)
-                    // logout(navigate)
+                    logout(navigate, setLoginInfo)
                 })
         }
     }, [business])

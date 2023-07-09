@@ -4,5 +4,5 @@
 4. Auth-guard
 7. Responsive design
 5. Auth expired/unauthorized msg
-6. Code optimization
+6. Code optimization + clean LocalStorage
 8. Bonus tasks 

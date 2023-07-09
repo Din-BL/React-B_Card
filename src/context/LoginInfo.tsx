@@ -1,32 +1,20 @@
-import { createContext, useContext, useState } from "react";
-import useCards from "../hooks/useCards";
-import { BusinessCard } from "../utils/types";
-import { useData } from "../hooks/useData";
-import { getData } from "../utils/localStorage";
+import { createContext } from "react";
+import { Login, useLogin } from "../hooks/useLogin";
 
-export interface BusinessContextType {
-    business: boolean;
-    setBusiness: React.Dispatch<React.SetStateAction<boolean>>;
-}
-export interface LoggedContextType {
-    logged: boolean;
-    setLogged: React.Dispatch<React.SetStateAction<boolean>>;
+
+export interface LoginContextType {
+    loginInfo: Login
+    setLoginInfo: React.Dispatch<React.SetStateAction<Login>>
 }
 
-export const BusinessContext = createContext<BusinessContextType>(null!);
-export const LoggedContext = createContext<LoggedContextType>(null!);
+export const LoginInfoContext = createContext<LoginContextType>(null!);
 
 function LoginInfo(props: React.PropsWithChildren<{}>) {
-
-    const [business, setBusiness] = useState<boolean>(false);
-    const [logged, setLogged] = useState<boolean>(false);
-
+    const { loginInfo, setLoginInfo } = useLogin()
     return (
-        <BusinessContext.Provider value={{ business, setBusiness }}>
-            <LoggedContext.Provider value={{ logged, setLogged }}>
-                {props.children}
-            </LoggedContext.Provider>
-        </BusinessContext.Provider>
+        <LoginInfoContext.Provider value={{ loginInfo, setLoginInfo }}>
+            {props.children}
+        </LoginInfoContext.Provider>
     );
 }
 

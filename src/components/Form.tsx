@@ -30,7 +30,8 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
     //                 setInitialValue(res.data);
     //                 reset(res.data);
     //             } catch (error) {
-    //                 console.error(error);
+    //                 toast.warning(e.response.data)
+    //                 logout(navigate, business, setBusiness, setLogged)
     //             }
     //         }
     //     };
