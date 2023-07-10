@@ -48,7 +48,7 @@ router.post("/login", userValidate, async (req, res) => {
     if (!findUser) return res.status(404).json("Email doest exist");
     if (await bcrypt.compare(req.body.password, findUser.password)) {
       const iat = Math.floor(Date.now() / 1000);
-      const exp = iat + 60 * 60;
+      const exp = iat + 60 * 30;
       const payload = {
         sub: req.body.email,
         iat: iat,

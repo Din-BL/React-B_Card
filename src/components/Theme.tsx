@@ -1,6 +1,8 @@
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import { useContext, useState } from 'react';
+import { ThemeContext } from '../context/Theme';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -56,5 +58,13 @@ const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
 
 
 export default function CustomizedSwitches() {
-    return <CustomFormControlLabel label='' control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />} />
+    const themeToggle = useContext(ThemeContext)
+
+    return <CustomFormControlLabel
+        onClick={themeToggle}
+        label=''
+        control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />} />
 }
+
+
+

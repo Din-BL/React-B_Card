@@ -14,31 +14,34 @@ import Add from './forms/Add';
 import Edit from './forms/Edit';
 import LoginInfo from './context/LoginInfo';
 import Business from './pages/Business';
+import Theme from './context/Theme';
 
 
 
 function App() {
   return (
-    <LoginInfo>
-      <Cards>
-        <Navbar />
-        <Routes>
-          <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/:id?' element={<Home />} />
-          <Route path='/favorite/:id' element={<Favorite />} />
-          <Route path='/my cards/:id' element={<My_Cards />} />
-          <Route path='/add/:id' element={<Add />} />
-          <Route path='/edit/:id' element={<Edit />} />
-          <Route path='/business/:id' element={<Business />} />
-          {/* <Route path='*' element={<Error_Page />} /> */}
-          {/* If user logged in the "back button navigate to `home`" */}
-        </Routes>
-      </Cards>
-      <Footer />
-      <ToastContainer />
-    </LoginInfo>
+    <Theme>
+      <LoginInfo>
+        <Cards>
+          <Navbar />
+          <Routes>
+            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/:id?' element={<Home />} />
+            <Route path='/favorite/:id' element={<Favorite />} />
+            <Route path='/my cards/:id' element={<My_Cards />} />
+            <Route path='/add/:id' element={<Add />} />
+            <Route path='/edit/:id' element={<Edit />} />
+            <Route path='/business/:id' element={<Business />} />
+            {/* <Route path='*' element={<Error_Page />} /> */}
+            {/* If user logged in the "back button navigate to `home`" */}
+          </Routes>
+        </Cards>
+        <Footer />
+        <ToastContainer />
+      </LoginInfo>
+    </Theme>
   )
 }
 
