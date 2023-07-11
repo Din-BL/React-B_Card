@@ -1,7 +1,7 @@
 import { Box, Container, Paper } from "@mui/material";
 import Pic from "../assets/Business.jpg"
 import BackGround from "../assets/B-Symbol.png"
-import '../styles/About.css';
+import '../styles/App.css';
 
 function About() {
     return (

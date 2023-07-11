@@ -56,9 +56,8 @@ const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
     marginRight: 0,
 }));
 
-
 export default function CustomizedSwitches() {
-    const themeToggle = useContext(ThemeContext)
+    const { themeToggle } = useContext(ThemeContext)
 
     return <CustomFormControlLabel
         onClick={themeToggle}

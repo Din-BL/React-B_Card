@@ -5,11 +5,13 @@ import EmailIcon from '@mui/icons-material/Email';
 import LanguageIcon from '@mui/icons-material/Language';
 import { BusinessCard } from '../utils/types';
 import { addressFormatter } from '../utils/helpers';
-import { MouseEvent } from 'react';
+import { MouseEvent, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { AnySchema } from 'joi';
 import Swal from 'sweetalert2';
+import { ThemeContext } from '../context/Theme';
+import { blueGrey } from '@mui/material/colors';
 
 interface ContactProps {
     businessInfo: BusinessCard[],
@@ -17,6 +19,10 @@ interface ContactProps {
 }
 
 function Contact({ businessInfo, contactSchema }: ContactProps) {
+
+    const { themeMode } = useContext(ThemeContext)
+    const color = blueGrey[50];
+    const backgroundColor = { backgroundColor: themeMode === 'light' ? color : '' }
 
     function onSubmit() {
         reset()
@@ -39,14 +45,14 @@ function Contact({ businessInfo, contactSchema }: ContactProps) {
     ];
 
     return (
-        <Box component={'section'} sx={{ backgroundColor: '#eceff1' }} >
+        <Box component={'section'} sx={{ backgroundColor }} >
             <Container>
                 <Grid paddingTop={10} container >
                     <Grid item xs={12}>
                         <Grid container spacing={3} mb={5}>
                             <Grid item xs={12} md={7}>
                                 <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
-                                    <Typography color={'primary'} variant="h3" component="h3" mb={4}>Contact Us</Typography>
+                                    <Typography color='primary' variant="h3" component="h3" mb={4}>Contact Us</Typography>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} md={6}>
                                             <TextField
@@ -96,7 +102,7 @@ function Contact({ businessInfo, contactSchema }: ContactProps) {
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Button type='submit' variant="contained" color="primary">Send Message</Button>
+                                            <Button type='submit' variant="contained" >Send Message</Button>
                                         </Grid>
                                     </Grid>
                                 </Box>

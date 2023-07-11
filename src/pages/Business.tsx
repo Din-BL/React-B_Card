@@ -1,7 +1,6 @@
 import { Box, Container, Paper } from "@mui/material";
-import Pic from "../assets/Business.jpg"
 import BackGround from "../assets/B-Symbol.png"
-import '../styles/Business.css';
+import '../styles/App.css';
 import { getData } from "../utils/localStorage";
 import { useParams } from "react-router-dom";
 import { BusinessCard } from "../utils/types";
@@ -12,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import { contactSchema } from "../utils/schema";
 import { getCard } from "../utils/services";
 import { defaultImage } from "../utils/helpers";
+import { blue } from '@mui/material/colors';
 
 function Business() {
     const [businessInfo, setBusinessInfo] = useState<BusinessCard[]>([])
@@ -45,7 +45,7 @@ function Business() {
                 </article>
                 {isBusiness &&
                     <figure>
-                        <img src={defaultImage(businessInfo[0].imageUrl)} alt="main-page image" />
+                        <img style={{ borderRadius: '8px' }} src={defaultImage(businessInfo[0].imageUrl)} alt="main-page image" />
                     </figure>
                 }
             </section>

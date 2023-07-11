@@ -13,7 +13,7 @@ function My_Cards() {
     const { data } = useContext(DataContext)
 
     return (
-        <Container >
+        <Container>
             <Box component={'main'} sx={{ minHeight: '85dvh' }}>
                 <Title main="My Cards" sub="Here you can find business cards from all catagories" />
                 <Stack direction="row" spacing={2} paddingBottom={3}>
