@@ -4,12 +4,16 @@ import BtnGroup from "../components/BtnGroup";
 import useFields from "../hooks/useFields";
 import { NavLink } from "react-router-dom";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { ThemeContext } from "../context/Theme";
+import { useContext } from "react";
 
 function Login() {
     const { fields, handleField, handleSubmit, resetFields } = useFields({ email: "", password: "" })
     const emailError = !fields.email.match(/^\S+@\S+\.\S+$/,) && fields.email.length > 0
     const passwordError = !fields.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/) && fields.password.length > 0
     const isValid = () => (emailError || passwordError)
+    const { themeMode } = useContext(ThemeContext)
+    const textColor = themeMode === 'light' ? 'black' : 'white'
 
     return (
         <Box component={'section'} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '85dvh', }}>
@@ -55,7 +59,7 @@ function Login() {
                 <BtnGroup resetFields={resetFields} isValid={isValid} />
                 <Typography paddingTop={3} paddingLeft={1} color={'text.secondary'}>
                     Dont have an account yet?
-                    <NavLink to={`/register`} style={{ paddingLeft: 5, textDecoration: 'none', color: 'black' }}>
+                    <NavLink to={`/register`} style={{ paddingLeft: 5, textDecoration: 'none', color: textColor }}>
                         Register now
                     </NavLink>
                 </Typography>

@@ -52,7 +52,7 @@ function Contact({ businessInfo, contactSchema }: ContactProps) {
                         <Grid container spacing={3} mb={5}>
                             <Grid item xs={12} md={7}>
                                 <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
-                                    <Typography color='primary' variant="h3" component="h3" mb={4}>Contact Us</Typography>
+                                    <Typography color='primary' fontFamily={'math'} variant="h3" component="h2" mb={4}>Contact Us</Typography>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} md={6}>
                                             <TextField

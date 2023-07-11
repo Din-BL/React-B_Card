@@ -19,7 +19,6 @@
     position: relative;
   }
   .about_us figure img {
-    height: 445px;
     width: 100%;
   }
   .about_us article {
@@ -27,7 +26,6 @@
     z-index: 1;
   }
   .about_us article .title {
-    color: #2196f3;
     padding-bottom: 10px;
     font-family: math;
   }
