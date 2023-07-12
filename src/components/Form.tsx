@@ -18,8 +18,13 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
 
     const onSubmit = (data: any) => {
         if (CheckField) {
-            const business = CheckField.checked
-            handleRegister(data, business)
+            let admin = false
+            let business = CheckField.checked === 'business'
+            if (CheckField.checked === 'admin') {
+                admin = true
+                business = true
+            }
+            handleRegister(data, business, admin)
         } else if (pathUrl(`/add/`, location, id)) {
             handleAdd(data)
         } else {
@@ -31,9 +36,8 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
 
     const handleReset = () => {
         reset();
-        CheckField && CheckField.setChecked(false)
+        CheckField && CheckField.setChecked('user')
     }
-
 
     return (
         <Container maxWidth='md' >

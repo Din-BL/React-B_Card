@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import { AnySchema } from "joi";
 import { ReactNode } from "react";
 import { Login } from "../hooks/useLogin";
@@ -38,10 +37,11 @@ export interface FooterLinkProps {
     text: string
 }
 
+export type Checked = 'user' | 'business' | 'admin'
+
 export type CheckField = {
-    checked: boolean;
-    setChecked: React.Dispatch<React.SetStateAction<boolean>>;
-    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    checked: Checked
+    setChecked: React.Dispatch<React.SetStateAction<Checked>>;
 };
 
 export interface UserCard {
@@ -60,6 +60,7 @@ export interface UserCard {
     houseNumber: string;
     zip?: string;
     business: boolean;
+    admin: boolean;
     _id?: string
 }
 
@@ -86,6 +87,7 @@ export interface BusinessCard {
 export interface UserStorage {
     token: string;
     business: boolean
+    admin: boolean
     userName: string;
     _id: string
 }
@@ -98,3 +100,4 @@ export interface LoginContextType {
     loginInfo: Login
     setLoginInfo: React.Dispatch<React.SetStateAction<Login>>
 }
+export type Pages = 'About' | 'Favorite' | 'My Cards' | 'SandBox'

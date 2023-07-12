@@ -34,7 +34,7 @@ router.delete("/:id", userAuthenticate, async (req, res) => {
 router.post("/register", userValidate, async (req, res) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).json(_.pick(user, ["_id", "firstName", "email", "business"]));
+    res.status(201).json(_.pick(user, ["_id", "firstName", "email", "business", "admin"]));
   } catch (error) {
     if (error.message.includes("email")) return res.status(400).json("Email already exists");
     if (error.message.includes("userName")) return res.status(400).json("User name already exists");
@@ -57,7 +57,7 @@ router.post("/login", userValidate, async (req, res) => {
       const token = jwt.sign(payload, config.get("ACCESS_TOKEN_SECRET"));
       findUser = findUser.toObject();
       findUser.token = token;
-      res.status(200).json(_.pick(findUser, ["_id", "business", "token", 'userName']));
+      res.status(200).json(_.pick(findUser, ["_id", "business", "admin", "token", "userName"]));
     } else res.status(400).send("Incorrect password");
   } catch (error) {
     res.status(400).json(error.message);

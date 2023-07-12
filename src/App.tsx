@@ -15,6 +15,7 @@ import LoginInfo from './context/LoginInfo';
 import Business from './pages/Business';
 import Theme from './context/Theme';
 import BackGround from './components/BackGround';
+import SandBox from './pages/SandBox';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
               <Route path='/add/:id' element={<Add />} />
               <Route path='/edit/:id' element={<Edit />} />
               <Route path='/business/:id' element={<Business />} />
+              <Route path='/sandbox/:id' element={<SandBox />} />
               {/* <Route path='*' element={<Error_Page />} /> */}
               {/* If user that is logged in click the "back button" navigate to `home` */}
             </Routes>

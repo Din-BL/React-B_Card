@@ -35,13 +35,13 @@ export function defaultAlt(imageAlt?: string) {
 }
 
 export const pathUrl = (url: string, location: Location, id?: string) => {
-    const path = location.pathname
-    return id ? path.toLowerCase() === `${url}${id}` : path.startsWith(`/${url}`)
+    const path = location.pathname.toLowerCase()
+    return id ? path === `${url}${id}` : path.startsWith(`/${url}`)
 }
 
 export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<Login>>) => {
     navigate('/login')
     removeData('user')
-    setLoginInfo({ business: getData('user', 'business'), logged: getData('user') })
+    setLoginInfo({ admin: getData('user', 'admin'), business: getData('user', 'business'), logged: getData('user') })
 }
 

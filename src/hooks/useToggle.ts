@@ -6,17 +6,14 @@ export function useToggle(card: BusinessCard): [boolean, () => void] {
     const [checked, setChecked] = useState<boolean>(false);
 
     useEffect(() => {
-        const favData = localStorage.getItem(getData('user', 'userName'));
+        const favData = getData((getData('user', 'userName')));
         if (favData) {
-            const parsedData = JSON.parse(favData);
-            const isFavorite = parsedData.some((data: BusinessCard) => data._id === card._id);
+            const isFavorite = favData.some((data: BusinessCard) => data._id === card._id);
             setChecked(isFavorite);
         }
     }, [card]);
 
-    const toggle = () => {
-        setChecked(currentCheck => !currentCheck);
-    };
+    const toggle = () => setChecked(currentCheck => !currentCheck);
 
     return [checked, toggle];
 }

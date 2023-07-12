@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { AppBar, Menu, Avatar, Button, Tooltip, MenuItem, Container, IconButton, Typography, Toolbar, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import WorkIcon from '@mui/icons-material/Work';
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import Search from './Search';
 import Theme from './Theme';
@@ -10,24 +9,31 @@ import UserIcon from './UserIcon';
 import logo from '../assets/business-card.png'
 import NoAccountsIcon from '@mui/icons-material/NoAccounts';
 import { pathUrl } from '../utils/helpers';
+import { LoginInfoContext } from '../context/LoginInfo';
+import { Pages } from '../utils/types';
 
-const pages = ['About', 'Favorite', 'My Cards'];
+
+const pages: Pages[] = ['About', 'Favorite', 'My Cards', 'SandBox'];
 
 function Navbar() {
+    const { loginInfo } = React.useContext(LoginInfoContext)
+    const { admin, business, logged } = loginInfo
     const navigate = useNavigate()
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const location = useLocation();
+    const searchView = pathUrl('business', location) || pathUrl('sandbox', location)
+    const id = getData('user', '_id')
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
 
     const userId = () => {
-        return getData('user', '_id') ? getData('user', '_id') : ""
+        return id ? id : ""
     }
 
     const handleNavigation = (page: string) => {
-        page === 'About' ? navigate(`/${page}`) : navigate(`/${page}/${getData('user', '_id')}`)
+        page === 'About' ? navigate(`/${page}`) : navigate(`/${page}/${id}`)
         setAnchorElNav(null);
     };
 
@@ -82,7 +88,7 @@ function Navbar() {
                             onClose={handleCloseNavMenu}
                             sx={{ display: { xs: 'block', md: 'none' } }}
                         >
-                            {pages.filter((page) => page === 'About' || (page === 'Favorite' && getData('user', 'token')) || getData('user', 'business')).map((page) => (
+                            {pages.filter((page) => page === 'About' || (page === 'Favorite' && logged) || (page === 'My Cards' && business) || admin).map((page) => (
                                 <MenuItem key={page} onClick={() => handleNavigation(page)}>
                                     <Typography textAlign="center">
                                         {page}
@@ -98,23 +104,25 @@ function Navbar() {
                     </Box>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.filter((page) => page === 'About' || (page === 'Favorite' && getData('user', 'token')) || getData('user', 'business')).map((page) => (
+                        {pages.filter((page) => page === 'About' || (page === 'Favorite' && logged) || (page === 'My Cards' && business) || admin).map((page) => (
                             <Button key={page} onClick={() => handleNavigation(page)} sx={{ my: 2, color: 'white', display: 'block' }}>
                                 {page}
                             </Button>
                         ))}
                     </Box>
-                    {!pathUrl('business', location) && <Search />}
+                    {!searchView &&
+                        <Search />
+                    }
                     <Theme />
-                    {!getData('user', 'token') &&
+                    {!logged &&
                         <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>
                             <NavLink to={`/login`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                 LOGIN
                             </NavLink>
                         </Typography>
                     }
-                    {getData('user', 'token') && <UserIcon />}
-                    {!getData('user', 'token') && <NoAccountsIcon />}
+                    {logged && <UserIcon />}
+                    {!logged && <NoAccountsIcon />}
                 </Toolbar>
             </Container>
         </AppBar >

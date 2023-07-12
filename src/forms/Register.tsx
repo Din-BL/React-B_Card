@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, Typography } from "@mui/material";
+import { Checkbox, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import { useContext, useState } from "react";
 import { RegisterFields } from "../utils/fields";
 import { registerSchema } from "../utils/schema";
@@ -7,19 +7,20 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { registerUser } from "../utils/services";
 import { toast } from "react-toastify";
 import { ThemeContext } from "../context/Theme";
+import { UserCard, Checked } from "../utils/types";
 
 function Register() {
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState<Checked>('user');
     const navigate = useNavigate()
     const { themeMode } = useContext(ThemeContext)
     const textColor = themeMode === 'light' ? 'black' : 'white'
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setChecked(event.target.checked);
+        setChecked(event.target.value as Checked);
     };
 
-    const handleRegister = (data: any, business: boolean) => {
-        registerUser({ ...data, business })
+    const handleRegister = (data: UserCard, business: boolean, admin: boolean) => {
+        registerUser({ ...data, business, admin })
             .then(() => {
                 navigate('/login')
                 toast.success('Successfully registered')
@@ -31,15 +32,25 @@ function Register() {
         <Form FormTitle='Register'
             FormFields={RegisterFields}
             FormSchema={registerSchema}
-            CheckField={{ checked, setChecked, handleChange }}
+            CheckField={{ checked, setChecked }}
             handleRegister={handleRegister}>
 
-            <FormControlLabel sx={{ marginLeft: 1, paddingTop: 1 }} control={
-                <Checkbox
-                    checked={checked}
+            <FormControl sx={{ paddingLeft: 3, paddingTop: 3 }}>
+                <FormLabel id="demo-row-radio-buttons-group-label">Register as</FormLabel>
+                <RadioGroup
+                    row
+                    aria-labelledby="row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                    defaultValue={'user'}
+                    value={checked}
                     onChange={handleChange}
-                    inputProps={{ 'aria-label': 'controlled' }}
-                />} label="Register as business" />
+                >
+                    <FormControlLabel value="user" control={<Radio />} label="User" />
+                    <FormControlLabel value="business" control={<Radio />} label="Business" />
+                    <FormControlLabel value="admin" control={<Radio />} label="Admin" />
+                </RadioGroup>
+            </FormControl>
+
 
             <Typography paddingTop={3} paddingLeft={1} color={'text.secondary'}>
                 Already have an account?
@@ -48,7 +59,6 @@ function Register() {
                 </NavLink>
             </Typography>
         </Form>
-
     )
 }
 

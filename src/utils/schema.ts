@@ -42,6 +42,7 @@ const registerSchema: AnySchema = Joi.object({
         "string.pattern.base": "Zip can only contain numbers",
     }),
     business: Joi.boolean().default(false),
+    admin: Joi.boolean().default(false)
 }).required();
 
 const cardSchema: AnySchema = Joi.object({

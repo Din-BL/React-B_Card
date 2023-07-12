@@ -16,13 +16,13 @@ module.exports.registerSchema = Joi.object({
   houseNumber: Joi.string().required().pattern(/^\d+$/),
   zip: Joi.string().optional().allow("").pattern(/^\d+$/),
   business: Joi.boolean().default(false),
+  admin: Joi.boolean().default(false)
 });
 
 module.exports.loginSchema = Joi.object({
   email: Joi.string().trim().lowercase().email().required(),
   password: Joi.string().trim().required().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/),
 });
-
 
 module.exports.businessSchema = Joi.object({
   title: Joi.string().required().min(2),

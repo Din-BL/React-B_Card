@@ -3,8 +3,6 @@ import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import { ChangeEvent, FormEventHandler, useContext } from 'react';
 import { CardsContext, DataContext, FavoriteContext } from '../context/Cards';
-import { BusinessCard } from '../utils/types';
-import { defaultCards } from '../utils/cards';
 import { LoginInfoContext } from '../context/LoginInfo';
 
 const SearchInput = styled('div')(({ theme }) => ({
