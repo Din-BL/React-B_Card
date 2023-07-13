@@ -1,6 +1,5 @@
-1. Admin user
-2. Auth-guard
-3. Responsive design
-4. Favorite Bug
-5. Code optimization
-6. Bonus tasks 
+1. Auth-guard
+2. Responsive design
+3. Favorite Bug
+4. Code optimization
+5. Bonus tasks 

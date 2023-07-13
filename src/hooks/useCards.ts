@@ -26,5 +26,5 @@ export default function useCards() {
         setData("defaultCards", cards)
     }, [cards]);
 
-    return { cards, searchDefaultCards };
+    return { cards, setCards, searchDefaultCards };
 }

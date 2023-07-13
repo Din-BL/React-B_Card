@@ -68,15 +68,14 @@ export default function UserIcon() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem > {getData('user', 'userName')}
-                    <PersonIcon sx={{ paddingLeft: 1 }} />
+                <MenuItem ><PersonIcon sx={{ paddingRight: 1 }} />
+                    {getData('user', 'userName')}
                 </MenuItem>
-                <MenuItem onClick={deleteAccount}>Remove
-                    <PersonRemoveIcon sx={{ paddingLeft: 1 }} />
+                <MenuItem onClick={deleteAccount}><PersonRemoveIcon sx={{ paddingRight: 1 }} />
+                    Remove
                 </MenuItem>
-
-                <MenuItem onClick={handleLogout}>Logout
-                    <MeetingRoomIcon sx={{ paddingLeft: 1 }} />
+                <MenuItem onClick={handleLogout}><MeetingRoomIcon sx={{ paddingRight: 1 }} />
+                    Logout
                 </MenuItem>
             </Menu>
         </Box>
