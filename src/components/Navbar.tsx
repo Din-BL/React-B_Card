@@ -8,10 +8,9 @@ import { getData, removeData } from '../utils/localStorage';
 import UserIcon from './UserIcon';
 import logo from '../assets/business-card.png'
 import NoAccountsIcon from '@mui/icons-material/NoAccounts';
-import { pathUrl } from '../utils/helpers';
+import { pathUrl, paths } from '../utils/helpers';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { Pages } from '../utils/types';
-
 
 const pages: Pages[] = ['About', 'Favorite', 'My Cards', 'SandBox'];
 
@@ -21,7 +20,7 @@ function Navbar() {
     const navigate = useNavigate()
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const location = useLocation();
-    const searchView = pathUrl('business', location) || pathUrl('sandbox', location)
+    const searchView = paths(['business', 'sandbox', 'login', 'register', 'about', 'add', 'edit'], location)
     const id = getData('user', '_id')
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -110,9 +109,7 @@ function Navbar() {
                             </Button>
                         ))}
                     </Box>
-                    {!searchView &&
-                        <Search />
-                    }
+                    {!searchView && <Search />}
                     <Theme />
                     {!logged &&
                         <Typography fontWeight={500} fontSize={'0.875rem'} marginX={1}>

@@ -64,4 +64,17 @@ router.post("/login", userValidate, async (req, res) => {
   }
 });
 
+router.get("/", userAuthenticate, async (req, res) => {
+  try {
+    const usersDetails = await User.find();
+    if (!usersDetails) return res.status(404).send("Users doest exist");
+    const filteredDetails = usersDetails.map((user) => {
+      return (_.pick(user, ["_id", "userName", "email", "business", "admin"]));
+    });
+    res.status(200).json(filteredDetails);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
 module.exports = router;

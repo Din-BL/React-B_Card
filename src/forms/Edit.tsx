@@ -1,5 +1,4 @@
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { Box, Typography, TextField, Container, Grid, Checkbox, FormControlLabel } from "@mui/material";
 import Form from "../components/Form";
 import { CardFields } from "../utils/fields";
 import { cardSchema } from "../utils/schema";
@@ -11,27 +10,16 @@ import { getData } from "../utils/localStorage";
 import { LoginInfoContext } from "../context/LoginInfo";
 import { logout } from "../utils/helpers";
 import { BusinessCard } from "../utils/types";
+import Swal from "sweetalert2";
 
 function Edit() {
     const { editData } = useContext(DataContext)
     const { id } = useParams();
-    const navigate = useNavigate()
-    const [initialValue, setInitialValue] = useState<BusinessCard>()
     const { setLoginInfo } = React.useContext(LoginInfoContext)
-
-    const handleEdit = (id: string, data: any) => {
-        editCard(id, data)
-            .then((info) => {
-                editData(id, info.data)
-                navigate(`/my cards/${getData('user', '_id')}`)
-                toast.success('Business updated')
-            })
-            .catch(e => {
-                const errMsg = e.response.data
-                toast.error(errMsg)
-                errMsg.includes('expired') && logout(navigate, setLoginInfo)
-            })
-    }
+    const [initialValue, setInitialValue] = useState<BusinessCard>()
+    const navigate = useNavigate()
+    const userId = getData('user', '_id')
+    let error = 0
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,13 +29,41 @@ function Edit() {
                     setInitialValue(res.data);
                 } catch (e: any) {
                     const errMsg = e.response.data
-                    toast.error(errMsg)
+                    error > 0 && toast.warning(errMsg)
+                    error += 1
                     errMsg.includes('expired') && logout(navigate, setLoginInfo)
                 }
             }
         };
         fetchData();
     }, []);
+
+    const handleEdit = (id: string, data: any) => {
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                editCard(id, data)
+                    .then((info) => {
+                        editData(id, info.data)
+                        navigate(`/my cards/${userId}`)
+                        toast.success('Business updated')
+                    })
+                    .catch(e => {
+                        const errMsg = e.response.data
+                        toast.error(errMsg)
+                        errMsg.includes('expired') && logout(navigate, setLoginInfo)
+                    })
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+                navigate(`/my cards/${userId}`)
+            }
+        })
+    }
 
     return (
         <>
@@ -62,7 +78,6 @@ function Edit() {
             )}
         </>
     );
-
 }
 
 export default Edit;

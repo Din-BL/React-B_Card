@@ -9,6 +9,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { UserCard } from '../utils/types';
+import { deleteUser } from '../utils/services';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
+import { logout } from '../utils/helpers';
+import { useNavigate } from 'react-router-dom';
+import { LoginInfoContext } from '../context/LoginInfo';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -30,22 +37,59 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(
-    name: string,
-    email: string,
-    status: string) {
-    return { name, email, status };
+interface TableProps {
+    Users: UserCard[]
+    userDeletion: (id: string) => void
 }
 
-const rows = [
-    createData('Frozen yoghurt', 'example@email.com', 'business'),
-    createData('Frozen yoghurt', 'example@email.com', 'business'),
-    createData('Frozen yoghurt', 'example@email.com', 'business'),
-    createData('Frozen yoghurt', 'example@email.com', 'business'),
-    createData('Frozen yoghurt', 'example@email.com', 'business'),
-];
+function status(status: UserCard) {
+    if (status.admin) {
+        return 'Admin'
+    } else if (status.business)
+        return "Business"
+    else {
+        return 'User'
+    }
+}
 
-export default function UserTable() {
+
+export default function UserTable({ Users, userDeletion }: TableProps) {
+    const navigate = useNavigate()
+    const { setLoginInfo } = React.useContext(LoginInfoContext)
+
+
+    function removeUser(id: string) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteUser(id)
+                    .then(() => {
+                        toast.success(`User been removed`)
+                        userDeletion(id)
+                    })
+                    .catch(e => {
+                        const errMsg = e.response.data
+                        toast.warning(errMsg)
+                        errMsg.includes('expired') && logout(navigate, setLoginInfo)
+                    })
+            }
+        })
+
+
+
+
+
+
+
+    }
+
     return (
         <Box paddingBottom={3}>
             <TableContainer component={Paper}>
@@ -54,24 +98,24 @@ export default function UserTable() {
                         <TableRow>
                             <StyledTableCell>No.</StyledTableCell>
                             <StyledTableCell>User name</StyledTableCell>
-                            <StyledTableCell>Email</StyledTableCell>
+                            <StyledTableCell>Email address</StyledTableCell>
                             <StyledTableCell>Status</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, index) => (
+                        {Users.map((row, index) => (
                             <StyledTableRow key={index}>
                                 <StyledTableCell component="th" scope="row">
                                     <Box display={'flex'} justifyContent={'space-between'}>
                                         <Typography fontSize={15} variant="button">
                                             {index + 1}
                                         </Typography>
-                                        {<DeleteIcon />}
+                                        {<DeleteIcon onClick={() => { removeUser(row._id as string) }} />}
                                     </Box>
                                 </StyledTableCell>
-                                <StyledTableCell>{row.name}</StyledTableCell>
+                                <StyledTableCell>{row.userName}</StyledTableCell>
                                 <StyledTableCell>{row.email}</StyledTableCell>
-                                <StyledTableCell>{row.status}</StyledTableCell>
+                                <StyledTableCell>{status(row)}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>

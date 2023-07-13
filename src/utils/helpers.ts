@@ -39,6 +39,11 @@ export const pathUrl = (url: string, location: Location, id?: string) => {
     return id ? path === `${url}${id}` : path.startsWith(`/${url}`)
 }
 
+export const paths = (url: string[], location: Location) => {
+    const path = location.pathname.toLowerCase().split('/')[1];
+    return url.includes(path)
+}
+
 export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<Login>>) => {
     navigate('/login')
     removeData('user')
