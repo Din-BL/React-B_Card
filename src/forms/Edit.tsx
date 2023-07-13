@@ -11,6 +11,7 @@ import { LoginInfoContext } from "../context/LoginInfo";
 import { logout } from "../utils/helpers";
 import { BusinessCard } from "../utils/types";
 import Swal from "sweetalert2";
+import { edit } from "../utils/sweetalert";
 
 function Edit() {
     const { editData } = useContext(DataContext)
@@ -39,13 +40,7 @@ function Edit() {
     }, []);
 
     const handleEdit = (id: string, data: any) => {
-        Swal.fire({
-            title: 'Do you want to save the changes?',
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Save',
-            denyButtonText: `Don't save`,
-        }).then((result) => {
+        edit().then((result) => {
             if (result.isConfirmed) {
                 editCard(id, data)
                     .then((info) => {

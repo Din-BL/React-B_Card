@@ -1,10 +1,8 @@
-import { FormField } from "./types";
+import { FormField, UserCard } from "./types";
 import Unknown from "../assets/Unknown.jpg"
 import { Location, NavigateFunction } from "react-router-dom";
 import { getData, removeData } from "./localStorage";
 import { Login } from "../hooks/useLogin";
-import { toast } from "react-toastify";
-
 
 export const inputData = (field: FormField) => {
     return field.state ? field.state : field.label
@@ -48,5 +46,15 @@ export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<
     navigate('/login')
     removeData('user')
     setLoginInfo({ admin: getData('user', 'admin'), business: getData('user', 'business'), logged: getData('user') })
+}
+
+export function status(status: UserCard) {
+    if (status.admin) {
+        return 'Admin'
+    } else if (status.business)
+        return "Business"
+    else {
+        return 'User'
+    }
 }
 

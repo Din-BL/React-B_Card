@@ -21,6 +21,7 @@ import { DataContext, FavoriteContext } from '../context/Cards';
 import { useContext } from 'react';
 import { favoriteCard } from '../utils/favorite';
 import { LoginInfoContext } from '../context/LoginInfo';
+import { remove } from '../utils/sweetalert';
 
 
 export default function B_CARD({ card }: B_CardProps) {
@@ -35,15 +36,7 @@ export default function B_CARD({ card }: B_CardProps) {
 
 
     function removeCard() {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
+        remove().then((result) => {
             if (result.isConfirmed) {
                 if (card._id) {
                     deleteCard(card._id)

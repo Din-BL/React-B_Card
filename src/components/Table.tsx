@@ -9,17 +9,18 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { UserCard } from '../utils/types';
+import { TableProps, UserCard } from '../utils/types';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
-import { logout } from '../utils/helpers';
+import { logout, status } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
+import { remove } from '../utils/sweetalert';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
+        backgroundColor: theme.palette.primary.dark,
         color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -28,46 +29,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
     '&:last-child td, &:last-child th': {
         border: 0,
     },
 }));
 
-interface TableProps {
-    Users: UserCard[]
-    userDeletion: (id: string) => void
-}
-
-function status(status: UserCard) {
-    if (status.admin) {
-        return 'Admin'
-    } else if (status.business)
-        return "Business"
-    else {
-        return 'User'
-    }
-}
-
-
 export default function UserTable({ Users, userDeletion }: TableProps) {
     const navigate = useNavigate()
     const { setLoginInfo } = React.useContext(LoginInfoContext)
 
-
     function removeUser(id: string) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
+        remove().then((result) => {
             if (result.isConfirmed) {
                 deleteUser(id)
                     .then(() => {
@@ -81,13 +53,6 @@ export default function UserTable({ Users, userDeletion }: TableProps) {
                     })
             }
         })
-
-
-
-
-
-
-
     }
 
     return (

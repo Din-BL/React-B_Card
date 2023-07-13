@@ -7,6 +7,7 @@ export default function useCards() {
     const [cards, setCards] = useState<Array<BusinessCard>>(() => {
         const storedCards = getData("defaultCards")
         if (!storedCards) {
+            localStorage.clear()
             return defaultCards;
         }
         return storedCards;

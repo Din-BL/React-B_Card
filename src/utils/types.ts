@@ -101,3 +101,8 @@ export interface LoginContextType {
     setLoginInfo: React.Dispatch<React.SetStateAction<Login>>
 }
 export type Pages = 'About' | 'Favorite' | 'My Cards' | 'SandBox'
+
+export interface TableProps {
+    Users: UserCard[]
+    userDeletion: (id: string) => void
+}

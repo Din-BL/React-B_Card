@@ -30,8 +30,8 @@ export function deleteUser(id: string) {
     return axios.delete(`${url}/user/${id}`, createConfig());
 }
 
-export function getUsers() {
-    return axios.get(`${url}/user`, createConfig());
+export function getUsers(id: string) {
+    return axios.get(`${url}/user/${id}`, createConfig());
 }
 
 // BusinessApi

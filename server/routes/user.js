@@ -64,9 +64,9 @@ router.post("/login", userValidate, async (req, res) => {
   }
 });
 
-router.get("/", userAuthenticate, async (req, res) => {
+router.get("/:id", userAuthenticate, async (req, res) => {
   try {
-    const usersDetails = await User.find();
+    const usersDetails = await User.find({ _id: { $ne: req.params.id } });
     if (!usersDetails) return res.status(404).send("Users doest exist");
     const filteredDetails = usersDetails.map((user) => {
       return (_.pick(user, ["_id", "userName", "email", "business", "admin"]));
