@@ -2,6 +2,7 @@ import { Box, Typography, TextField, ButtonGroup, Button } from "@mui/material";
 import SyncIcon from '@mui/icons-material/Sync';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate } from "react-router-dom";
+import { userId } from "../utils/helpers";
 
 interface HandleBtn {
     resetFields?: () => void;
@@ -13,7 +14,7 @@ function BtnGroup({ resetFields, isValid = () => false }: HandleBtn) {
     return (
         <Box sx={{ marginTop: 3 }}>
             <ButtonGroup sx={{ width: '100% ' }} >
-                <Button onClick={() => navigate('/')} color='error' sx={{ width: '50%' }}>Cancel</Button>
+                <Button onClick={() => navigate(`/home${userId()}`)} color='error' sx={{ width: '50%' }}>Cancel</Button>
                 <Button onClick={resetFields} sx={{ width: '50%' }}>
                     <SyncIcon />
                 </Button>

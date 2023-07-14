@@ -16,6 +16,7 @@ import Business from './pages/Business';
 import Theme from './context/Theme';
 import BackGround from './components/BackGround';
 import SandBox from './pages/SandBox';
+import RouteGuard from './components/RouteGuard';
 
 
 function App() {
@@ -29,13 +30,13 @@ function App() {
               <Route path='/register' element={<Register />} />
               <Route path='/login' element={<Login />} />
               <Route path='/about' element={<About />} />
-              <Route path='/:id?' element={<Home />} />
-              <Route path='/favorite/:id' element={<Favorite />} />
-              <Route path='/my cards/:id' element={<My_Cards />} />
-              <Route path='/add/:id' element={<Add />} />
-              <Route path='/edit/:id' element={<Edit />} />
+              <Route path='/home/:id?' element={<Home />} />
               <Route path='/business/:id' element={<Business />} />
-              <Route path='/sandbox/:id' element={<SandBox />} />
+              <Route path='/favorite/:id' element={<RouteGuard><Favorite /></RouteGuard>} />
+              <Route path='/my cards/:id' element={<RouteGuard><My_Cards /></RouteGuard>} />
+              <Route path='/add/:id' element={<RouteGuard><Add /></RouteGuard>} />
+              <Route path='/edit/:id' element={<RouteGuard><Edit /></RouteGuard>} />
+              <Route path='/sandbox/:id' element={<RouteGuard><SandBox /></RouteGuard>} />
               {/* <Route path='*' element={<Error_Page />} /> */}
               {/* If user that is logged in click the "back button" navigate to `home` */}
             </Routes>

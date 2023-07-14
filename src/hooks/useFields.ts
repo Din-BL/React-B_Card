@@ -27,7 +27,7 @@ export default function useFields(initalValue: LoginField) {
             .then((user) => {
                 setData('user', user.data)
                 setLoginInfo({ admin: getData('user', 'admin'), business: getData('user', 'business'), logged: getData('user') })
-                navigate(`/${user.data._id}`)
+                navigate(`/home/${user.data._id}`)
             })
             .catch(e => toast.error(e.response.data))
     }

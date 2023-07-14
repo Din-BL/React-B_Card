@@ -1,5 +1,4 @@
-1. Auth-guard
-2. Responsive design
-3. Favorite Bug
-4. Code optimization
-5. Bonus tasks 
+1. Responsive design
+2. Favorite Bug
+3. Code optimization
+4. Bonus tasks 

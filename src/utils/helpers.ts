@@ -58,3 +58,7 @@ export function status(status: UserCard) {
     }
 }
 
+export const userId = () => {
+    const id = getData('user', '_id')
+    return id ? `/${id}` : ""
+}

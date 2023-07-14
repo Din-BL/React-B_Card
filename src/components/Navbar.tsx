@@ -8,7 +8,7 @@ import { getData, removeData } from '../utils/localStorage';
 import UserIcon from './UserIcon';
 import logo from '../assets/business-card.png'
 import NoAccountsIcon from '@mui/icons-material/NoAccounts';
-import { pathUrl, paths } from '../utils/helpers';
+import { pathUrl, paths, userId } from '../utils/helpers';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { Pages } from '../utils/types';
 
@@ -27,9 +27,7 @@ function Navbar() {
         setAnchorElNav(event.currentTarget);
     };
 
-    const userId = () => {
-        return id ? id : ""
-    }
+
 
     const handleNavigation = (page: string) => {
         page === 'About' ? navigate(`/${page}`) : navigate(`/${page}/${id}`)
@@ -55,7 +53,7 @@ function Navbar() {
                             color: 'inherit',
                             textDecoration: 'none',
                         }} >
-                        <NavLink to={`/${userId()}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <NavLink to={`/home${userId()}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             B-CARD
                         </NavLink>
                     </Typography>
@@ -96,7 +94,7 @@ function Navbar() {
                             ))}
                         </Menu>
                         <Box sx={{ display: 'flex', alignItems: 'center', marginX: 2 }}>
-                            <NavLink to={`/${userId()}`} >
+                            <NavLink to={`/home${userId()}`} >
                                 <img src={logo} height={35} alt="Card-Logo" />
                             </NavLink>
                         </Box>
