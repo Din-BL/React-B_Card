@@ -1,7 +1,7 @@
 import { getData, setData } from "./localStorage"
 import { BusinessCard } from "./types"
 
-export const favoriteCard = (toggle: () => void, card: BusinessCard, setFavorite: React.Dispatch<React.SetStateAction<any[] | BusinessCard[]>>) => {
+export const favoriteCard = (toggle: () => void, card: BusinessCard, setFavorite: React.Dispatch<React.SetStateAction<any[] | BusinessCard[] | null>>) => {
     toggle()
     let favData: BusinessCard[] | any[] = getData((getData('user', 'userName')))
     if (favData) {

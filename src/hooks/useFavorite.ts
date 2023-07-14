@@ -6,14 +6,17 @@ import { LoginInfoContext } from "../context/LoginInfo"
 export function useFavorite() {
     const { loginInfo } = useContext(LoginInfoContext)
     const { logged } = loginInfo
-    const [favorite, setFavorite] = useState<BusinessCard[] | any[]>([])
+    const [favorite, setFavorite] = useState<BusinessCard[] | any[] | null>([])
+    const favoriteCards = getData((getData('user', 'userName')))
 
     const searchFavorite = (e: ChangeEvent<HTMLInputElement>) => {
-        setFavorite((currentCards: BusinessCard[]) => {
-            const filteredCards = currentCards.filter((card: BusinessCard) => {
-                return card.title.toLocaleLowerCase().startsWith(e.target.value.toLocaleLowerCase())
-            })
-            return e.target.value === "" ? getData((getData('user', 'userName'))) : filteredCards
+        setFavorite((currentCards: BusinessCard[] | any[] | null) => {
+            if (Array.isArray(currentCards)) {
+                const filteredCards = currentCards.filter((card: BusinessCard) => {
+                    return card.title.toLocaleLowerCase().startsWith(e.target.value.toLocaleLowerCase())
+                })
+                return e.target.value === "" ? favoriteCards : filteredCards
+            }
         })
     }
 

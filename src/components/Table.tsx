@@ -17,6 +17,8 @@ import { logout, status } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { remove } from '../utils/sweetalert';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -75,7 +77,11 @@ export default function UserTable({ Users, userDeletion }: TableProps) {
                                         <Typography fontSize={15} variant="button">
                                             {index + 1}
                                         </Typography>
-                                        {<DeleteIcon onClick={() => { removeUser(row._id as string) }} />}
+                                        {status(row) !== 'Admin' &&
+                                            <Box>
+                                                <EditIcon />
+                                                <DeleteIcon sx={{ marginLeft: 1 }} onClick={() => { removeUser(row._id as string) }} />
+                                            </Box>}
                                     </Box>
                                 </StyledTableCell>
                                 <StyledTableCell>{row.userName}</StyledTableCell>

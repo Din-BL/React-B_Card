@@ -13,12 +13,22 @@ export default function useCards() {
         return storedCards;
     });
 
+    function cardsFiltered() {
+        const removedCards = getData('removedCards')
+        if (removedCards) {
+            return defaultCards.filter(card => {
+                return !removedCards.some((removeCard: BusinessCard) => removeCard.email === card.email)
+            })
+        }
+        return defaultCards
+    }
+
     const searchDefaultCards = (e: ChangeEvent<HTMLInputElement>) => {
         setCards((currentCards: BusinessCard[]) => {
             const filteredCards = currentCards.filter((card: BusinessCard) => {
                 return card.title.toLocaleLowerCase().startsWith(e.target.value.toLocaleLowerCase())
             })
-            return e.target.value === "" ? defaultCards : filteredCards
+            return e.target.value === "" ? cardsFiltered() : filteredCards
         })
     }
 
@@ -28,3 +38,6 @@ export default function useCards() {
 
     return { cards, setCards, searchDefaultCards };
 }
+
+
+

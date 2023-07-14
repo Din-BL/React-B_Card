@@ -39,6 +39,10 @@ export default function B_CARD({ card }: B_CardProps) {
     function removeDefaultCard(id: string) {
         const storedCards = getData("defaultCards")
         const filteredCards = storedCards.filter((card: BusinessCard) => card._id !== id)
+        const removed = storedCards.filter((card: BusinessCard) => card._id === id)
+        let removedCards = getData("removedCards")
+        !removedCards ? removedCards = removed : removedCards = [...removedCards, ...removed]
+        setData('removedCards', removedCards)
         setData("defaultCards", filteredCards)
         setCards(filteredCards)
     }
@@ -62,7 +66,6 @@ export default function B_CARD({ card }: B_CardProps) {
                                     errMsg.includes('expired') && logout(navigate, setLoginInfo)
                                 })
                         }
-
                     }
                 }
             })

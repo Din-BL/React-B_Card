@@ -15,7 +15,7 @@ function Favorite() {
             <Box component={'main'} sx={{ minHeight: '85dvh' }}>
                 <Title main="Favorite Cards" sub="Here you can find business cards from all catagories" />
                 <Stack direction="row" spacing={2} paddingBottom={3}>
-                    {favorite.map((card: BusinessCard) => {
+                    {favorite && favorite.map((card: BusinessCard) => {
                         return <B_CARD key={card._id} card={card} />
                     })}
                 </Stack>

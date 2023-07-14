@@ -13,6 +13,7 @@ import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import { toast } from 'react-toastify';
 import { logout } from '../utils/helpers';
 import { LoginInfoContext } from '../context/LoginInfo';
+import { remove } from '../utils/sweetalert';
 
 export default function UserIcon() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -29,14 +30,24 @@ export default function UserIcon() {
     };
 
     const deleteAccount = () => {
-        deleteUser(getData('user', '_id'))
-            .then(() => {
-                toast.success(`${getData('user', 'userName')} has been removed`)
-                removeData(getData('user', 'userName'))
-                logout(navigate, setLoginInfo)
-                setAnchorEl(null);
+        setAnchorEl(null);
+        remove()
+            .then((result) => {
+                if (result.isConfirmed) {
+                    deleteUser(getData('user', '_id'))
+                        .then(() => {
+                            toast.success(`${getData('user', 'userName')} has been removed`)
+                            removeData(getData('user', 'userName'))
+                            logout(navigate, setLoginInfo)
+                            setAnchorEl(null);
+                        })
+                        .catch(e => {
+                            const errMsg = e.response.data
+                            toast.warning(errMsg)
+                            errMsg.includes('expired') && logout(navigate, setLoginInfo)
+                        })
+                }
             })
-            .catch(e => toast.error(e.response.data))
     };
 
     const handleClose = () => setAnchorEl(null);
