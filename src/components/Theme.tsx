@@ -1,7 +1,7 @@
-import { createTheme, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { ThemeContext } from '../context/Theme';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({

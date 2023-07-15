@@ -1,23 +1,14 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Box, Typography } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { TableProps, UserCard } from '../utils/types';
+import { Table, TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses } from '@mui/material';
+import { Delete, Edit } from '@mui/icons-material';
+import { TableProps } from '../utils/types';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
-import Swal from 'sweetalert2';
 import { logout, status } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { remove } from '../utils/sweetalert';
-import EditIcon from '@mui/icons-material/Edit';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -79,8 +70,8 @@ export default function UserTable({ Users, userDeletion }: TableProps) {
                                         </Typography>
                                         {status(row) !== 'Admin' &&
                                             <Box>
-                                                <EditIcon />
-                                                <DeleteIcon sx={{ marginLeft: 1 }} onClick={() => { removeUser(row._id as string) }} />
+                                                <Edit />
+                                                <Delete sx={{ marginLeft: 1 }} onClick={() => { removeUser(row._id as string) }} />
                                             </Box>}
                                     </Box>
                                 </StyledTableCell>

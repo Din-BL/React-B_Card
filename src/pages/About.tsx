@@ -1,7 +1,6 @@
-import { Box, Container, Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import Pic from "../assets/Business.png"
 import BackGround from "../assets/B-Symbol.png"
-import '../App.css';
 
 function About() {
     return (

@@ -2,14 +2,11 @@ import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../utils/services";
 import { LoginField } from "../utils/types";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { getData, setData } from "../utils/localStorage";
 import { LoginInfoContext } from "../context/LoginInfo";
 
-
 export default function useFields(initalValue: LoginField) {
-
     const navigate = useNavigate()
     const [fields, setFields] = useState(initalValue)
     const { setLoginInfo } = useContext(LoginInfoContext)

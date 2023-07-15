@@ -1,11 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import { TitleProps } from "../utils/types"
 
 function Title({ main, sub }: TitleProps) {
+    const isSmallScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
     return (
         <Box component={'header'} paddingY={3} marginBottom={3} borderBottom={'1px solid #9d9d9d'}>
-            <Typography variant="h2" component={'h1'}>{main}</Typography>
-            <Typography variant="h5" component={'h2'}>{sub}</Typography>
+            <Typography variant={isSmallScreen ? 'h3' : 'h2'} component={'h1'}>{main}</Typography>
+            <Typography variant={isSmallScreen ? 'subtitle2' : 'h5'} component={'h2'}>{sub}</Typography>
         </Box>
     );
 }

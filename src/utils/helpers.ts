@@ -1,8 +1,7 @@
-import { FormField, UserCard } from "./types";
+import { FormField, UserCard, UseLogin } from "./types";
 import Unknown from "../assets/Unknown.jpg"
 import { Location, NavigateFunction } from "react-router-dom";
 import { getData, removeData } from "./localStorage";
-import { Login } from "../hooks/useLogin";
 
 export const inputData = (field: FormField) => {
     return field.state ? field.state : field.label
@@ -32,9 +31,9 @@ export function defaultAlt(imageAlt?: string) {
     return imageAlt?.length === 0 ? 'Unknown' : imageAlt
 }
 
-export const pathUrl = (url: string, location: Location, id?: string) => {
+export const pathUrl = (url: string, location: Location) => {
     const path = location.pathname.toLowerCase()
-    return id ? path === `${url}${id}` : path.startsWith(`/${url}`)
+    return path.startsWith(`/${url}`)
 }
 
 export const paths = (url: string[], location: Location) => {
@@ -42,7 +41,7 @@ export const paths = (url: string[], location: Location) => {
     return url.includes(path)
 }
 
-export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<Login>>) => {
+export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<UseLogin>>) => {
     navigate('/login')
     removeData('user')
     setLoginInfo({ admin: getData('user', 'admin'), business: getData('user', 'business'), logged: getData('user') })

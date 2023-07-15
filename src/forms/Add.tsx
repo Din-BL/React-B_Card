@@ -15,7 +15,6 @@ function Add() {
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const { addData } = useContext(DataContext)
 
-
     const handleAdd = (data: any) => {
         addCard(data)
             .then((info) => {

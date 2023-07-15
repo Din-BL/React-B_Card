@@ -1,9 +1,8 @@
-import { Box, Typography, TextField, InputAdornment, colors } from "@mui/material";
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Box, Typography, TextField, InputAdornment, Container } from "@mui/material";
+import { AccountCircle, LockOpen } from '@mui/icons-material';
 import BtnGroup from "../components/BtnGroup";
 import useFields from "../hooks/useFields";
 import { NavLink } from "react-router-dom";
-import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { ThemeContext } from "../context/Theme";
 import { useContext } from "react";
 
@@ -16,9 +15,9 @@ function Login() {
     const textColor = themeMode === 'light' ? 'black' : 'white'
 
     return (
-        <Box component={'section'} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '85dvh', }}>
-            <form onSubmit={handleSubmit} style={{ width: '50vw' }} >
-                <Box textAlign={'center'}><LockOpenIcon fontSize="large" /></Box>
+        <Container sx={{ minHeight: '85dvh', display: 'flex', alignItems: 'center', justifyContent: 'center' }} maxWidth='sm' >
+            <form onSubmit={handleSubmit} >
+                <Box textAlign={'center'}><LockOpen fontSize="large" /></Box>
                 <Typography paddingBottom={2} textAlign={'center'} variant="h4" component={'h1'}>
                     Login
                 </Typography>
@@ -64,7 +63,7 @@ function Login() {
                     </NavLink>
                 </Typography>
             </form>
-        </Box >
+        </Container >
     );
 }
 

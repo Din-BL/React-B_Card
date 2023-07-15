@@ -1,4 +1,4 @@
-import { Checkbox, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from "@mui/material";
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import { useContext, useState } from "react";
 import { RegisterFields } from "../utils/fields";
 import { registerSchema } from "../utils/schema";
@@ -50,7 +50,6 @@ function Register() {
                     <FormControlLabel value="admin" control={<Radio />} label="Admin" />
                 </RadioGroup>
             </FormControl>
-
 
             <Typography paddingTop={3} paddingLeft={1} color={'text.secondary'}>
                 Already have an account?

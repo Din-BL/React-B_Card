@@ -1,4 +1,4 @@
-import { Box, Container, Fab, Stack } from "@mui/material";
+import { Box, Container, Fab, Grid } from "@mui/material";
 import Title from "../components/Title";
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,15 +13,17 @@ function My_Cards() {
     const { data } = useContext(DataContext)
 
     return (
-        <Container>
-            <Box component={'main'} sx={{ minHeight: '85dvh' }}>
+        <Container sx={{ paddingBottom: 3 }}>
+            <Box component={'main'} flexGrow={1} minHeight='85dvh' >
                 <Title main="My Cards" sub="Here you can find business cards from all catagories" />
-                <Stack direction="row" spacing={2} paddingBottom={3}>
-                    {data.map((card: BusinessCard) => {
-                        return <B_CARD key={card._id} card={card} />
-                    })}
-                </Stack>
-                <Box sx={{ display: 'flex', justifyContent: 'end', pb: 12 }}>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                    {data.map((card: BusinessCard) => (
+                        <Grid key={card._id} item xs={4} >
+                            <B_CARD key={card._id} card={card} />
+                        </Grid>
+                    ))}
+                </Grid>
+                <Box display='flex' justifyContent='end' paddingBottom={12} paddingTop={3}>
                     <Fab color="primary" aria-label="add">
                         <AddIcon onClick={() => navigate(`/add/${id}`)} />
                     </Fab>

@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { Login, useLogin } from "../hooks/useLogin";
+import { useLogin } from "../hooks/useLogin";
 import { LoginContextType } from "../utils/types";
 
 export const LoginInfoContext = createContext<LoginContextType>(null!);

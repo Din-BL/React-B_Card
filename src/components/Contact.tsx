@@ -1,22 +1,15 @@
 import { Container, Grid, TextField, Button, Typography, Fab, Box } from '@mui/material';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import EmailIcon from '@mui/icons-material/Email';
-import LanguageIcon from '@mui/icons-material/Language';
-import { BusinessCard } from '../utils/types';
+import { LocationOn, LocalPhone, Email, Language } from '@mui/icons-material';
+import { ContactProps } from '../utils/types';
 import { addressFormatter } from '../utils/helpers';
-import { MouseEvent, useContext } from 'react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { AnySchema } from 'joi';
 import Swal from 'sweetalert2';
 import { ThemeContext } from '../context/Theme';
 import { blueGrey } from '@mui/material/colors';
 
-interface ContactProps {
-    businessInfo: BusinessCard[],
-    contactSchema: AnySchema,
-}
+
 
 function Contact({ businessInfo, contactSchema }: ContactProps) {
 
@@ -38,10 +31,10 @@ function Contact({ businessInfo, contactSchema }: ContactProps) {
 
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(contactSchema), });
     const contactItems = [
-        { icon: <LocationOnIcon />, label: 'Address', value: addressFormatter(businessInfo[0].city, businessInfo[0].street, businessInfo[0].houseNumber, businessInfo[0].country) },
-        { icon: <LocalPhoneIcon />, label: 'Phone', value: businessInfo[0].phone, link: `tel://${businessInfo[0].phone}` },
-        { icon: <EmailIcon />, label: 'Email', value: businessInfo[0].email, link: `mailto:${businessInfo[0].email}` },
-        { icon: <LanguageIcon />, label: 'Website', value: businessInfo[0].web, link: businessInfo[0].web }
+        { icon: <LocationOn />, label: 'Address', value: addressFormatter(businessInfo[0].city, businessInfo[0].street, businessInfo[0].houseNumber, businessInfo[0].country) },
+        { icon: <LocalPhone />, label: 'Phone', value: businessInfo[0].phone, link: `tel://${businessInfo[0].phone}` },
+        { icon: <Email />, label: 'Email', value: businessInfo[0].email, link: `mailto:${businessInfo[0].email}` },
+        { icon: <Language />, label: 'Website', value: businessInfo[0].web, link: businessInfo[0].web }
     ];
 
     return (

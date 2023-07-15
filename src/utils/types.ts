@@ -1,6 +1,8 @@
 import { AnySchema } from "joi";
 import { ReactNode } from "react";
-import { Login } from "../hooks/useLogin";
+
+export type Checked = 'user' | 'business' | 'admin'
+export type Pages = 'About' | 'Favorite' | 'My Cards' | 'SandBox'
 
 export interface TitleProps {
     main: string;
@@ -36,8 +38,6 @@ export interface FooterLinkProps {
     icon: any,
     text: string
 }
-
-export type Checked = 'user' | 'business' | 'admin'
 
 export type CheckField = {
     checked: Checked
@@ -97,12 +97,27 @@ export interface B_CardProps {
 }
 
 export interface LoginContextType {
-    loginInfo: Login
-    setLoginInfo: React.Dispatch<React.SetStateAction<Login>>
+    loginInfo: UseLogin
+    setLoginInfo: React.Dispatch<React.SetStateAction<UseLogin>>
 }
-export type Pages = 'About' | 'Favorite' | 'My Cards' | 'SandBox'
 
 export interface TableProps {
     Users: UserCard[]
     userDeletion: (id: string) => void
+}
+
+export interface BtnGroupProps {
+    resetFields?: () => void;
+    isValid?: () => boolean;
+}
+
+export interface ContactProps {
+    businessInfo: BusinessCard[],
+    contactSchema: AnySchema,
+}
+
+export interface UseLogin {
+    admin: boolean | null;
+    business: boolean | null;
+    logged: UserStorage | null
 }

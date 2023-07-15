@@ -3,8 +3,8 @@ import { BusinessCard } from "../utils/types";
 import { getCards } from "../utils/services";
 import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { useLocation, useNavigate } from "react-router-dom";
-import { logout, pathUrl } from "../utils/helpers";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../utils/helpers";
 import { LoginInfoContext } from "../context/LoginInfo";
 
 export function useData() {

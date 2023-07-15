@@ -1,26 +1,28 @@
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Title from '../components/Title';
 import B_CARD from '../components/B_Card';
 import { BusinessCard } from '../utils/types';
 import { useContext } from 'react';
 import { CardsContext } from '../context/Cards';
-import { Container } from '@mui/material';
+import { Container, Grid, Box } from '@mui/material';
 
 function Home() {
     const { cards } = useContext(CardsContext)
 
     return (
-        <Container>
-            <Box component={'main'} sx={{ minHeight: '85dvh' }}>
+        <Container sx={{ paddingBottom: 3 }}>
+            <Box component={'main'} flexGrow={1} minHeight='85dvh' >
                 <Title main="Cards Page" sub="Here you can find business cards from all catagories" />
-                <Stack direction="row" spacing={2} paddingBottom={3}>
-                    {cards.map((card: BusinessCard) => {
-                        return <B_CARD key={card._id} card={card} />
-                    })}
-                </Stack>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                    {cards.map((card: BusinessCard) => (
+                        <Grid key={card._id} item xs={4} >
+                            <B_CARD card={card} />
+                        </Grid>
+                    ))}
+                </Grid>
             </Box>
         </Container>
     )
 }
 export default Home
+
+

@@ -1,7 +1,7 @@
 import { blue } from "@mui/material/colors";
 import { ThemeContext } from "../context/Theme";
 import { useContext } from "react";
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 
 
 function BackGround(props: React.PropsWithChildren<{}>) {

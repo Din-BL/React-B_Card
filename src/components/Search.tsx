@@ -1,7 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
-import { ChangeEvent, FormEventHandler, useContext } from 'react';
+import { ChangeEvent, useContext } from 'react';
 import { CardsContext, DataContext, FavoriteContext } from '../context/Cards';
 import { LoginInfoContext } from '../context/LoginInfo';
 

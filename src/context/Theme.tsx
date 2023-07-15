@@ -1,6 +1,7 @@
-import React, { MouseEventHandler, createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 import { CssBaseline, PaletteMode, ThemeProvider, createTheme } from "@mui/material";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const ThemeContext = createContext<ReturnType<any>>(null!);
 

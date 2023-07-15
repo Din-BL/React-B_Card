@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { AppBar, Menu, Avatar, Button, Tooltip, MenuItem, Container, IconButton, Typography, Toolbar, Box } from '@mui/material';
+import { AppBar, Menu, Button, MenuItem, Container, IconButton, Typography, Toolbar, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import NoAccountsIcon from '@mui/icons-material/NoAccounts';
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Search from './Search';
 import Theme from './Theme';
-import { getData, removeData } from '../utils/localStorage';
+import { getData } from '../utils/localStorage';
 import UserIcon from './UserIcon';
 import logo from '../assets/business-card.png'
-import NoAccountsIcon from '@mui/icons-material/NoAccounts';
-import { pathUrl, paths, userId } from '../utils/helpers';
+import { paths, userId } from '../utils/helpers';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { Pages } from '../utils/types';
 
@@ -26,8 +26,6 @@ function Navbar() {
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
-
-
 
     const handleNavigation = (page: string) => {
         page === 'About' ? navigate(`/${page}`) : navigate(`/${page}/${id}`)

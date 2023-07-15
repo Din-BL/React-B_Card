@@ -1,12 +1,11 @@
-import { Box, Typography, TextField, Container, Grid, Checkbox, FormControlLabel } from "@mui/material";
+import { Box, Typography, TextField, Container, Grid } from "@mui/material";
 import BtnGroup from "./BtnGroup";
-import React, { ReactNode, useContext, useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { capitalizeFirstLetter, inputData, pathUrl } from "../utils/helpers";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
-import { BusinessCard, CheckField, FormField, FormProps, UserCard } from "../utils/types";
-import 'react-toastify/dist/ReactToastify.css';
+import { useLocation, useParams } from "react-router-dom";
+import { FormProps } from "../utils/types";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleRegister, handleAdd, handleEdit, initialValue }: FormProps) {
@@ -14,7 +13,6 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
     const childrenArray = React.Children.toArray(children);
     const location = useLocation()
     const { id } = useParams();
-
 
     const onSubmit = (data: any) => {
         if (CheckField) {
@@ -25,7 +23,7 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
                 business = true
             }
             handleRegister(data, business, admin)
-        } else if (pathUrl(`/add/`, location, id)) {
+        } else if (pathUrl(`add`, location)) {
             handleAdd(data)
         } else {
             if (id) {
@@ -49,7 +47,7 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
                 </Typography>
                 <Grid container spacing={2}>
                     {FormFields.map((field, index) => {
-                        return <Grid item xs={6} key={index}>
+                        return <Grid item xs={12} sm={6} key={index}>
                             <TextField
                                 {...register(inputData(field))}
                                 sx={{ width: '100%' }}

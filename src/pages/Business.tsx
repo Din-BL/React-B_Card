@@ -1,6 +1,5 @@
-import { Box, Container, Paper } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import BackGround from "../assets/B-Symbol.png"
-import '../App.css';
 import { getData } from "../utils/localStorage";
 import { useParams } from "react-router-dom";
 import { BusinessCard } from "../utils/types";
@@ -26,7 +25,6 @@ function Business() {
             setBusinessInfo(data)
         }
     }, [])
-
 
     return (
         <Box component={'main'} sx={{ minHeight: '85dvh' }}>

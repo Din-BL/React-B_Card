@@ -1,15 +1,9 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
+import { Box, IconButton, MenuItem, Menu } from '@mui/material';
+import { AccountCircle, MeetingRoom, PersonRemove, Person } from '@mui/icons-material';
 import { getData, removeData } from '../utils/localStorage';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { deleteUser } from '../utils/services';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import PersonIcon from '@mui/icons-material/Person';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import { toast } from 'react-toastify';
 import { logout } from '../utils/helpers';
 import { LoginInfoContext } from '../context/LoginInfo';
@@ -79,13 +73,13 @@ export default function UserIcon() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem ><PersonIcon sx={{ paddingRight: 1 }} />
+                <MenuItem ><Person sx={{ paddingRight: 1 }} />
                     {getData('user', 'userName')}
                 </MenuItem>
-                <MenuItem onClick={deleteAccount}><PersonRemoveIcon sx={{ paddingRight: 1 }} />
+                <MenuItem onClick={deleteAccount}><PersonRemove sx={{ paddingRight: 1 }} />
                     Remove
                 </MenuItem>
-                <MenuItem onClick={handleLogout}><MeetingRoomIcon sx={{ paddingRight: 1 }} />
+                <MenuItem onClick={handleLogout}><MeetingRoom sx={{ paddingRight: 1 }} />
                     Logout
                 </MenuItem>
             </Menu>

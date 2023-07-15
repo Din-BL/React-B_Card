@@ -1,3 +1,4 @@
+import './App.css';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar'
 import Register from './forms/Register'
@@ -7,7 +8,6 @@ import Login from './forms/Login';
 import About from './pages/About';
 import Favorite from './pages/Favorite';
 import My_Cards from './pages/My_Cards';
-import { ToastContainer } from 'react-toastify';
 import Cards from './context/Cards';
 import Add from './forms/Add';
 import Edit from './forms/Edit';
