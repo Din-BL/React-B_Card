@@ -62,14 +62,14 @@ export default function B_CARD({ card }: B_CardProps) {
 
     return (
         <Box display={'flex'} justifyContent={'center'}  >
-            <Card sx={{ maxWidth: 345, height: 444, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <Card sx={{ width: 345, height: 444, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <CardMedia
                     component="img"
                     alt={defaultAlt(card.imageAlt)}
                     height="220"
                     image={defaultImage(card.imageUrl)}
                 />
-                <CardContent>
+                <CardContent sx={{ padding: '12px' }}>
                     <Typography variant="h6" component="div">
                         {card.title}
                     </Typography>

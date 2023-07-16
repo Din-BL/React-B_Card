@@ -56,7 +56,7 @@ function Navbar() {
                         </NavLink>
                     </Typography>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                    <Box flexGrow={1} sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -91,7 +91,7 @@ function Navbar() {
                                 </MenuItem>
                             ))}
                         </Menu>
-                        <Box sx={{ display: 'flex', alignItems: 'center', marginX: 2 }}>
+                        <Box display='flex' alignItems='center' marginX={2} >
                             <NavLink to={`/home${userId()}`} >
                                 <img src={logo} height={35} alt="Card-Logo" />
                             </NavLink>

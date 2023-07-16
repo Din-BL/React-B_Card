@@ -11,9 +11,9 @@ function Favorite() {
         <Container sx={{ paddingBottom: 3 }}>
             <Box component={'main'} flexGrow={1} minHeight='85dvh' >
                 <Title main="Favorite Cards" sub="Here you can find business cards from all catagories" />
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                <Grid container spacing={{ xs: 4, sm: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     {favorite && favorite.map((card: BusinessCard) => (
-                        <Grid key={card._id} item xs={4} >
+                        <Grid key={card._id} item xs={4} sm={4} md={3} >
                             <B_CARD card={card} />
                         </Grid>
                     ))}

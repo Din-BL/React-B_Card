@@ -9,10 +9,7 @@ import Swal from 'sweetalert2';
 import { ThemeContext } from '../context/Theme';
 import { blueGrey } from '@mui/material/colors';
 
-
-
 function Contact({ businessInfo, contactSchema }: ContactProps) {
-
     const { themeMode } = useContext(ThemeContext)
     const color = blueGrey[50];
     const backgroundColor = { backgroundColor: themeMode === 'light' ? color : '' }
@@ -107,12 +104,12 @@ function Contact({ businessInfo, contactSchema }: ContactProps) {
                         <Grid paddingY={5} container>
                             {contactItems.map((item, index) => (
                                 <Grid key={index} item xs={12} md={3}>
-                                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'}   >
+                                    <Box display={'flex'} justifyContent={'space-evenly'} flexDirection={'column'} alignItems={'center'}   >
                                         <Fab color="primary" aria-label="add">
                                             {item.icon}
                                         </Fab>
-                                        <Box textAlign={'center'} paddingTop={3}>
-                                            <span>{item.label}:</span> {item.link ? <a style={{ textDecoration: 'none' }} href={item.link}>{item.value}</a> : <Typography color="text.secondary" variant="body1" display="inline" > {item.value} </Typography>}
+                                        <Box textAlign={'center'} paddingY={3}>
+                                            <div>{item.label}</div> {item.link ? <a style={{ textDecoration: 'none' }} href={item.link}>{item.value}</a> : <Typography color="text.secondary" variant="body1" display="inline" > {item.value} </Typography>}
                                         </Box>
                                     </Box>
                                 </Grid>
