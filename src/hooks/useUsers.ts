@@ -3,10 +3,8 @@ import { UserCard } from "../utils/types";
 import { getUsers } from "../utils/services";
 import { AxiosResponse } from "axios";
 import { LoginInfoContext } from "../context/LoginInfo";
-import { useParams } from "react-router-dom";
 
 export function useUsers() {
-    const { id } = useParams()
     const { loginInfo } = useContext(LoginInfoContext)
     const { admin } = loginInfo
     const [users, setUsers] = useState<UserCard[]>([])
@@ -22,8 +20,8 @@ export function useUsers() {
     // }
 
     useEffect(() => {
-        if (admin && id) {
-            getUsers(id)
+        if (admin) {
+            getUsers()
                 .then((res: AxiosResponse<UserCard[]>) => setUsers(res.data))
                 .catch(e => console.log(e))
         }

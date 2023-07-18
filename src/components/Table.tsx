@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import { Table, TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses } from '@mui/material';
+import { TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses } from '@mui/material';
+import UserTable from '@mui/material/Table';
 import { Delete, Edit } from '@mui/icons-material';
-import { TableProps } from '../utils/types';
+import { TableProps, UserCard, UserStatus } from '../utils/types';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
 import { logout, status } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { remove } from '../utils/sweetalert';
+import Select from './Select';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -27,9 +29,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-export default function UserTable({ Users, userDeletion }: TableProps) {
+export default function Table({ Users, userDeletion }: TableProps) {
     const navigate = useNavigate()
     const { setLoginInfo } = React.useContext(LoginInfoContext)
+
+    function userStatus(status: UserStatus, id: string) {
+        return status !== 'Admin' ? <Select userStatus={status} userId={id} /> : status
+    }
 
     function removeUser(id: string) {
         remove().then((result) => {
@@ -48,10 +54,22 @@ export default function UserTable({ Users, userDeletion }: TableProps) {
         })
     }
 
+    function sortUser(users: UserCard[]) {
+        return users.sort((a, b) => {
+            if (a.admin === b.admin) {
+                return 0;
+            } else if (a.admin) {
+                return -1;
+            } else {
+                return 1;
+            }
+        })
+    }
+
     return (
         <Box paddingBottom={3}>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <UserTable sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>No.</StyledTableCell>
@@ -61,7 +79,7 @@ export default function UserTable({ Users, userDeletion }: TableProps) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {Users.map((row, index) => (
+                        {sortUser(Users).map((row, index) => (
                             <StyledTableRow key={index}>
                                 <StyledTableCell component="th" scope="row">
                                     <Box display={'flex'} justifyContent={'space-between'}>
@@ -70,18 +88,17 @@ export default function UserTable({ Users, userDeletion }: TableProps) {
                                         </Typography>
                                         {status(row) !== 'Admin' &&
                                             <Box>
-                                                <Edit />
-                                                <Delete sx={{ marginLeft: 1 }} onClick={() => { removeUser(row._id as string) }} />
+                                                <Delete onClick={() => { removeUser(row._id as string) }} />
                                             </Box>}
                                     </Box>
                                 </StyledTableCell>
                                 <StyledTableCell>{row.userName}</StyledTableCell>
                                 <StyledTableCell>{row.email}</StyledTableCell>
-                                <StyledTableCell>{status(row)}</StyledTableCell>
+                                <StyledTableCell>{userStatus(status(row), row._id!)}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
-                </Table>
+                </UserTable>
             </TableContainer>
         </Box>
     );

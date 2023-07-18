@@ -26,6 +26,8 @@ export interface FormField {
     label: string;
     state?: string
     type: string
+    multiline?: boolean
+    width?: number
 }
 
 export interface LoginField {
@@ -121,3 +123,5 @@ export interface UseLogin {
     business: boolean | null;
     logged: UserStorage | null
 }
+
+export type UserStatus = 'User' | 'Business' | 'Admin'

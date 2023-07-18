@@ -1,13 +1,14 @@
 import { Container, Grid, TextField, Button, Typography, Fab, Box } from '@mui/material';
 import { LocationOn, LocalPhone, Email, Language } from '@mui/icons-material';
 import { ContactProps } from '../utils/types';
-import { addressFormatter } from '../utils/helpers';
+import { addressFormatter, capitalizeFirstLetter, inputData } from '../utils/helpers';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Swal from 'sweetalert2';
 import { ThemeContext } from '../context/Theme';
 import { blueGrey } from '@mui/material/colors';
+import { ContactFields } from '../utils/fields';
 
 function Contact({ businessInfo, contactSchema }: ContactProps) {
     const { themeMode } = useContext(ThemeContext)
@@ -44,53 +45,22 @@ function Contact({ businessInfo, contactSchema }: ContactProps) {
                                 <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
                                     <Typography color='primary' fontFamily={'math'} variant="h3" component="h2" mb={4}>Contact Us</Typography>
                                     <Grid container spacing={2}>
-                                        <Grid item xs={12} md={6}>
-                                            <TextField
-                                                {...register('fullName')}
-                                                required
-                                                label="Full name"
-                                                fullWidth
-                                                placeholder="Full name"
-                                                error={!!errors['fullName']}
-                                                helperText={errors['fullName']?.message as string}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} md={6}>
-                                            <TextField
-                                                {...register('email')}
-                                                required
-                                                label="Email Address"
-                                                fullWidth
-                                                placeholder="Email"
-                                                error={!!errors['email']}
-                                                helperText={errors['email']?.message as string}
-                                            />
-
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                {...register('subject')}
-                                                required
-                                                label="Subject"
-                                                fullWidth
-                                                placeholder="Subject"
-                                                error={!!errors['subject']}
-                                                helperText={errors['subject']?.message as string}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                {...register('message')}
-                                                required
-                                                label="Message"
-                                                fullWidth
-                                                multiline
-                                                rows={4}
-                                                placeholder="Message"
-                                                error={!!errors['message']}
-                                                helperText={errors['message']?.message as string}
-                                            />
-                                        </Grid>
+                                        {ContactFields.map((field, index) => {
+                                            return <Grid item xs={12} md={field.width} key={index}>
+                                                <TextField
+                                                    {...register(inputData(field))}
+                                                    required={field.required}
+                                                    id={field.label}
+                                                    label={capitalizeFirstLetter(field.label)}
+                                                    type={field.type}
+                                                    fullWidth
+                                                    multiline={field.multiline}
+                                                    rows={4}
+                                                    error={!!errors[inputData(field)]}
+                                                    helperText={errors[inputData(field)]?.message as string}
+                                                />
+                                            </Grid>
+                                        })}
                                         <Grid item xs={12}>
                                             <Button type='submit' variant="contained" >Send Message</Button>
                                         </Grid>
