@@ -64,9 +64,9 @@ router.post("/login", userValidate, async (req, res) => {
   }
 });
 
-router.get("/:id", userAuthenticate, async (req, res) => {
+router.get("/", userAuthenticate, async (req, res) => {
   try {
-    const usersDetails = await User.find({ _id: { $ne: req.params.id } });
+    const usersDetails = await User.find();
     if (!usersDetails) return res.status(404).send("Users doest exist");
     const filteredDetails = usersDetails.map((user) => {
       return (_.pick(user, ["_id", "userName", "email", "business", "admin"]));
@@ -74,6 +74,16 @@ router.get("/:id", userAuthenticate, async (req, res) => {
     res.status(200).json(filteredDetails);
   } catch (error) {
     res.status(400).send(error.message);
+  }
+});
+
+router.put("/:id", userAuthenticate, async (req, res) => {
+  try {
+    const updateUser = await User.findByIdAndUpdate(req.params.id, req.body);
+    if (!updateUser) return res.status(404).json("User doest exist");
+    res.status(201).json(updateUser);
+  } catch (error) {
+    res.status(400).json(error.message);
   }
 });
 
