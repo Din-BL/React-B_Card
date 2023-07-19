@@ -3,12 +3,12 @@ import BtnGroup from "./BtnGroup";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
-import { capitalizeFirstLetter, inputData, pathUrl } from "../utils/helpers";
+import { capitalizeFirstLetter, inputData, isDisabled, pathUrl } from "../utils/helpers";
 import { useLocation, useParams } from "react-router-dom";
 import { FormProps } from "../utils/types";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
-function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleRegister, handleAdd, handleEdit, initialValue }: FormProps) {
+function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleRegister, handleAdd, handleEdit, handleUser, initialValue }: FormProps) {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(FormSchema), });
     const childrenArray = React.Children.toArray(children);
     const location = useLocation()
@@ -25,6 +25,9 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
             handleRegister(data, business, admin)
         } else if (pathUrl(`add`, location)) {
             handleAdd(data)
+        }
+        else if (pathUrl(`user`, location)) {
+            handleUser(data)
         } else {
             if (id) {
                 handleEdit(id, data)
@@ -56,6 +59,7 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
                                 label={capitalizeFirstLetter(field.label)}
                                 type={field.type}
                                 defaultValue={initialValue?.[inputData(field)]}
+                                disabled={isDisabled(initialValue, field.label)}
                                 variant="outlined"
                                 error={!!errors[inputData(field)]}
                                 helperText={errors[inputData(field)]?.message as string}

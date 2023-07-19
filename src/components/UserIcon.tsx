@@ -13,6 +13,7 @@ export default function UserIcon() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const navigate = useNavigate()
+    const userId = getData('user', '_id')
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -28,7 +29,7 @@ export default function UserIcon() {
         remove()
             .then((result) => {
                 if (result.isConfirmed) {
-                    deleteUser(getData('user', '_id'))
+                    deleteUser(userId)
                         .then(() => {
                             toast.success(`${getData('user', 'userName')} has been removed`)
                             removeData(getData('user', 'userName'))
@@ -73,8 +74,9 @@ export default function UserIcon() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem ><Person sx={{ paddingRight: 1 }} />
+                <MenuItem onClick={() => navigate(`user/${userId}`)} ><Person sx={{ paddingRight: 1 }} />
                     {getData('user', 'userName')}
+
                 </MenuItem>
                 <MenuItem onClick={deleteAccount}><PersonRemove sx={{ paddingRight: 1 }} />
                     Remove

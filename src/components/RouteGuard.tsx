@@ -8,7 +8,7 @@ function RouteGuard(props: React.PropsWithChildren<{}>) {
     const location = useLocation()
 
     function authGuard() {
-        if (pathUrl('favorite', location)) {
+        if (paths(['favorite', 'user'], location)) {
             return loginInfo.logged
         } else if (paths(['my%20cards', 'add', 'edit'], location)) {
             return loginInfo.business

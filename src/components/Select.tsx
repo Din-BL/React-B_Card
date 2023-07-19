@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import BasicSelect, { SelectChangeEvent } from '@mui/material/Select';
 import { UserStatus } from '../utils/types';
-import { updateUser } from '../utils/services';
+import { editStatus } from '../utils/services';
 import { toast } from 'react-toastify';
 import { logout } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +25,7 @@ export default function Select({ userStatus, userId }: SelectProps) {
         const status = event.target.value as string
         const value = status === 'User' ? false : true
         const userValue = { business: value }
-        updateUser(userId, userValue)
+        editStatus(userId, userValue)
             .then(() => {
                 setStatus(status)
                 toast.success('Status been updated!')

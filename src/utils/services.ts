@@ -34,11 +34,19 @@ export function getUsers() {
     return axios.get(`${url}/user`, createConfig());
 }
 
+export function getUser(id: string) {
+    return axios.get(`${url}/user/${id}`, createConfig());
+}
+
 interface UserStatus {
     business: boolean
 }
-export function updateUser(id: string, userStatus: UserStatus) {
+export function editStatus(id: string, userStatus: UserStatus) {
     return axios.put(`${url}/user/${id}`, userStatus, createConfig());
+}
+
+export function editUser(id: string, user: UserCard) {
+    return axios.put(`${url}/user/${id}`, user, createConfig());
 }
 
 // BusinessApi

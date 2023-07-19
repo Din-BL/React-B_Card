@@ -46,7 +46,16 @@ router.post("/login", userValidate, async (req, res) => {
   try {
     let findUser = await User.findOne({ email: req.body.email });
     if (!findUser) return res.status(404).json("Email doest exist");
+    const currentTime = Date.now();
+    const lastFailedAttemptTime = findUser.lastFailedAttempt || 0;
+    const hoursSinceLastFailedAttempt = Math.floor((currentTime - lastFailedAttemptTime) / (1000 * 60 * 60));
+    if (findUser.loginAttempts >= 3 && hoursSinceLastFailedAttempt < 24) {
+      return res.status(403).json("Account is locked. Please contact support.");
+    }
     if (await bcrypt.compare(req.body.password, findUser.password)) {
+      findUser.loginAttempts = 0;
+      findUser.lastFailedAttempt = undefined;
+      await findUser.save()
       const iat = Math.floor(Date.now() / 1000);
       const exp = iat + 60 * 30;
       const payload = {
@@ -58,7 +67,12 @@ router.post("/login", userValidate, async (req, res) => {
       findUser = findUser.toObject();
       findUser.token = token;
       res.status(200).json(_.pick(findUser, ["_id", "business", "admin", "token", "userName"]));
-    } else res.status(400).send("Incorrect password");
+    } else {
+      res.status(400).send("Incorrect password");
+      findUser.loginAttempts += 1;
+      findUser.lastFailedAttempt = currentTime;
+      await findUser.save()
+    }
   } catch (error) {
     res.status(400).json(error.message);
   }
@@ -72,6 +86,16 @@ router.get("/", userAuthenticate, async (req, res) => {
       return (_.pick(user, ["_id", "userName", "email", "business", "admin"]));
     });
     res.status(200).json(filteredDetails);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/:id", userAuthenticate, async (req, res) => {
+  try {
+    const userDetails = await User.findById(req.params.id).select('-password');
+    if (!userDetails) return res.status(404).send("User doest exist");
+    res.status(200).json(userDetails);
   } catch (error) {
     res.status(400).send(error.message);
   }

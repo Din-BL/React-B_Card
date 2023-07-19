@@ -97,6 +97,14 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    loginAttempts: {
+      type: Number,
+      default: 0,
+    },
+    lastFailedAttempt: {
+      type: Date,
+      default: undefined,
+    },
   },
   {
     strict: true,

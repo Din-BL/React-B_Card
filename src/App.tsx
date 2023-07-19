@@ -17,6 +17,7 @@ import Theme from './context/Theme';
 import BackGround from './components/BackGround';
 import SandBox from './pages/SandBox';
 import RouteGuard from './components/RouteGuard';
+import User from './forms/User';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
               <Route path='/home/:id?' element={<Home />} />
               <Route path='/business/:id' element={<Business />} />
               <Route path='/favorite/:id' element={<RouteGuard><Favorite /></RouteGuard>} />
+              <Route path='/user/:id' element={<RouteGuard><User /></RouteGuard>} />
               <Route path='/my cards/:id' element={<RouteGuard><My_Cards /></RouteGuard>} />
               <Route path='/add/:id' element={<RouteGuard><Add /></RouteGuard>} />
               <Route path='/edit/:id' element={<RouteGuard><Edit /></RouteGuard>} />

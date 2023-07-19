@@ -18,7 +18,8 @@ export interface FormProps {
     handleRegister?: any,
     handleAdd?: any
     handleEdit?: any
-    initialValue?: BusinessCard
+    handleUser?: any
+    initialValue?: any
 }
 
 export interface FormField {

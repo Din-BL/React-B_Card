@@ -61,3 +61,7 @@ export const userId = () => {
     const id = getData('user', '_id')
     return id ? `/${id}` : ""
 }
+
+export function isDisabled(initialValue: any, field: string) {
+    return initialValue && (field === 'email' || field === 'user name') ? true : false
+}
