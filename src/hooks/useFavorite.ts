@@ -20,9 +20,13 @@ export function useFavorite() {
         })
     }
 
+    function deleteFavorite(id: string) {
+        setFavorite((currentData) => currentData && currentData.filter((data) => data._id !== id))
+    }
+
     useEffect(() => {
-        setFavorite(getData((getData('user', 'userName'))) || [])
+        setFavorite(favoriteCards || [])
     }, [logged])
 
-    return { favorite, setFavorite, searchFavorite }
+    return { favorite, setFavorite, deleteFavorite, searchFavorite }
 }

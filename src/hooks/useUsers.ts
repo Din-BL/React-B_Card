@@ -13,12 +13,6 @@ export function useUsers() {
         setUsers((currentData) => currentData.filter((data) => data._id !== id))
     }
 
-    // function editData(id: string, data: BusinessCard) {
-    //     setData((currentData) => currentData.map((card) => {
-    //         return card._id === id ? data : card
-    //     }))
-    // }
-
     useEffect(() => {
         if (admin) {
             getUsers()

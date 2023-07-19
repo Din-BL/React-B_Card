@@ -1,12 +1,14 @@
+import { BusinessCard } from './../utils/types';
 import { ChangeEvent, useEffect, useState } from "react";
 import { defaultCards } from "../utils/cards";
-import { BusinessCard } from "../utils/types";
 import { getData, setData } from "../utils/localStorage";
 
 export default function useCards() {
     const [cards, setCards] = useState<Array<BusinessCard>>(() => {
-        const storedCards = getData("defaultCards")
-        if (!storedCards) {
+        const storedCards: BusinessCard[] = getData("defaultCards")
+        const appReset: boolean = getData("appReset")
+
+        if (!storedCards || !appReset) {
             localStorage.clear()
             return defaultCards;
         }
@@ -34,6 +36,7 @@ export default function useCards() {
 
     useEffect(() => {
         setData("defaultCards", cards)
+        setData("appReset", true)
     }, [cards]);
 
     return { cards, setCards, searchDefaultCards };

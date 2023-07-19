@@ -8,7 +8,7 @@ export function useToggle(card: BusinessCard): [boolean, () => void] {
     useEffect(() => {
         const favData = getData((getData('user', 'userName')));
         if (favData) {
-            const isFavorite = favData.some((data: BusinessCard) => data._id === card._id);
+            const isFavorite = favData.some((data: BusinessCard) => data.email === card.email);
             setChecked(isFavorite);
         }
     }, [card]);

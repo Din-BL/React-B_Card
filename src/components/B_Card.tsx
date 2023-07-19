@@ -20,7 +20,7 @@ export default function B_CARD({ card }: B_CardProps) {
     const { loginInfo, setLoginInfo } = useContext(LoginInfoContext)
     const { logged, admin } = loginInfo
     const { deleteData } = useContext(DataContext)
-    const { setFavorite } = useContext(FavoriteContext)
+    const { setFavorite, deleteFavorite } = useContext(FavoriteContext)
     const { setCards } = useContext(CardsContext)
     const navigate = useNavigate()
     const trashView = pathUrl(`my%20cards`, location) || pathUrl(`home`, location) && admin
@@ -41,6 +41,9 @@ export default function B_CARD({ card }: B_CardProps) {
             .then((result) => {
                 if (result.isConfirmed) {
                     if (card._id) {
+                        const favData: BusinessCard[] | any[] = getData((getData('user', 'userName')))
+                        setData(getData('user', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
+                        deleteFavorite(card._id)
                         if (pathUrl(`home`, location)) {
                             removeDefaultCard(card._id)
                         } else {
