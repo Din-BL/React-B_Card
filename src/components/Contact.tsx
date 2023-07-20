@@ -8,7 +8,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { ThemeContext } from '../context/Theme';
 import { blueGrey } from '@mui/material/colors';
 import { ContactFields } from '../utils/fields';
-import { submit } from '../utils/sweetalert';
+import { submitAlert } from '../utils/sweetalert';
 
 function Contact({ businessInfo, contactSchema }: ContactProps) {
     const { themeMode } = useContext(ThemeContext)
@@ -18,7 +18,7 @@ function Contact({ businessInfo, contactSchema }: ContactProps) {
 
     function onSubmit() {
         reset()
-        submit()
+        submitAlert()
     }
 
     const contactItems = [

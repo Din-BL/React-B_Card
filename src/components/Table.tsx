@@ -6,10 +6,10 @@ import { Delete } from '@mui/icons-material';
 import { TableProps, UserStatus } from '../utils/types';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
-import { logout, sortUser, status } from '../utils/helpers';
+import { expiredMsg, logout, sortUser, status } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
-import { remove } from '../utils/sweetalert';
+import { removeAlert } from '../utils/sweetalert';
 import Select from './Select';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -37,7 +37,7 @@ export default function Table({ Users, userDeletion }: TableProps) {
     }
 
     function removeUser(id: string, username: string) {
-        remove()
+        removeAlert()
             .then((result) => {
                 if (result.isConfirmed) {
                     deleteUser(id)
@@ -45,11 +45,7 @@ export default function Table({ Users, userDeletion }: TableProps) {
                             toast.success(`${username} has been removed`)
                             userDeletion(id)
                         })
-                        .catch(e => {
-                            const errMsg = e.response.data
-                            toast.warning(errMsg)
-                            errMsg.includes('expired') && logout(navigate, setLoginInfo)
-                        })
+                        .catch(e => expiredMsg(e, navigate, setLoginInfo))
                 }
             })
     }

@@ -34,7 +34,7 @@ router.delete("/:id", userAuthenticate, async (req, res) => {
 router.post("/register", userValidate, async (req, res) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).json(_.pick(user, ["_id", "firstName", "email", "business", "admin"]));
+    res.status(201).json(_.pick(user, ["_id", "userName", "email", "business", "admin"]));
   } catch (error) {
     if (error.message.includes("email")) return res.status(400).json("Email already exists");
     if (error.message.includes("userName")) return res.status(400).json("User name already exists");
@@ -57,6 +57,7 @@ router.post("/login", userValidate, async (req, res) => {
       findUser.lastFailedAttempt = undefined;
       await findUser.save()
       const iat = Math.floor(Date.now() / 1000);
+      // const exp = iat + 5;
       const exp = iat + 60 * 30;
       const payload = {
         sub: req.body.email,

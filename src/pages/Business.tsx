@@ -1,30 +1,37 @@
-import { Box, Card, CardMedia, Container, Paper, useMediaQuery } from "@mui/material";
+import { Box, Card, CardMedia, Paper, useMediaQuery, Typography } from "@mui/material";
 import BackGround from "../assets/B-Symbol.png"
 import { getData } from "../utils/localStorage";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BusinessCard } from "../utils/types";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Contact from "../components/Contact";
-import Typography from '@mui/material/Typography';
 import { contactSchema } from "../utils/schema";
 import { getCard } from "../utils/services";
-import { defaultImage } from "../utils/helpers";
+import { defaultImage, logout } from "../utils/helpers";
+import { toast } from "react-toastify";
+import { LoginInfoContext } from "../context/LoginInfo";
 
 function Business() {
     const [businessInfo, setBusinessInfo] = useState<BusinessCard[]>([])
     const { id } = useParams()
+    const { setLoginInfo } = React.useContext(LoginInfoContext)
+    const navigate = useNavigate()
     const isBusiness = businessInfo.length > 0
     const isSmallScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
-    let data: BusinessCard[] = getData('defaultCards').filter((business: BusinessCard) => business._id === id)
+    let data: BusinessCard[] = getData('*defaultCards*').filter((business: BusinessCard) => business._id === id)
+    let error = 0
 
     useEffect(() => {
-        if (data.length === 0) {
-            id && getCard(id)
+        if (data.length === 0 && id) {
+            getCard(id)
                 .then((card) => setBusinessInfo([card.data]))
-                .catch(error => console.log(error))
-        } else {
-            setBusinessInfo(data)
-        }
+                .catch(e => {
+                    const errMsg = e.response.data
+                    error > 0 && toast.warning(errMsg)
+                    error += 1
+                    errMsg.includes('expired') && logout(navigate, setLoginInfo)
+                })
+        } else setBusinessInfo(data)
     }, [])
 
     return (

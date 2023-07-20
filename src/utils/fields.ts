@@ -77,7 +77,7 @@ export const RegisterFields: FormField[] = [
         required: false,
         label: 'zip',
         type: 'text'
-    },
+    }
 ]
 export const CardFields: FormField[] = [
     {
@@ -152,7 +152,7 @@ export const CardFields: FormField[] = [
         required: false,
         label: 'zip',
         type: 'text'
-    },
+    }
 ]
 export const ContactFields: FormField[] = [
     {
@@ -180,6 +180,6 @@ export const ContactFields: FormField[] = [
         type: 'text',
         multiline: true,
         width: 12
-    },
+    }
 
 ]

@@ -1,6 +1,6 @@
 import { BusinessCard, UserStorage } from "./types"
 
-export function setData(key: string, value: UserStorage | BusinessCard[] | boolean) {
+export function setData(key: string, value: UserStorage | BusinessCard[]) {
     localStorage.setItem(key, JSON.stringify(value))
 }
 

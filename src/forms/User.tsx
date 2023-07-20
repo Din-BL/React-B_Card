@@ -9,7 +9,7 @@ import { LoginInfoContext } from "../context/LoginInfo";
 import { logout } from "../utils/helpers";
 import { UserCard } from "../utils/types";
 import Swal from "sweetalert2";
-import { edit } from "../utils/sweetalert";
+import { editAlert } from "../utils/sweetalert";
 
 function User() {
     const { id } = useParams();
@@ -36,13 +36,13 @@ function User() {
     }, []);
 
     const handleUser = (data: UserCard) => {
-        edit()
+        editAlert()
             .then((result) => {
                 if (result.isConfirmed && id) {
                     editUser(id, data)
                         .then((info) => {
                             navigate(`/home/${id}`)
-                            toast.success(`${info.data.userName} has been updated`)
+                            toast.success(`${info.data.userName} info been updated`)
                         })
                         .catch(e => {
                             const errMsg = e.response.data

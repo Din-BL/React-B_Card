@@ -6,11 +6,11 @@ import { LoginInfoContext } from "../context/LoginInfo"
 export function useFavorite() {
     const { loginInfo } = useContext(LoginInfoContext)
     const { logged } = loginInfo
-    const [favorite, setFavorite] = useState<BusinessCard[] | any[] | null>([])
+    const [favorite, setFavorite] = useState<BusinessCard[] | null>([])
     const favoriteCards = getData((getData('user', 'userName')))
 
     const searchFavorite = (e: ChangeEvent<HTMLInputElement>) => {
-        setFavorite((currentCards: BusinessCard[] | any[] | null) => {
+        setFavorite((currentCards: BusinessCard[] | null) => {
             if (Array.isArray(currentCards)) {
                 const filteredCards = currentCards.filter((card: BusinessCard) => {
                     return card.title.toLocaleLowerCase().startsWith(e.target.value.toLocaleLowerCase())

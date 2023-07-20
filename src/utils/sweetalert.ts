@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-export function remove() {
+export function removeAlert() {
     return Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -12,7 +12,7 @@ export function remove() {
     });
 }
 
-export function edit() {
+export function editAlert() {
     return Swal.fire({
         title: 'Do you want to save the changes?',
         showDenyButton: true,
@@ -22,7 +22,7 @@ export function edit() {
     })
 }
 
-export function submit() {
+export function submitAlert() {
     return Swal.fire({
         position: 'center',
         icon: 'success',

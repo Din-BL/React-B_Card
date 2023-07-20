@@ -31,6 +31,7 @@ function Login() {
                     id="Email"
                     label="Email"
                     type="email"
+                    variant="outlined"
                     error={emailError}
                     helperText={emailError && 'Invalid email address format'}
                     InputProps={{
@@ -38,9 +39,9 @@ function Login() {
                             <InputAdornment position="start">
                                 <AccountCircle />
                             </InputAdornment>
-                        ),
+                        )
                     }}
-                    variant="outlined" />
+                />
                 <TextField
                     required
                     value={fields.password}

@@ -1,7 +1,7 @@
 import { Card, CardActions, Checkbox, CardContent, CardMedia, Typography, Stack, Box } from '@mui/material';
 import { Phone, Favorite, Delete, Edit, FavoriteBorder } from '@mui/icons-material';
 import { B_CardProps, BusinessCard } from '../utils/types';
-import { addressFormatter, defaultAlt, defaultImage, logout, pathUrl, phoneFormatter } from '../utils/helpers';
+import { addressFormatter, defaultAlt, defaultImage, expiredMsg, idShortcut, logout, pathUrl, phoneFormatter, removeDefaultCard } from '../utils/helpers';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useToggle } from '../hooks/useToggle';
 import { deleteCard } from '../utils/services';
@@ -10,7 +10,7 @@ import { CardsContext, DataContext, FavoriteContext } from '../context/Cards';
 import { useContext } from 'react';
 import { favoriteCard } from '../utils/favorite';
 import { LoginInfoContext } from '../context/LoginInfo';
-import { remove } from '../utils/sweetalert';
+import { removeAlert } from '../utils/sweetalert';
 import { getData, setData } from '../utils/localStorage';
 
 export default function B_CARD({ card }: B_CardProps) {
@@ -24,39 +24,22 @@ export default function B_CARD({ card }: B_CardProps) {
     const navigate = useNavigate()
     const trashView = pathUrl(`my%20cards`, location) || pathUrl(`home`, location) && admin
 
-    function removeDefaultCard(id: string) {
-        const storedCards = getData("defaultCards")
-        const filteredCards = storedCards.filter((card: BusinessCard) => card._id !== id)
-        const removed = storedCards.filter((card: BusinessCard) => card._id === id)
-        let removedCards = getData("removedCards")
-        !removedCards ? removedCards = removed : removedCards = [...removedCards, ...removed]
-        setData('removedCards', removedCards)
-        setData("defaultCards", filteredCards)
-        setCards(filteredCards)
-    }
-
     function removeCard() {
-        remove()
+        removeAlert()
             .then((result) => {
-                if (result.isConfirmed) {
-                    if (card._id) {
-                        const favData: BusinessCard[] | any[] = getData((getData('user', 'userName')))
-                        setData(getData('user', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
-                        deleteFavorite(card._id)
-                        if (pathUrl(`home`, location)) {
-                            removeDefaultCard(card._id)
-                        } else {
-                            deleteCard(card._id)
-                                .then(() => {
-                                    toast.success('Business been removed')
-                                    deleteData(card._id as string)
-                                })
-                                .catch(e => {
-                                    const errMsg = e.response.data
-                                    toast.warning(errMsg)
-                                    errMsg.includes('expired') && logout(navigate, setLoginInfo)
-                                })
-                        }
+                if (result.isConfirmed && card._id) {
+                    const favData: BusinessCard[] = getData((getData('user', 'userName')))
+                    setData(getData('user', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
+                    deleteFavorite(card._id)
+                    if (pathUrl(`home`, location)) {
+                        removeDefaultCard(card._id, setCards)
+                    } else {
+                        deleteCard(card._id)
+                            .then((info) => {
+                                toast.success(`${info.data.title} been removed`)
+                                deleteData(card._id!)
+                            })
+                            .catch(e => expiredMsg(e, navigate, setLoginInfo))
                     }
                 }
             })
@@ -87,7 +70,7 @@ export default function B_CARD({ card }: B_CardProps) {
                         {addressFormatter(card.city, card.street, card.houseNumber)}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        <span style={{ fontWeight: "bold" }}> Card Number: </span>{card.zip}
+                        <span style={{ fontWeight: "bold" }}> Card Number: </span>{idShortcut(card._id!)}
                     </Typography>
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'space-between' }}>

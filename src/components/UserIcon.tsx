@@ -5,9 +5,9 @@ import { getData, removeData } from '../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
-import { logout } from '../utils/helpers';
+import { expiredMsg, logout } from '../utils/helpers';
 import { LoginInfoContext } from '../context/LoginInfo';
-import { remove } from '../utils/sweetalert';
+import { removeAlert } from '../utils/sweetalert';
 
 export default function UserIcon() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -34,7 +34,7 @@ export default function UserIcon() {
 
     const deleteAccount = () => {
         setAnchorEl(null);
-        remove()
+        removeAlert()
             .then((result) => {
                 if (result.isConfirmed) {
                     deleteUser(userId)
@@ -43,11 +43,7 @@ export default function UserIcon() {
                             removeData(userName)
                             handleLogout()
                         })
-                        .catch(e => {
-                            const errMsg = e.response.data
-                            toast.warning(errMsg)
-                            errMsg.includes('expired') && logout(navigate, setLoginInfo)
-                        })
+                        .catch(e => expiredMsg(e, navigate, setLoginInfo))
                 }
             })
     };

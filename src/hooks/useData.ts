@@ -39,7 +39,11 @@ export function useData() {
         else {
             getCards()
                 .then((res: AxiosResponse<BusinessCard[]>) => setData(res.data))
-                .catch(e => toast.warning(e.response.data))
+                .catch(e => {
+                    const errMsg = e.response.data
+                    toast.warning(errMsg)
+                    errMsg.includes('expired') && logout(navigate, setLoginInfo)
+                })
         }
     }
 

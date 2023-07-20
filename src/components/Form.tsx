@@ -14,20 +14,20 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
     const onSubmit = (data: FormData) => {
         if (CheckField) {
             let admin = false
-            let business = CheckField.checked === 'business'
-            if (CheckField.checked === 'admin') {
+            let business = CheckField.checked === 'Business'
+            if (CheckField.checked === 'Admin') {
                 admin = true
                 business = true
             }
-            handleRegister(data, business, admin)
+            handleRegister && handleRegister(data, business, admin)
         } else {
-            handleForm(data)
+            handleForm && handleForm(data)
         }
     };
 
     const handleReset = () => {
         reset();
-        CheckField && CheckField.setChecked('user')
+        CheckField && CheckField.setChecked('User')
     }
 
     return (

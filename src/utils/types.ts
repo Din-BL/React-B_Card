@@ -1,8 +1,18 @@
 import { AnySchema } from "joi";
 import { ReactNode } from "react";
 
-export type Checked = 'user' | 'business' | 'admin'
 export type Pages = 'About' | 'Favorite' | 'My Cards' | 'SandBox'
+export type UserStatus = 'User' | 'Business' | 'Admin'
+export type FormData = BusinessCard | UserCard
+export type SignatureFormData = FormData & {
+    [key: string]: any;
+};
+
+export interface SelectProps {
+    userStatus: UserStatus,
+    userId: string
+    username: string
+}
 
 export interface TitleProps {
     main: string;
@@ -15,9 +25,9 @@ export interface FormProps {
     FormSchema: AnySchema,
     CheckField?: CheckField,
     children?: ReactNode,
-    handleRegister?: any,
-    handleForm?: any
-    initialValue?: any
+    handleRegister?: (data: any, business: boolean, admin: boolean) => void,
+    handleForm?: (data: any) => void,
+    initialValue?: SignatureFormData
 }
 
 export interface FormField {
@@ -41,8 +51,8 @@ export interface FooterLinkProps {
 }
 
 export type CheckField = {
-    checked: Checked
-    setChecked: React.Dispatch<React.SetStateAction<Checked>>;
+    checked: UserStatus
+    setChecked: React.Dispatch<React.SetStateAction<UserStatus>>;
 };
 
 export interface UserCard {
@@ -107,6 +117,10 @@ export interface TableProps {
     userDeletion: (id: string) => void
 }
 
+export interface BusinessStatus {
+    business: boolean
+}
+
 export interface BtnGroupProps {
     resetFields?: () => void;
     isValid?: () => boolean;
@@ -123,12 +137,5 @@ export interface UseLogin {
     logged: UserStorage | null
 }
 
-export type UserStatus = 'User' | 'Business' | 'Admin'
 
-export interface SelectProps {
-    userStatus: string,
-    userId: string
-    username: string
-}
 
-export type FormData = BusinessCard | UserCard

@@ -1,6 +1,5 @@
 import { Box, Container } from "@mui/material";
 import Title from "../components/Title";
-import UserTable from "../components/Table";
 import { useUsers } from "../hooks/useUsers";
 import Table from "../components/Table";
 

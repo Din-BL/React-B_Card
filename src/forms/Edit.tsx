@@ -8,10 +8,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { DataContext } from "../context/Cards";
 import { getData } from "../utils/localStorage";
 import { LoginInfoContext } from "../context/LoginInfo";
-import { logout } from "../utils/helpers";
+import { expiredMsg, logout } from "../utils/helpers";
 import { BusinessCard } from "../utils/types";
 import Swal from "sweetalert2";
-import { edit } from "../utils/sweetalert";
+import { editAlert } from "../utils/sweetalert";
 
 function Edit() {
     const { editData } = useContext(DataContext)
@@ -40,20 +40,16 @@ function Edit() {
     }, []);
 
     const handleEdit = (data: BusinessCard) => {
-        edit()
+        editAlert()
             .then((result) => {
                 if (result.isConfirmed && id) {
                     editCard(id, data)
                         .then((info) => {
                             editData(id, info.data)
                             navigate(`/my cards/${userId}`)
-                            toast.success(`${info.data.title} has been updated`)
+                            toast.success(`${info.data.title} info been updated`)
                         })
-                        .catch(e => {
-                            const errMsg = e.response.data
-                            toast.error(errMsg)
-                            errMsg.includes('expired') && logout(navigate, setLoginInfo)
-                        })
+                        .catch(e => expiredMsg(e, navigate, setLoginInfo))
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
                     navigate(`/my cards/${userId}`)

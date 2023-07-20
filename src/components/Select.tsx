@@ -3,18 +3,18 @@ import { Box, InputLabel, MenuItem, FormControl } from '@mui/material';
 import BasicSelect, { SelectChangeEvent } from '@mui/material/Select';
 import { editStatus } from '../utils/services';
 import { toast } from 'react-toastify';
-import { logout, statusView } from '../utils/helpers';
+import { expiredMsg, statusView } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
-import { SelectProps } from '../utils/types';
+import { SelectProps, UserStatus } from '../utils/types';
 
 export default function Select({ userStatus, userId, username }: SelectProps) {
     const [status, setStatus] = React.useState(userStatus);
-    const navigate = useNavigate()
     const { setLoginInfo } = React.useContext(LoginInfoContext)
+    const navigate = useNavigate()
 
     const handleChange = (event: SelectChangeEvent) => {
-        const status = event.target.value as string
+        const status = event.target.value as UserStatus
         const value = status === 'User' ? false : true
         const userValue = { business: value }
         editStatus(userId, userValue)
@@ -22,11 +22,7 @@ export default function Select({ userStatus, userId, username }: SelectProps) {
                 setStatus(status)
                 toast.success(`${username} is now a ${status}`)
             })
-            .catch(e => {
-                const errMsg = e.response.data
-                toast.error(errMsg)
-                errMsg.includes('expired') && logout(navigate, setLoginInfo)
-            })
+            .catch(e => expiredMsg(e, navigate, setLoginInfo))
     };
 
     return (

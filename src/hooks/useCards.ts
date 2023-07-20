@@ -5,10 +5,8 @@ import { getData, setData } from "../utils/localStorage";
 
 export default function useCards() {
     const [cards, setCards] = useState<Array<BusinessCard>>(() => {
-        const storedCards: BusinessCard[] = getData("defaultCards")
-        const appReset: boolean = getData("appReset")
-
-        if (!storedCards || !appReset) {
+        const storedCards: BusinessCard[] = getData("*defaultCards*")
+        if (!storedCards) {
             localStorage.clear()
             return defaultCards;
         }
@@ -35,8 +33,7 @@ export default function useCards() {
     }
 
     useEffect(() => {
-        setData("defaultCards", cards)
-        setData("appReset", true)
+        setData("*defaultCards*", cards)
     }, [cards]);
 
     return { cards, setCards, searchDefaultCards };

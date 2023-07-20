@@ -1,4 +1,4 @@
-import { BusinessCard } from './types';
+import { BusinessCard, BusinessStatus } from './types';
 import axios, { AxiosRequestConfig } from "axios"
 import { LoginField, UserCard } from "../utils/types"
 import { getData } from './localStorage';
@@ -11,12 +11,12 @@ const createConfig = (): AxiosRequestConfig => {
     return {
         headers: {
             'authorization': getToken(),
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         }
     };
 };
 
-// userApi
+// User Api
 
 export function registerUser(form: UserCard) {
     return axios.post(`${url}/user/register`, form);
@@ -38,10 +38,7 @@ export function getUser(id: string) {
     return axios.get(`${url}/user/${id}`, createConfig());
 }
 
-interface UserStatus {
-    business: boolean
-}
-export function editStatus(id: string, userStatus: UserStatus) {
+export function editStatus(id: string, userStatus: BusinessStatus) {
     return axios.put(`${url}/user/${id}`, userStatus, createConfig());
 }
 
@@ -49,7 +46,7 @@ export function editUser(id: string, user: UserCard) {
     return axios.put(`${url}/user/${id}`, user, createConfig());
 }
 
-// BusinessApi
+// Business Api
 
 export function addCard(form: BusinessCard) {
     return axios.post(`${url}/business`, form, createConfig());

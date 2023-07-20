@@ -6,16 +6,14 @@ import { toast } from 'react-toastify';
 import { getData, setData } from "../utils/localStorage";
 import { LoginInfoContext } from "../context/LoginInfo";
 
-export default function useFields(initalValue: LoginField) {
+export default function useFields(initialValue: LoginField) {
     const navigate = useNavigate()
-    const [fields, setFields] = useState(initalValue)
+    const [fields, setFields] = useState(initialValue)
     const { setLoginInfo } = useContext(LoginInfoContext)
 
     const handleField = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
-        setFields((currentValue) => {
-            return { ...currentValue, [name]: value }
-        })
+        setFields((currentValue) => ({ ...currentValue, [name]: value }))
     }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -29,7 +27,7 @@ export default function useFields(initalValue: LoginField) {
             .catch(e => toast.error(e.response.data))
     }
 
-    const resetFields = () => setFields(initalValue)
+    const resetFields = () => setFields(initialValue)
 
     return { fields, handleField, handleSubmit, resetFields }
 }

@@ -7,23 +7,23 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { registerUser } from "../utils/services";
 import { toast } from "react-toastify";
 import { ThemeContext } from "../context/Theme";
-import { UserCard, Checked } from "../utils/types";
+import { UserCard, UserStatus } from "../utils/types";
 
 function Register() {
-    const [checked, setChecked] = useState<Checked>('user');
+    const [checked, setChecked] = useState<UserStatus>('User');
     const navigate = useNavigate()
     const { themeMode } = useContext(ThemeContext)
     const textColor = themeMode === 'light' ? 'black' : 'white'
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setChecked(event.target.value as Checked);
+        setChecked(event.target.value as UserStatus);
     };
 
     const handleRegister = (data: UserCard, business: boolean, admin: boolean) => {
         registerUser({ ...data, business, admin })
-            .then(() => {
+            .then((info) => {
                 navigate('/login')
-                toast.success('Successfully registered')
+                toast.success(`${info.data.userName} successfully registered`)
             })
             .catch(e => toast.error(e.response.data))
     }
@@ -36,18 +36,18 @@ function Register() {
             handleRegister={handleRegister}>
 
             <FormControl sx={{ paddingLeft: 3, paddingTop: 3 }}>
-                <FormLabel id="demo-row-radio-buttons-group-label">Register as</FormLabel>
+                <FormLabel id="row-radio-buttons-group-label">Register as</FormLabel>
                 <RadioGroup
                     row
                     aria-labelledby="row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
-                    defaultValue={'user'}
+                    defaultValue={'User'}
                     value={checked}
                     onChange={handleChange}
                 >
-                    <FormControlLabel value="user" control={<Radio />} label="User" />
-                    <FormControlLabel value="business" control={<Radio />} label="Business" />
-                    <FormControlLabel value="admin" control={<Radio />} label="Admin" />
+                    <FormControlLabel value="User" control={<Radio />} label="User" />
+                    <FormControlLabel value="Business" control={<Radio />} label="Business" />
+                    <FormControlLabel value="Admin" control={<Radio />} label="Admin" />
                 </RadioGroup>
             </FormControl>
 

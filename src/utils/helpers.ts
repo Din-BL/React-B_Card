@@ -1,7 +1,8 @@
-import { FormField, UserCard, UseLogin } from "./types";
+import { FormField, UserCard, UseLogin, BusinessCard, SignatureFormData, UserStatus } from "./types";
 import Unknown from "../assets/Unknown.jpg"
 import { Location, NavigateFunction } from "react-router-dom";
-import { getData, removeData } from "./localStorage";
+import { getData, removeData, setData } from "./localStorage";
+import { toast } from "react-toastify";
 
 export const inputData = (field: FormField) => {
     return field.state ? field.state : field.label
@@ -17,6 +18,10 @@ export function convertMsg(msg: string, num: string) {
 
 export function phoneFormatter(phone: string) {
     return phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+}
+
+export function idShortcut(id: string) {
+    return id.slice(0, 8)
 }
 
 export function addressFormatter(city: string, street: string, houseNumber: string, country: string = '') {
@@ -47,26 +52,16 @@ export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<
     setLoginInfo({ admin: getData('user', 'admin'), business: getData('user', 'business'), logged: getData('user') })
 }
 
-export function status(status: UserCard) {
-    if (status.admin) {
-        return 'Admin'
-    } else if (status.business)
-        return "Business"
-    else {
-        return 'User'
-    }
-}
-
 export const userId = () => {
     const id = getData('user', '_id')
     return id ? `/${id}` : ""
 }
 
-export function isDisabled(initialValue: any, field: string) {
+export function isDisabled(initialValue: SignatureFormData | undefined, field: string) {
     return initialValue && (field === 'email' || field === 'user name') ? true : false
 }
 
-export function statusView(userStatus: string) {
+export function statusView(userStatus: UserStatus) {
     return userStatus === 'Business' ? 'User' : 'Business'
 }
 
@@ -80,4 +75,32 @@ export function sortUser(users: UserCard[]) {
             return 1;
         }
     })
+}
+
+export function status(status: UserCard) {
+    if (status.admin) {
+        return 'Admin'
+    } else if (status.business)
+        return "Business"
+    else {
+        return 'User'
+    }
+}
+
+export function expiredMsg(e: any, navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<UseLogin>>) {
+    const errMsg = e.response.data
+    toast.error(errMsg)
+    errMsg.includes('expired') && logout(navigate, setLoginInfo)
+}
+
+export function removeDefaultCard(id: string, setCards: React.Dispatch<React.SetStateAction<BusinessCard[]>>) {
+    const storedCards = getData("*defaultCards*")
+    const filteredCards = storedCards.filter((card: BusinessCard) => card._id !== id)
+    const removed = storedCards.filter((card: BusinessCard) => card._id === id)
+    let removedCards = getData("removedCards")
+    !removedCards ? removedCards = removed : removedCards = [...removedCards, ...removed]
+    setData('removedCards', removedCards)
+    setData("*defaultCards*", filteredCards)
+    setCards(filteredCards)
+    toast.success(`${removed[0].title} been removed`)
 }

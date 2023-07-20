@@ -56,7 +56,7 @@ router.delete("/:id", userAuthenticate, async (req, res) => {
   try {
     const deleteBusiness = await Business.findByIdAndDelete(req.params.id);
     if (!deleteBusiness) return res.status(404).send("Business doest exist");
-    res.status(200).json("Business been deleted");
+    res.status(200).json(deleteBusiness);
   } catch (error) {
     res.status(400).json(error.message);
   }
