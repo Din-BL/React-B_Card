@@ -65,3 +65,19 @@ export const userId = () => {
 export function isDisabled(initialValue: any, field: string) {
     return initialValue && (field === 'email' || field === 'user name') ? true : false
 }
+
+export function statusView(userStatus: string) {
+    return userStatus === 'Business' ? 'User' : 'Business'
+}
+
+export function sortUser(users: UserCard[]) {
+    return users.sort((a, b) => {
+        if (a.admin === b.admin) {
+            return 0;
+        } else if (a.admin) {
+            return -1;
+        } else {
+            return 1;
+        }
+    })
+}

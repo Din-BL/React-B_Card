@@ -12,14 +12,14 @@ import { paths, userId } from '../utils/helpers';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { Pages } from '../utils/types';
 
-const pages: Pages[] = ['About', 'Favorite', 'My Cards', 'SandBox'];
-
 function Navbar() {
     const { loginInfo } = React.useContext(LoginInfoContext)
     const { admin, business, logged } = loginInfo
     const navigate = useNavigate()
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const location = useLocation();
+    const pages: Pages[] = ['About', 'Favorite', 'My Cards', 'SandBox'];
+    const conditionalPage = (page: Pages) => page === 'About' || (page === 'Favorite' && logged) || (page === 'My Cards' && business) || admin
     const searchView = paths(['business', 'sandbox', 'login', 'register', 'about', 'add', 'edit'], location)
     const id = getData('user', '_id')
 
@@ -83,7 +83,7 @@ function Navbar() {
                             onClose={handleCloseNavMenu}
                             sx={{ display: { xs: 'block', md: 'none' } }}
                         >
-                            {pages.filter((page) => page === 'About' || (page === 'Favorite' && logged) || (page === 'My Cards' && business) || admin).map((page) => (
+                            {pages.filter((page) => conditionalPage(page)).map((page) => (
                                 <MenuItem key={page} onClick={() => handleNavigation(page)}>
                                     <Typography textAlign="center">
                                         {page}
@@ -99,7 +99,7 @@ function Navbar() {
                     </Box>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.filter((page) => page === 'About' || (page === 'Favorite' && logged) || (page === 'My Cards' && business) || admin).map((page) => (
+                        {pages.filter((page) => conditionalPage(page)).map((page) => (
                             <Button key={page} onClick={() => handleNavigation(page)} sx={{ my: 2, color: 'white', display: 'block' }}>
                                 {page}
                             </Button>

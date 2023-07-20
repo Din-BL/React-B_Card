@@ -21,3 +21,14 @@ export function edit() {
         denyButtonText: `Don't save`,
     })
 }
+
+export function submit() {
+    return Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Thank you!',
+        text: 'Your submission has been sent',
+        showConfirmButton: false,
+        timer: 1500
+    })
+}

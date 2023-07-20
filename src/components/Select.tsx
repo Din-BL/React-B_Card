@@ -1,22 +1,14 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
+import { Box, InputLabel, MenuItem, FormControl } from '@mui/material';
 import BasicSelect, { SelectChangeEvent } from '@mui/material/Select';
-import { UserStatus } from '../utils/types';
 import { editStatus } from '../utils/services';
 import { toast } from 'react-toastify';
-import { logout } from '../utils/helpers';
+import { logout, statusView } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
+import { SelectProps } from '../utils/types';
 
-interface SelectProps {
-    userStatus: string,
-    userId: string
-}
-
-export default function Select({ userStatus, userId }: SelectProps) {
+export default function Select({ userStatus, userId, username }: SelectProps) {
     const [status, setStatus] = React.useState(userStatus);
     const navigate = useNavigate()
     const { setLoginInfo } = React.useContext(LoginInfoContext)
@@ -28,7 +20,7 @@ export default function Select({ userStatus, userId }: SelectProps) {
         editStatus(userId, userValue)
             .then(() => {
                 setStatus(status)
-                toast.success('Status been updated!')
+                toast.success(`${username} is now a ${status}`)
             })
             .catch(e => {
                 const errMsg = e.response.data
@@ -36,10 +28,6 @@ export default function Select({ userStatus, userId }: SelectProps) {
                 errMsg.includes('expired') && logout(navigate, setLoginInfo)
             })
     };
-
-    function statusView(userStatus: string) {
-        return userStatus === 'Business' ? 'User' : 'Business'
-    }
 
     return (
         <Box sx={{ minWidth: 120 }}>

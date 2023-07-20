@@ -14,13 +14,21 @@ export default function UserIcon() {
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const navigate = useNavigate()
     const userId = getData('user', '_id')
+    const userName = getData('user', 'userName')
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
+    const handleClose = () => setAnchorEl(null);
+
     const handleLogout = () => {
         logout(navigate, setLoginInfo)
+        setAnchorEl(null);
+    };
+
+    const userInfo = () => {
+        navigate(`user/${userId}`)
         setAnchorEl(null);
     };
 
@@ -31,10 +39,9 @@ export default function UserIcon() {
                 if (result.isConfirmed) {
                     deleteUser(userId)
                         .then(() => {
-                            toast.success(`${getData('user', 'userName')} has been removed`)
-                            removeData(getData('user', 'userName'))
-                            logout(navigate, setLoginInfo)
-                            setAnchorEl(null);
+                            toast.success(`${userName} has been removed`)
+                            removeData(userName)
+                            handleLogout()
                         })
                         .catch(e => {
                             const errMsg = e.response.data
@@ -44,8 +51,6 @@ export default function UserIcon() {
                 }
             })
     };
-
-    const handleClose = () => setAnchorEl(null);
 
     return (
         <Box>
@@ -74,9 +79,8 @@ export default function UserIcon() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={() => navigate(`user/${userId}`)} ><Person sx={{ paddingRight: 1 }} />
-                    {getData('user', 'userName')}
-
+                <MenuItem onClick={userInfo} ><Person sx={{ paddingRight: 1 }} />
+                    {userName}
                 </MenuItem>
                 <MenuItem onClick={deleteAccount}><PersonRemove sx={{ paddingRight: 1 }} />
                     Remove

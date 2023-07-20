@@ -13,7 +13,6 @@ import { LoginInfoContext } from '../context/LoginInfo';
 import { remove } from '../utils/sweetalert';
 import { getData, setData } from '../utils/localStorage';
 
-
 export default function B_CARD({ card }: B_CardProps) {
     const location = useLocation()
     const [checked, toggle] = useToggle(card)

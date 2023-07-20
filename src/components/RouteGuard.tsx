@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { LoginInfoContext } from "../context/LoginInfo";
-import { pathUrl, paths } from "../utils/helpers";
+import { paths } from "../utils/helpers";
 
 function RouteGuard(props: React.PropsWithChildren<{}>) {
     const { loginInfo } = useContext(LoginInfoContext)

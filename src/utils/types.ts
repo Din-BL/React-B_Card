@@ -16,9 +16,7 @@ export interface FormProps {
     CheckField?: CheckField,
     children?: ReactNode,
     handleRegister?: any,
-    handleAdd?: any
-    handleEdit?: any
-    handleUser?: any
+    handleForm?: any
     initialValue?: any
 }
 
@@ -126,3 +124,11 @@ export interface UseLogin {
 }
 
 export type UserStatus = 'User' | 'Business' | 'Admin'
+
+export interface SelectProps {
+    userStatus: string,
+    userId: string
+    username: string
+}
+
+export type FormData = BusinessCard | UserCard

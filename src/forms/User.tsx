@@ -1,15 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Form from "../components/Form";
-import { CardFields, RegisterFields } from "../utils/fields";
-import { cardSchema, registerSchema } from "../utils/schema";
-import { editCard, editUser, getCard, getUser } from "../utils/services";
+import { RegisterFields } from "../utils/fields";
+import { registerSchema } from "../utils/schema";
+import { editUser, getUser } from "../utils/services";
 import { toast } from "react-toastify";
-import React, { useContext, useEffect, useState } from "react";
-import { DataContext } from "../context/Cards";
-import { getData } from "../utils/localStorage";
+import React, { useEffect, useState } from "react";
 import { LoginInfoContext } from "../context/LoginInfo";
 import { logout } from "../utils/helpers";
-import { BusinessCard, UserCard } from "../utils/types";
+import { UserCard } from "../utils/types";
 import Swal from "sweetalert2";
 import { edit } from "../utils/sweetalert";
 
@@ -37,14 +35,14 @@ function User() {
         fetchData();
     }, []);
 
-    const handleUser = (data: any) => {
+    const handleUser = (data: UserCard) => {
         edit()
             .then((result) => {
                 if (result.isConfirmed && id) {
                     editUser(id, data)
-                        .then(() => {
+                        .then((info) => {
                             navigate(`/home/${id}`)
-                            toast.success('User updated')
+                            toast.success(`${info.data.userName} has been updated`)
                         })
                         .catch(e => {
                             const errMsg = e.response.data
@@ -65,7 +63,7 @@ function User() {
                     FormTitle='Edit User'
                     FormFields={RegisterFields}
                     FormSchema={registerSchema}
-                    handleUser={handleUser}
+                    handleForm={handleUser}
                     initialValue={initialValue}
                 />
             )}

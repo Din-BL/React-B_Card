@@ -5,29 +5,22 @@ import { addressFormatter, capitalizeFirstLetter, inputData } from '../utils/hel
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import Swal from 'sweetalert2';
 import { ThemeContext } from '../context/Theme';
 import { blueGrey } from '@mui/material/colors';
 import { ContactFields } from '../utils/fields';
+import { submit } from '../utils/sweetalert';
 
 function Contact({ businessInfo, contactSchema }: ContactProps) {
     const { themeMode } = useContext(ThemeContext)
     const color = blueGrey[50];
     const backgroundColor = { backgroundColor: themeMode === 'light' ? color : '' }
+    const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(contactSchema), });
 
     function onSubmit() {
         reset()
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Thank you!',
-            text: 'Your submission has been sent',
-            showConfirmButton: false,
-            timer: 1500
-        })
+        submit()
     }
 
-    const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(contactSchema), });
     const contactItems = [
         { icon: <LocationOn />, label: 'Address', value: addressFormatter(businessInfo[0].city, businessInfo[0].street, businessInfo[0].houseNumber, businessInfo[0].country) },
         { icon: <LocalPhone />, label: 'Phone', value: businessInfo[0].phone, link: `tel://${businessInfo[0].phone}` },

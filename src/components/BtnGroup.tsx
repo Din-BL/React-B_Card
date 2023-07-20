@@ -4,11 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { userId } from "../utils/helpers";
 import { BtnGroupProps } from "../utils/types";
 
-
 function BtnGroup({ resetFields, isValid = () => false }: BtnGroupProps) {
     const navigate = useNavigate()
     return (
-        <Box sx={{ marginTop: 3 }}>
+        <Box marginTop={3} >
             <ButtonGroup sx={{ width: '100% ' }} >
                 <Button onClick={() => navigate(`/home${userId()}`)} color='error' sx={{ width: '50%' }}>Cancel</Button>
                 <Button onClick={resetFields} sx={{ width: '50%' }}>

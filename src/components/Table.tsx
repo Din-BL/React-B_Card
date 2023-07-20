@@ -2,16 +2,15 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import { TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses } from '@mui/material';
 import UserTable from '@mui/material/Table';
-import { Delete, Edit } from '@mui/icons-material';
-import { TableProps, UserCard, UserStatus } from '../utils/types';
+import { Delete } from '@mui/icons-material';
+import { TableProps, UserStatus } from '../utils/types';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
-import { logout, status } from '../utils/helpers';
+import { logout, sortUser, status } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { remove } from '../utils/sweetalert';
 import Select from './Select';
-
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -33,37 +32,26 @@ export default function Table({ Users, userDeletion }: TableProps) {
     const navigate = useNavigate()
     const { setLoginInfo } = React.useContext(LoginInfoContext)
 
-    function userStatus(status: UserStatus, id: string) {
-        return status !== 'Admin' ? <Select userStatus={status} userId={id} /> : status
+    function userStatus(status: UserStatus, id: string, username: string) {
+        return status !== 'Admin' ? <Select userStatus={status} userId={id} username={username} /> : status
     }
 
-    function removeUser(id: string) {
-        remove().then((result) => {
-            if (result.isConfirmed) {
-                deleteUser(id)
-                    .then(() => {
-                        toast.success(`User been removed`)
-                        userDeletion(id)
-                    })
-                    .catch(e => {
-                        const errMsg = e.response.data
-                        toast.warning(errMsg)
-                        errMsg.includes('expired') && logout(navigate, setLoginInfo)
-                    })
-            }
-        })
-    }
-
-    function sortUser(users: UserCard[]) {
-        return users.sort((a, b) => {
-            if (a.admin === b.admin) {
-                return 0;
-            } else if (a.admin) {
-                return -1;
-            } else {
-                return 1;
-            }
-        })
+    function removeUser(id: string, username: string) {
+        remove()
+            .then((result) => {
+                if (result.isConfirmed) {
+                    deleteUser(id)
+                        .then(() => {
+                            toast.success(`${username} has been removed`)
+                            userDeletion(id)
+                        })
+                        .catch(e => {
+                            const errMsg = e.response.data
+                            toast.warning(errMsg)
+                            errMsg.includes('expired') && logout(navigate, setLoginInfo)
+                        })
+                }
+            })
     }
 
     return (
@@ -88,13 +76,13 @@ export default function Table({ Users, userDeletion }: TableProps) {
                                         </Typography>
                                         {status(row) !== 'Admin' &&
                                             <Box>
-                                                <Delete onClick={() => { removeUser(row._id as string) }} />
+                                                <Delete onClick={() => { removeUser(row._id!, row.userName) }} />
                                             </Box>}
                                     </Box>
                                 </StyledTableCell>
                                 <StyledTableCell>{row.userName}</StyledTableCell>
                                 <StyledTableCell>{row.email}</StyledTableCell>
-                                <StyledTableCell>{userStatus(status(row), row._id!)}</StyledTableCell>
+                                <StyledTableCell>{userStatus(status(row), row._id!, row.userName)}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>

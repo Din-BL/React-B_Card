@@ -39,25 +39,26 @@ function Edit() {
         fetchData();
     }, []);
 
-    const handleEdit = (id: string, data: any) => {
-        edit().then((result) => {
-            if (result.isConfirmed) {
-                editCard(id, data)
-                    .then((info) => {
-                        editData(id, info.data)
-                        navigate(`/my cards/${userId}`)
-                        toast.success('Business updated')
-                    })
-                    .catch(e => {
-                        const errMsg = e.response.data
-                        toast.error(errMsg)
-                        errMsg.includes('expired') && logout(navigate, setLoginInfo)
-                    })
-            } else if (result.isDenied) {
-                Swal.fire('Changes are not saved', '', 'info')
-                navigate(`/my cards/${userId}`)
-            }
-        })
+    const handleEdit = (data: BusinessCard) => {
+        edit()
+            .then((result) => {
+                if (result.isConfirmed && id) {
+                    editCard(id, data)
+                        .then((info) => {
+                            editData(id, info.data)
+                            navigate(`/my cards/${userId}`)
+                            toast.success(`${info.data.title} has been updated`)
+                        })
+                        .catch(e => {
+                            const errMsg = e.response.data
+                            toast.error(errMsg)
+                            errMsg.includes('expired') && logout(navigate, setLoginInfo)
+                        })
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                    navigate(`/my cards/${userId}`)
+                }
+            })
     }
 
     return (
@@ -67,7 +68,7 @@ function Edit() {
                     FormTitle='Edit Card'
                     FormFields={CardFields}
                     FormSchema={cardSchema}
-                    handleEdit={handleEdit}
+                    handleForm={handleEdit}
                     initialValue={initialValue}
                 />
             )}

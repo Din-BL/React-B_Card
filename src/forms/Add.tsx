@@ -8,6 +8,7 @@ import { DataContext } from "../context/Cards";
 import React, { useContext } from "react";
 import { LoginInfoContext } from "../context/LoginInfo";
 import { logout } from "../utils/helpers";
+import { BusinessCard } from "../utils/types";
 
 function Add() {
     const { id } = useParams();
@@ -15,12 +16,12 @@ function Add() {
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const { addData } = useContext(DataContext)
 
-    const handleAdd = (data: any) => {
+    const handleAdd = (data: BusinessCard) => {
         addCard(data)
             .then((info) => {
                 addData(info.data)
                 navigate(`/my cards/${id}`)
-                toast.success('Business added')
+                toast.success(`${info.data.title} has been added`)
             })
             .catch(e => {
                 const errMsg = e.response.data
@@ -33,7 +34,7 @@ function Add() {
         FormTitle='Create Card'
         FormFields={CardFields}
         FormSchema={cardSchema}
-        handleAdd={handleAdd}
+        handleForm={handleAdd}
     ></Form>
 }
 
