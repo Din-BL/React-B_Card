@@ -2,9 +2,8 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { BusinessCard } from "../utils/types";
 import { getCards } from "../utils/services";
 import { AxiosResponse } from "axios";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../utils/helpers";
+import { errorMsg } from "../utils/helpers";
 import { LoginInfoContext } from "../context/LoginInfo";
 
 export function useData() {
@@ -39,24 +38,16 @@ export function useData() {
         else {
             getCards()
                 .then((res: AxiosResponse<BusinessCard[]>) => setData(res.data))
-                .catch(e => {
-                    const errMsg = e.response.data
-                    toast.warning(errMsg)
-                    errMsg.includes('expired') && logout(navigate, setLoginInfo)
-                })
+                .catch((e) => errorMsg(e, navigate, setLoginInfo, true))
         }
     }
 
     useEffect(() => {
-        if (business) {
+        if (business && !error) {
+            error += 1
             getCards()
                 .then((res: AxiosResponse<BusinessCard[]>) => setData(res.data))
-                .catch(e => {
-                    const errMsg = e.response.data
-                    error > 0 && toast.warning(errMsg)
-                    error += 1
-                    errMsg.includes('expired') && logout(navigate, setLoginInfo)
-                })
+                .catch((e) => errorMsg(e, navigate, setLoginInfo, true))
         }
     }, [business])
 

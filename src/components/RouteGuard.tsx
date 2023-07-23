@@ -2,10 +2,12 @@ import { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { LoginInfoContext } from "../context/LoginInfo";
 import { paths } from "../utils/helpers";
+import { useUser } from "../hooks/useUser";
 
 function RouteGuard(props: React.PropsWithChildren<{}>) {
     const { loginInfo } = useContext(LoginInfoContext)
     const location = useLocation()
+    useUser()
 
     function authGuard() {
         if (paths(['favorite', 'user'], location)) {

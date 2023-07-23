@@ -3,7 +3,7 @@ import { Box, InputLabel, MenuItem, FormControl } from '@mui/material';
 import BasicSelect, { SelectChangeEvent } from '@mui/material/Select';
 import { editStatus } from '../utils/services';
 import { toast } from 'react-toastify';
-import { expiredMsg, statusView } from '../utils/helpers';
+import { errorMsg, statusView } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { SelectProps, UserStatus } from '../utils/types';
@@ -22,7 +22,7 @@ export default function Select({ userStatus, userId, username }: SelectProps) {
                 setStatus(status)
                 toast.success(`${username} is now a ${status}`)
             })
-            .catch(e => expiredMsg(e, navigate, setLoginInfo))
+            .catch(e => errorMsg(e, navigate, setLoginInfo))
     };
 
     return (

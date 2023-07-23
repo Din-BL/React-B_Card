@@ -127,7 +127,7 @@ export interface BtnGroupProps {
 }
 
 export interface ContactProps {
-    businessInfo: BusinessCard[],
+    businessInfo: BusinessCard,
     contactSchema: AnySchema,
 }
 

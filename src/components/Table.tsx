@@ -6,7 +6,7 @@ import { Delete } from '@mui/icons-material';
 import { TableProps, UserStatus } from '../utils/types';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
-import { expiredMsg, logout, sortUser, status } from '../utils/helpers';
+import { errorMsg, sortUser, status } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { removeAlert } from '../utils/sweetalert';
@@ -45,7 +45,7 @@ export default function Table({ Users, userDeletion }: TableProps) {
                             toast.success(`${username} has been removed`)
                             userDeletion(id)
                         })
-                        .catch(e => expiredMsg(e, navigate, setLoginInfo))
+                        .catch(e => errorMsg(e, navigate, setLoginInfo))
                 }
             })
     }

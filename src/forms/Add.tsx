@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { DataContext } from "../context/Cards";
 import React, { useContext } from "react";
 import { LoginInfoContext } from "../context/LoginInfo";
-import { expiredMsg, logout } from "../utils/helpers";
+import { errorMsg } from "../utils/helpers";
 import { BusinessCard } from "../utils/types";
 
 function Add() {
@@ -23,7 +23,7 @@ function Add() {
                 navigate(`/my cards/${id}`)
                 toast.success(`${info.data.title} card been added`)
             })
-            .catch(e => expiredMsg(e, navigate, setLoginInfo))
+            .catch(e => errorMsg(e, navigate, setLoginInfo))
     }
 
     return <Form

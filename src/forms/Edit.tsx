@@ -2,42 +2,27 @@ import { useNavigate, useParams } from "react-router-dom";
 import Form from "../components/Form";
 import { CardFields } from "../utils/fields";
 import { cardSchema } from "../utils/schema";
-import { editCard, getCard } from "../utils/services";
+import { editCard } from "../utils/services";
 import { toast } from "react-toastify";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { DataContext } from "../context/Cards";
 import { getData } from "../utils/localStorage";
 import { LoginInfoContext } from "../context/LoginInfo";
-import { expiredMsg, logout } from "../utils/helpers";
+import { errorMsg } from "../utils/helpers";
 import { BusinessCard } from "../utils/types";
 import Swal from "sweetalert2";
 import { editAlert } from "../utils/sweetalert";
+import useCard from "../hooks/useCard";
 
 function Edit() {
+    const { setLoginInfo, loginInfo } = React.useContext(LoginInfoContext)
     const { editData } = useContext(DataContext)
     const { id } = useParams();
-    const { setLoginInfo } = React.useContext(LoginInfoContext)
-    const [initialValue, setInitialValue] = useState<BusinessCard>()
     const navigate = useNavigate()
     const userId = getData('user', '_id')
-    let error = 0
-
-    useEffect(() => {
-        const fetchData = async () => {
-            if (id) {
-                try {
-                    const res = await getCard(id);
-                    setInitialValue(res.data);
-                } catch (e: any) {
-                    const errMsg = e.response.data
-                    error > 0 && toast.warning(errMsg)
-                    error += 1
-                    errMsg.includes('expired') && logout(navigate, setLoginInfo)
-                }
-            }
-        };
-        fetchData();
-    }, []);
+    let { business } = loginInfo
+    business = business === null ? false : business
+    const card = useCard(business)
 
     const handleEdit = (data: BusinessCard) => {
         editAlert()
@@ -49,7 +34,7 @@ function Edit() {
                             navigate(`/my cards/${userId}`)
                             toast.success(`${info.data.title} info been updated`)
                         })
-                        .catch(e => expiredMsg(e, navigate, setLoginInfo))
+                        .catch(e => errorMsg(e, navigate, setLoginInfo))
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
                     navigate(`/my cards/${userId}`)
@@ -59,13 +44,13 @@ function Edit() {
 
     return (
         <>
-            {initialValue && (
+            {card && (
                 <Form
                     FormTitle='Edit Card'
                     FormFields={CardFields}
                     FormSchema={cardSchema}
                     handleForm={handleEdit}
-                    initialValue={initialValue}
+                    initialValue={card}
                 />
             )}
         </>

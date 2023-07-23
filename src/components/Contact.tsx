@@ -22,10 +22,10 @@ function Contact({ businessInfo, contactSchema }: ContactProps) {
     }
 
     const contactItems = [
-        { icon: <LocationOn />, label: 'Address', value: addressFormatter(businessInfo[0].city, businessInfo[0].street, businessInfo[0].houseNumber, businessInfo[0].country) },
-        { icon: <LocalPhone />, label: 'Phone', value: businessInfo[0].phone, link: `tel://${businessInfo[0].phone}` },
-        { icon: <Email />, label: 'Email', value: businessInfo[0].email, link: `mailto:${businessInfo[0].email}` },
-        { icon: <Language />, label: 'Website', value: businessInfo[0].web, link: businessInfo[0].web }
+        { icon: <LocationOn />, label: 'Address', value: addressFormatter(businessInfo.city, businessInfo.street, businessInfo.houseNumber, businessInfo.country) },
+        { icon: <LocalPhone />, label: 'Phone', value: businessInfo.phone, link: `tel://${businessInfo.phone}` },
+        { icon: <Email />, label: 'Email', value: businessInfo.email, link: `mailto:${businessInfo.email}` },
+        { icon: <Language />, label: 'Website', value: businessInfo.web, link: businessInfo.web }
     ];
 
     return (
@@ -61,7 +61,7 @@ function Contact({ businessInfo, contactSchema }: ContactProps) {
                                 </Box>
                             </Grid>
                             <Grid item xs={12} md={5}>
-                                <iframe style={{ height: '100%', width: '100%', border: '0' }} src={`https://www.google.com/maps/embed/v1/place?q=${businessInfo[0].street}+${businessInfo[0].houseNumber}+${businessInfo[0].city}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8`}></iframe>
+                                <iframe style={{ height: '100%', width: '100%', border: '0' }} src={`https://www.google.com/maps/embed/v1/place?q=${businessInfo.street}+${businessInfo.houseNumber}+${businessInfo.city}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8`}></iframe>
                             </Grid>
                         </Grid>
                         <Grid paddingY={5} container>

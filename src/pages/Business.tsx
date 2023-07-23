@@ -1,38 +1,19 @@
 import { Box, Card, CardMedia, Paper, useMediaQuery, Typography } from "@mui/material";
 import BackGround from "../assets/B-Symbol.png"
 import { getData } from "../utils/localStorage";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { BusinessCard } from "../utils/types";
-import React, { useEffect, useState } from "react";
 import Contact from "../components/Contact";
 import { contactSchema } from "../utils/schema";
-import { getCard } from "../utils/services";
-import { defaultImage, logout } from "../utils/helpers";
-import { toast } from "react-toastify";
-import { LoginInfoContext } from "../context/LoginInfo";
+import { defaultImage } from "../utils/helpers";
+import useCard from "../hooks/useCard";
 
 function Business() {
-    const [businessInfo, setBusinessInfo] = useState<BusinessCard[]>([])
     const { id } = useParams()
-    const { setLoginInfo } = React.useContext(LoginInfoContext)
-    const navigate = useNavigate()
-    const isBusiness = businessInfo.length > 0
     const isSmallScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
-    let data: BusinessCard[] = getData('*defaultCards*').filter((business: BusinessCard) => business._id === id)
-    let error = 0
-
-    useEffect(() => {
-        if (data.length === 0 && id) {
-            getCard(id)
-                .then((card) => setBusinessInfo([card.data]))
-                .catch(e => {
-                    const errMsg = e.response.data
-                    error > 0 && toast.warning(errMsg)
-                    error += 1
-                    errMsg.includes('expired') && logout(navigate, setLoginInfo)
-                })
-        } else setBusinessInfo(data)
-    }, [])
+    const data = { ...getData('*defaultCards*').find((business: BusinessCard) => business._id === id) };
+    const card = useCard('business', data)
+    const isBusiness = card?._id
 
     return (
         <Box>
@@ -41,10 +22,10 @@ function Business() {
                     <img src={BackGround} alt="image background" />
                 </div>
                 <article >
-                    <Typography variant={isSmallScreen ? 'h5' : 'h4'} paddingY={3} component={'h1'} color={'primary'} paddingLeft={1} >{isBusiness && businessInfo[0].title}</Typography>
+                    <Typography variant={isSmallScreen ? 'h5' : 'h4'} paddingY={3} component={'h1'} color={'primary'} paddingLeft={1} >{isBusiness && card.title}</Typography>
                     <Paper elevation={3} sx={{ padding: 2 }}>
-                        <Typography component={'h3'} className="title" color={'primary'} sx={{ fontSize: "20px" }}>{isBusiness && businessInfo[0].subtitle} </Typography>
-                        <p>{isBusiness && businessInfo[0].description}</p>
+                        <Typography component={'h3'} className="title" color={'primary'} sx={{ fontSize: "20px" }}>{isBusiness && card.subtitle} </Typography>
+                        <p>{isBusiness && card.description}</p>
                     </Paper>
                 </article>
                 {isBusiness &&
@@ -52,14 +33,14 @@ function Business() {
                         <CardMedia
                             component="img"
                             height="350"
-                            image={defaultImage(businessInfo[0].imageUrl)}
-                            alt={defaultImage(businessInfo[0].imageAlt)}
+                            image={defaultImage(card.imageUrl)}
+                            alt={defaultImage(card.imageAlt)}
                         />
                     </Card>
                 }
             </Box>
             {isBusiness &&
-                <Contact businessInfo={businessInfo} contactSchema={contactSchema} />
+                <Contact businessInfo={card} contactSchema={contactSchema} />
             }
         </Box>
     );

@@ -87,10 +87,14 @@ export function status(status: UserCard) {
     }
 }
 
-export function expiredMsg(e: any, navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<UseLogin>>) {
+export function errorMsg(e: any, navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<UseLogin>>, fetchData?: boolean) {
     const errMsg = e.response.data
     toast.error(errMsg)
-    errMsg.includes('expired') && logout(navigate, setLoginInfo)
+    if (errMsg.includes('expired')) {
+        logout(navigate, setLoginInfo)
+    } else if (fetchData) {
+        navigate('/error')
+    }
 }
 
 export function removeDefaultCard(id: string, setCards: React.Dispatch<React.SetStateAction<BusinessCard[]>>) {
@@ -104,3 +108,6 @@ export function removeDefaultCard(id: string, setCards: React.Dispatch<React.Set
     setCards(filteredCards)
     toast.success(`${removed[0].title} been removed`)
 }
+
+
+

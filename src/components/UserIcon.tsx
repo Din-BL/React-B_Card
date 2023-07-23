@@ -5,7 +5,7 @@ import { getData, removeData } from '../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
-import { expiredMsg, logout } from '../utils/helpers';
+import { errorMsg, logout } from '../utils/helpers';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { removeAlert } from '../utils/sweetalert';
 
@@ -43,7 +43,7 @@ export default function UserIcon() {
                             removeData(userName)
                             handleLogout()
                         })
-                        .catch(e => expiredMsg(e, navigate, setLoginInfo))
+                        .catch(e => errorMsg(e, navigate, setLoginInfo))
                 }
             })
     };
