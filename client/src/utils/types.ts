@@ -4,9 +4,7 @@ import { ReactNode } from "react";
 export type Pages = 'About' | 'Favorite' | 'My Cards' | 'SandBox'
 export type UserStatus = 'User' | 'Business' | 'Admin'
 export type FormData = BusinessCard | UserCard
-export type SignatureFormData = FormData & {
-    [key: string]: any;
-};
+export type SignatureFormData = FormData & { [key: string]: any };
 
 export interface SelectProps {
     userStatus: UserStatus,

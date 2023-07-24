@@ -1,4 +1,3 @@
-
 module.exports.formatDateTime = (dateTime) => {
     const date = new Date(dateTime);
     const hours = String(date.getHours()).padStart(2, '0');
