@@ -17,12 +17,14 @@ function User() {
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const { initialValue } = useUser()
     const navigate = useNavigate()
+    const status = { business: initialValue?.business || false, admin: initialValue?.admin || false }
+    const staticData = { email: initialValue?.email || '', userName: initialValue?.userName || '' }
 
     const handleUser = (data: UserCard) => {
         editAlert()
             .then((result) => {
                 if (result.isConfirmed && id) {
-                    editUser(id, data)
+                    editUser(id, { ...data, ...status, ...staticData })
                         .then((info) => {
                             navigate(`/home/${id}`)
                             toast.success(`${info.data.userName} info been updated`)

@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 
 // Endpoints
 
-router.delete("/init", async (req, res) => {
+router.delete("/init", async (req, res) => { /*Postman use case*/
   try {
     const reset = await User.deleteMany();
     if (!reset.deletedCount) return res.status(404).send("There are no registered users");
@@ -24,17 +24,17 @@ router.delete("/init", async (req, res) => {
 router.delete("/:id", userAuthenticate, async (req, res) => {
   try {
     const deleteUser = await User.findByIdAndDelete(req.params.id);
-    if (!deleteUser) return res.status(404).send("User doest exist");
+    if (!deleteUser) return res.status(404).json("User doest exist");
     res.status(200).json("User been deleted");
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 });
 
 router.post("/register", userValidate, async (req, res) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).json(_.pick(user, ["_id", "userName", "email", "business", "admin"]));
+    res.status(201).json(_.pick(user, ["userName"]));
   } catch (error) {
     if (error.message.includes("email")) return res.status(400).json("Email already exists");
     if (error.message.includes("userName")) return res.status(400).json("User name already exists");
@@ -50,7 +50,7 @@ router.post("/login", userValidate, async (req, res) => {
     const lastFailedAttemptTime = findUser.lastFailedAttempt || 0;
     const hoursSinceLastFailedAttempt = Math.floor((currentTime - lastFailedAttemptTime) / (1000 * 60 * 60));
     if (findUser.loginAttempts >= 3 && hoursSinceLastFailedAttempt < 24) {
-      return res.status(403).json("Account is locked. Please contact support.");
+      return res.status(403).json("Your Account Has Been Temporarily Locked");
     }
     if (await bcrypt.compare(req.body.password, findUser.password)) {
       findUser.loginAttempts = 0;
@@ -82,27 +82,27 @@ router.post("/login", userValidate, async (req, res) => {
 router.get("/", userAuthenticate, async (req, res) => {
   try {
     const usersDetails = await User.find();
-    if (!usersDetails) return res.status(404).send("Users doest exist");
+    if (!usersDetails) return res.status(404).json("Users doest exist");
     const filteredDetails = usersDetails.map((user) => {
       return (_.pick(user, ["_id", "userName", "email", "business", "admin"]));
     });
     res.status(200).json(filteredDetails);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 });
 
 router.get("/:id", userAuthenticate, async (req, res) => {
   try {
     const userDetails = await User.findById(req.params.id).select('-password');
-    if (!userDetails) return res.status(404).send("User doest exist");
+    if (!userDetails) return res.status(404).json("User doest exist");
     res.status(200).json(userDetails);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json(error.message);
   }
 });
 
-router.put("/:id", userAuthenticate, async (req, res) => {
+router.put("/:id", userAuthenticate, userValidate, async (req, res) => {
   try {
     if (req.body.password) req.body.password = await bcrypt.hash(req.body.password, 10);
     const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });

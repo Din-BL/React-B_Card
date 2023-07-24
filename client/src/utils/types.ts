@@ -73,6 +73,7 @@ export interface UserCard {
     business: boolean;
     admin: boolean;
     _id?: string
+    [key: string]: any;
 }
 
 export interface BusinessCard {

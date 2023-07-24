@@ -5,7 +5,7 @@ const { formatDateTime } = require("./helpers")
 
 module.exports.userValidate = (req, res, next) => {
   if (req.baseUrl === "/user") {
-    req.path === "/register" ? (schema = registerSchema) : (schema = loginSchema);
+    req.path === "/login" ? (schema = loginSchema) : (schema = registerSchema);
   } else {
     schema = businessSchema;
   }

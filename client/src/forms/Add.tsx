@@ -9,15 +9,19 @@ import React, { useContext } from "react";
 import { LoginInfoContext } from "../context/LoginInfo";
 import { errorMsg } from "../utils/helpers";
 import { BusinessCard } from "../utils/types";
+import { useUser } from "../hooks/useUser";
 
 function Add() {
     const { id } = useParams();
     const navigate = useNavigate()
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const { addData } = useContext(DataContext)
+    const { initialValue } = useUser()
+    const userEmail = { email: initialValue?.email || '' }
+    for (let key in initialValue) if (key !== "email") initialValue[key] = "";
 
     const handleAdd = (data: BusinessCard) => {
-        addCard(data)
+        addCard({ ...data, ...userEmail })
             .then((info) => {
                 addData(info.data)
                 navigate(`/my cards/${id}`)
@@ -26,12 +30,19 @@ function Add() {
             .catch(e => errorMsg(e, navigate, setLoginInfo))
     }
 
-    return <Form
-        FormTitle='Create Card'
-        FormFields={CardFields}
-        FormSchema={cardSchema}
-        handleForm={handleAdd}
-    ></Form>
+    return (
+        <>
+            {initialValue && (
+                <Form
+                    FormTitle='Create Card'
+                    FormFields={CardFields}
+                    FormSchema={cardSchema}
+                    handleForm={handleAdd}
+                    initialValue={initialValue}
+                />
+            )}
+        </>
+    )
 }
 
 export default Add;

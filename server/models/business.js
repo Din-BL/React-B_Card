@@ -29,6 +29,7 @@ const businessSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    lowercase: true,
     trim: true,
     match: /^\S+@\S+\.\S+$/,
     message: "Invalid email address format"
@@ -84,19 +85,6 @@ const businessSchema = new mongoose.Schema({
     maxlength: 128
   },
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
-});
-
-// Generating random numbers before saving them to the database
-businessSchema.pre("save", async function (next) {
-  const user = this;
-  let random = Math.floor(Math.random() * 1000000);
-  let unique = await user.constructor.findOne({ number: random });
-  while (unique !== null) {
-    random = Math.floor(Math.random() * 1000000);
-    unique = await user.constructor.findOne({ number: random });
-  }
-  user.number = random;
-  next();
 });
 
 module.exports = mongoose.model("Business", businessSchema)

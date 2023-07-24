@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { UserCard } from "../utils/types";
+import { BusinessCard, UserCard } from "../utils/types";
 import { getUser } from "../utils/services";
 import { LoginInfoContext } from "../context/LoginInfo";
 import { useNavigate, useParams } from "react-router-dom";
