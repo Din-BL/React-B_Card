@@ -104,7 +104,8 @@ router.get("/:id", userAuthenticate, async (req, res) => {
 
 router.put("/:id", userAuthenticate, async (req, res) => {
   try {
-    const updateUser = await User.findByIdAndUpdate(req.params.id, req.body);
+    if (req.body.password) req.body.password = await bcrypt.hash(req.body.password, 10);
+    const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!updateUser) return res.status(404).json("User doest exist");
     res.status(201).json(updateUser);
   } catch (error) {

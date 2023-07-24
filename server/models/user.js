@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 2,
-      unique: true,
+      unique: true
     },
     phone: {
       type: String,
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       minlength: 10,
       match: /^(050|052|053|054|055)\d{7}$/,
-      message: "Invalid phone format",
+      message: "Invalid phone format"
     },
     email: {
       type: String,
@@ -34,14 +34,14 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       match: /^\S+@\S+\.\S+$/,
-      message: "Invalid email address format",
+      message: "Invalid email address format"
     },
     password: {
       type: String,
       required: true,
       trim: true,
       minlength: 8,
-      maxlength: 128,
+      maxlength: 128
     },
     imageUrl: {
       type: String,
@@ -52,63 +52,61 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
       trim: true,
-      maxlength: 128,
+      maxlength: 128
     },
     state: {
       type: String,
       required: false,
-      maxlength: 128,
+      maxlength: 128
     },
     country: {
       type: String,
       required: true,
       minlength: 2,
-      maxlength: 128,
+      maxlength: 128
     },
     city: {
       type: String,
       required: true,
       minlength: 2,
-      maxlength: 128,
+      maxlength: 128
     },
     street: {
       type: String,
       required: true,
       minlength: 2,
-      maxlength: 128,
+      maxlength: 128
     },
     houseNumber: {
       type: String,
       required: true,
       trim: true,
-      maxlength: 128,
+      maxlength: 128
     },
     zip: {
       type: String,
       required: false,
       trim: true,
-      maxlength: 128,
+      maxlength: 128
     },
     business: {
       type: Boolean,
-      default: false,
+      default: false
     },
     admin: {
       type: Boolean,
-      default: false,
+      default: false
     },
     loginAttempts: {
       type: Number,
-      default: 0,
+      default: 0
     },
     lastFailedAttempt: {
       type: Date,
-      default: undefined,
+      default: undefined
     },
   },
-  {
-    strict: true,
-  }
+  { strict: true }
 );
 
 // Hash the password before saving it to the database
