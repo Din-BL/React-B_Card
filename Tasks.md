@@ -1,2 +1,1 @@
-2. add card to all
-3. telephone & click
+1. add card to all

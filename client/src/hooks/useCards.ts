@@ -13,6 +13,10 @@ export default function useCards() {
         return storedCards;
     });
 
+    function addDefaultCard(data: BusinessCard) {
+        setCards((currentData) => [...currentData, data])
+    }
+
     function cardsFiltered() {
         const removedCards = getData('removedCards')
         if (removedCards) {
@@ -36,7 +40,7 @@ export default function useCards() {
         setData("*defaultCards*", cards)
     }, [cards]);
 
-    return { cards, setCards, searchDefaultCards };
+    return { cards, setCards, searchDefaultCards, addDefaultCard };
 }
 
 
