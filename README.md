@@ -6,7 +6,7 @@
 
 
 # CRM App
-This is a Business Card Management app built with React, Material UI, and Node.js.<br>
+This is a Business Card Management app built with React, Material UI, Node.js, and MongoDB.<br>
 This README file explains how to run the app.
 
  ### Installation<br>
