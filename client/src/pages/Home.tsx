@@ -7,7 +7,6 @@ import { Container, Grid, Box } from '@mui/material';
 
 function Home() {
     const { cards } = useContext(CardsContext)
-
     return (
         <Container maxWidth='lg' sx={{ paddingBottom: 3 }}>
             <Box component={'main'} flexGrow={1} minHeight='85dvh' >

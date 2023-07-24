@@ -57,7 +57,6 @@ router.post("/login", userValidate, async (req, res) => {
       findUser.lastFailedAttempt = undefined;
       await findUser.save()
       const iat = Math.floor(Date.now() / 1000);
-      // const exp = iat + 5;
       const exp = iat + 60 * 30;
       const payload = {
         sub: req.body.email,

@@ -40,7 +40,6 @@ function App() {
               <Route path='/edit/:id' element={<RouteGuard><Edit /></RouteGuard>} />
               <Route path='/sandbox/:id' element={<RouteGuard><SandBox /></RouteGuard>} />
               <Route path='*' element={<Error />} />
-              {/* If user that is logged in click the "back button" navigate to `home` */}
             </Routes>
           </BackGround>
           <Footer />

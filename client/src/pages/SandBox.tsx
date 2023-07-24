@@ -5,7 +5,6 @@ import Table from "../components/Table";
 
 function SandBox() {
     const { users, deleteUser } = useUsers()
-
     return (
         <Container maxWidth="md">
             <Box component={'main'} minHeight='85dvh' >
