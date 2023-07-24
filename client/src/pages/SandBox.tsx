@@ -8,7 +8,7 @@ function SandBox() {
     return (
         <Container maxWidth="md">
             <Box component={'main'} minHeight='85dvh' >
-                <Title main="SandBox Page" sub="Here you can find business cards from all catagories" />
+                <Title main="SandBox Page" sub="Here you can manage all of the registered users" />
                 {users.length > 0 &&
                     <Table Users={users} userDeletion={deleteUser} />
                 }
