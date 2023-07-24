@@ -101,7 +101,7 @@ router.get("/:id", userAuthenticate, async (req, res) => {
   }
 });
 
-router.put("/:id", userAuthenticate, userValidate, async (req, res) => {
+router.put("/:id", userAuthenticate, async (req, res) => {
   try {
     if (req.body.password) req.body.password = await bcrypt.hash(req.body.password, 10);
     const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });

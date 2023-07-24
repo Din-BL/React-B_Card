@@ -48,31 +48,33 @@ export default function B_CARD({ card }: B_CardProps) {
     return (
         <Box display={'flex'} justifyContent={'center'}  >
             <Card sx={{ width: 345, height: 444, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <CardMedia
-                    component="img"
-                    alt={defaultAlt(card.imageAlt)}
-                    height="220"
-                    image={defaultImage(card.imageUrl)}
-                />
-                <CardContent sx={{ padding: '12px' }}>
-                    <Typography variant="h6" component="div">
-                        {card.title}
-                    </Typography>
-                    <Typography paddingBottom={1} borderBottom={'1px solid #9d9d9d'} variant="body2" color="text.secondary">
-                        {card.subtitle}
-                    </Typography>
-                    <Typography paddingTop={1} variant="body2" color="text.secondary">
-                        <span style={{ fontWeight: "bold" }}> Phone: </span>
-                        {phoneFormatter(card.phone)}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        <span style={{ fontWeight: "bold" }}> Address: </span>
-                        {addressFormatter(card.city, card.street, card.houseNumber)}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        <span style={{ fontWeight: "bold" }}> Card Number: </span>{idShortcut(card._id!)}
-                    </Typography>
-                </CardContent>
+                <Box sx={{ cursor: 'pointer' }} onClick={() => navigate(`/business/${card._id}`)}>
+                    <CardMedia
+                        component="img"
+                        alt={defaultAlt(card.imageAlt)}
+                        height="220"
+                        image={defaultImage(card.imageUrl)}
+                    />
+                    <CardContent sx={{ padding: '12px' }}>
+                        <Typography variant="h6" component="div">
+                            {card.title}
+                        </Typography>
+                        <Typography paddingBottom={1} borderBottom={'1px solid #9d9d9d'} variant="body2" color="text.secondary">
+                            {card.subtitle}
+                        </Typography>
+                        <Typography paddingTop={1} variant="body2" color="text.secondary">
+                            <span style={{ fontWeight: "bold" }}> Phone: </span>
+                            {phoneFormatter(card.phone)}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            <span style={{ fontWeight: "bold" }}> Address: </span>
+                            {addressFormatter(card.city, card.street, card.houseNumber)}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            <span style={{ fontWeight: "bold" }}> Card Number: </span>{idShortcut(card._id!)}
+                        </Typography>
+                    </CardContent>
+                </Box>
                 <CardActions sx={{ justifyContent: 'space-between' }}>
                     <Stack direction={'row'} spacing={1} >
                         {trashView &&
@@ -82,7 +84,7 @@ export default function B_CARD({ card }: B_CardProps) {
                         }
                     </Stack>
                     <Stack direction={'row'} spacing={1} >
-                        <Phone onClick={() => navigate(`/business/${card._id}`)} color='action' />
+                        <a href={`tel://${card.phone}`}><Phone color='action' /></a>
                         {logged &&
                             <Checkbox onClick={() => favoriteCard(toggle, card, setFavorite)}
                                 checked={checked}
