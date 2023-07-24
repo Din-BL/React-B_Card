@@ -11,7 +11,7 @@ This README file explains how to run the app.
 
  ### Installation<br>
 Clone the repository to your local machine.<br>
-Make sure to have Node.js installed on your machine.<br>
+Make sure to have Node.js, and MongoDB installed on your machine.<br>
 
 ## Running the App<br>
 To run the app, you need to open two terminals:<br>
