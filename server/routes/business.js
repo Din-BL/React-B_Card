@@ -22,12 +22,14 @@ router.post("/", userAuthenticate, userValidate, async (req, res) => {
   try {
     const user = await User.findOne({ email: req.user.sub });
     if (!user) return res.status(404).json("User doest exist");
+    if (user.email === req.body.email) return res.status(400).json("User email can't be used twice");
     if (!user.business) return res.status(403).json("Must be a business owner");
     const business = new Business(req.body);
     business.user_id = user.id;
     await business.save();
     res.status(201).json(business);
   } catch (error) {
+    if (error.message.includes("email")) return res.status(400).json("Email already exists");
     res.status(400).json(error.message);
   }
 });

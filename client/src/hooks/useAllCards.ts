@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { BusinessCard, UserCard } from "../utils/types";
-import { getAllCards, getUser } from "../utils/services";
+import { BusinessCard } from "../utils/types";
+import { getAllCards } from "../utils/services";
 import { LoginInfoContext } from "../context/LoginInfo";
 import { useNavigate } from "react-router-dom";
 import { errorMsg } from "../utils/helpers";

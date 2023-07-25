@@ -15,7 +15,7 @@ export const defaultCards: BusinessCard[] = [
         street: "Dizengoff",
         houseNumber: '12',
         zip: '12345',
-        _id: '83724561'
+        _id: '60dfe1c8f6f4f0012ae2d34'
     },
     {
         title: "David's Plumbing Services",
@@ -31,7 +31,7 @@ export const defaultCards: BusinessCard[] = [
         street: "King George",
         houseNumber: '45',
         zip: '54321',
-        _id: '12093874'
+        _id: '60d4e1c8f6f4f0012ae2d35'
     },
     {
         title: "Mike's Electrician Services",
@@ -47,7 +47,7 @@ export const defaultCards: BusinessCard[] = [
         street: "Rothschild Boulevard",
         houseNumber: '17',
         zip: '67890',
-        _id: '58293106'
+        _id: '60df4e1c8f6f4f0z12ae2d3'
     },
     {
         title: "Sarah's Cleaning Company",
@@ -63,7 +63,7 @@ export const defaultCards: BusinessCard[] = [
         street: "Herzl",
         houseNumber: '56',
         zip: '98765',
-        _id: '94650213'
+        _id: '60df4e1c8f6f4f0012ae2d7'
     },
     {
         title: "Rachel's Graphic Design",
@@ -79,7 +79,7 @@ export const defaultCards: BusinessCard[] = [
         street: "Rothschild",
         houseNumber: '123',
         zip: '54321',
-        _id: '37482901'
+        _id: '60df4e1c8f6f4f0t12ae2d38'
     },
     {
         title: "Mark's Photography Studio",
@@ -95,7 +95,7 @@ export const defaultCards: BusinessCard[] = [
         street: "Allenby",
         houseNumber: '789',
         zip: '98765',
-        _id: '65091284'
+        _id: '60df4e1c8f6f4f0012ae2d3'
     },
     {
         title: "Alex's Fitness Training",
@@ -111,8 +111,9 @@ export const defaultCards: BusinessCard[] = [
         street: "Herzl",
         houseNumber: '456',
         zip: '12345',
-        _id: '40391827'
+        _id: '60df41c8f6f4f0012ae2d3a'
     },
+
     {
         title: "Sophie's Bakery",
         subtitle: "Baker",
@@ -127,6 +128,6 @@ export const defaultCards: BusinessCard[] = [
         street: "Ben Yehuda",
         houseNumber: '789',
         zip: '54321',
-        _id: '21873906'
+        _id: '60df4e1c8f6u4f0012ae2d3'
     }
 ];

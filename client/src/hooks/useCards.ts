@@ -27,11 +27,11 @@ export default function useCards() {
         const removedCards = getData('removedCards')
         if (removedCards) {
             return defaultCards.filter(card => {
-                return !removedCards.some((removeCard: BusinessCard) => removeCard._id === card._id)
-                // return !removedCards.some((removeCard: BusinessCard) => removeCard.email === card.email)
+                return !removedCards.some((removeCard: BusinessCard) => removeCard.email === card.email)
             })
+        } else {
+            return [...defaultCards, ...(AllCards?.length ? AllCards : [])];
         }
-        return [...defaultCards, ...(AllCards?.length ? AllCards : [])];
     }
 
     const searchDefaultCards = (e: ChangeEvent<HTMLInputElement>) => {

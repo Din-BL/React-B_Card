@@ -30,6 +30,7 @@ const businessSchema = new mongoose.Schema({
     type: String,
     required: true,
     lowercase: true,
+    unique: true,
     trim: true,
     match: /^\S+@\S+\.\S+$/,
     message: "Invalid email address format"
