@@ -1,12 +1,18 @@
 import { BusinessCard } from './../utils/types';
-import { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { defaultCards } from "../utils/cards";
 import { getData, setData } from "../utils/localStorage";
-import { useAllCards } from './useAllCards';
+import { getAllCards } from '../utils/services';
+import { errorMsg } from '../utils/helpers';
+import { LoginInfoContext } from '../context/LoginInfo';
+import { useNavigate } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
 
 export default function useCards() {
-    const allCards = useAllCards()
-    const AllCards = allCards.allCards
+    const { setLoginInfo, loginInfo } = React.useContext(LoginInfoContext)
+    const [allCards, setAllCards] = useState<BusinessCard[]>([])
+    const { logged } = loginInfo
+    const navigate = useNavigate()
 
     const [cards, setCards] = useState<Array<BusinessCard>>(() => {
         const storedCards: BusinessCard[] = getData("*defaultCards*")
@@ -18,7 +24,6 @@ export default function useCards() {
         }
     });
 
-    // ?????
     function addDefaultCard(data: BusinessCard) {
         setCards((currentData) => [...currentData, data])
     }
@@ -26,13 +31,12 @@ export default function useCards() {
     function cardsFiltered() {
         const removedCards = getData('removedCards')
         if (removedCards) {
-            return defaultCards.filter(card => {
+            const updatedCards = [...defaultCards, ...(allCards?.length ? allCards : [])]
+            return updatedCards.filter(card => {
                 return !removedCards.some((removeCard: BusinessCard) => removeCard.email === card.email)
             })
         } else {
-            console.log(AllCards);
-
-            return [...defaultCards, ...(AllCards?.length ? AllCards : [])];
+            return [...defaultCards, ...(allCards?.length ? allCards : [])];
         }
     }
 
@@ -47,6 +51,11 @@ export default function useCards() {
 
     useEffect(() => {
         setData("*defaultCards*", cards)
+        if (logged) {
+            getAllCards()
+                .then((res: AxiosResponse<BusinessCard[]>) => setAllCards(res.data))
+                .catch((e) => errorMsg(e, navigate, setLoginInfo, true))
+        }
     }, [cards]);
 
     return { cards, setCards, searchDefaultCards, addDefaultCard };
