@@ -22,7 +22,6 @@ export function useFavorite() {
 
     function deleteFavorite(id: string) {
         setFavorite((currentData) => currentData && currentData.filter((data) => data._id !== id))
-        // setFavorite((currentData) => currentData && currentData.filter((data) => data._id !== id))
     }
 
     useEffect(() => {

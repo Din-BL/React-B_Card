@@ -12,7 +12,7 @@ function RouteGuard(props: React.PropsWithChildren<{}>) {
     function authGuard() {
         if (paths(['favorite', 'user'], location)) {
             return loginInfo.logged
-        } else if (paths(['my%20cards', 'add', 'edit'], location)) {
+        } else if (paths(['my-cards', 'add', 'edit'], location)) {
             return loginInfo.business
         } else {
             return loginInfo.admin
