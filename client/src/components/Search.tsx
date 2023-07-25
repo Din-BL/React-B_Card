@@ -55,8 +55,8 @@ function Search() {
 
     function searchCards(e: ChangeEvent<HTMLInputElement>) {
         searchDefaultCards(e)
-        // business && searchData(e)
-        // logged && searchFavorite(e)
+        business && searchData(e)
+        logged && searchFavorite(e)
     }
 
     return (

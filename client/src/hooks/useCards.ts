@@ -13,6 +13,8 @@ export default function useCards() {
     const [allCards, setAllCards] = useState<BusinessCard[]>([])
     const { logged } = loginInfo
     const navigate = useNavigate()
+    const updatedCards = [...defaultCards, ...(allCards?.length ? allCards : [])]
+    const removedCards = getData('removedCards')
 
     const [cards, setCards] = useState<Array<BusinessCard>>(() => {
         const storedCards: BusinessCard[] = getData("*defaultCards*")
@@ -29,14 +31,12 @@ export default function useCards() {
     }
 
     function cardsFiltered() {
-        const removedCards = getData('removedCards')
         if (removedCards) {
-            const updatedCards = [...defaultCards, ...(allCards?.length ? allCards : [])]
             return updatedCards.filter(card => {
                 return !removedCards.some((removeCard: BusinessCard) => removeCard.email === card.email)
             })
         } else {
-            return [...defaultCards, ...(allCards?.length ? allCards : [])];
+            return updatedCards;
         }
     }
 
