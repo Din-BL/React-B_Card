@@ -56,6 +56,10 @@ export function getCards() {
     return axios.get(`${url}/business`, createConfig());
 }
 
+export function getAllCards() {
+    return axios.get(`${url}/business/all`, createConfig());
+}
+
 export function deleteCard(id: string) {
     return axios.delete(`${url}/business/${id}`, createConfig());
 }

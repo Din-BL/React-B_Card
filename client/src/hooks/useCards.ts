@@ -2,15 +2,21 @@ import { BusinessCard } from './../utils/types';
 import { ChangeEvent, useEffect, useState } from "react";
 import { defaultCards } from "../utils/cards";
 import { getData, setData } from "../utils/localStorage";
+import { useAllCards } from './useAllCards';
 
 export default function useCards() {
+    const allCards = useAllCards()
+    const AllCards = allCards.allCards
+
     const [cards, setCards] = useState<Array<BusinessCard>>(() => {
         const storedCards: BusinessCard[] = getData("*defaultCards*")
         if (!storedCards) {
             localStorage.clear()
             return defaultCards;
+        } else {
+
+            return storedCards;
         }
-        return storedCards;
     });
 
     function addDefaultCard(data: BusinessCard) {
@@ -21,10 +27,11 @@ export default function useCards() {
         const removedCards = getData('removedCards')
         if (removedCards) {
             return defaultCards.filter(card => {
-                return !removedCards.some((removeCard: BusinessCard) => removeCard.email === card.email)
+                return !removedCards.some((removeCard: BusinessCard) => removeCard._id === card._id)
+                // return !removedCards.some((removeCard: BusinessCard) => removeCard.email === card.email)
             })
         }
-        return defaultCards
+        return [...defaultCards, ...(AllCards?.length ? AllCards : [])];
     }
 
     const searchDefaultCards = (e: ChangeEvent<HTMLInputElement>) => {

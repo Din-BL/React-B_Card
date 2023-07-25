@@ -32,16 +32,6 @@ router.post("/", userAuthenticate, userValidate, async (req, res) => {
   }
 });
 
-router.get("/:id", userAuthenticate, async (req, res) => {
-  try {
-    const findBusiness = await Business.findById(req.params.id);
-    if (!findBusiness) return res.status(404).json("Business doest exist");
-    res.status(200).json(findBusiness);
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
-});
-
 router.put("/:id", userAuthenticate, async (req, res) => {
   try {
     const updateBusiness = await Business.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
@@ -69,6 +59,26 @@ router.get("", userAuthenticate, async (req, res) => {
     const findBusinesses = await Business.find({ user_id: userInfo.id });
     if (!findBusinesses) return res.status(404).json("User has no registered businesses");
     res.status(200).json(findBusinesses);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+router.get("/all", userAuthenticate, async (req, res) => {
+  try {
+    const findBusinesses = await Business.find();
+    if (!findBusinesses) return res.status(404).json("No businesses found");
+    res.status(200).json(findBusinesses);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+router.get("/:id", userAuthenticate, async (req, res) => {
+  try {
+    const findBusiness = await Business.findById(req.params.id);
+    if (!findBusiness) return res.status(404).json("Business doest exist");
+    res.status(200).json(findBusiness);
   } catch (error) {
     res.status(400).json(error.message);
   }

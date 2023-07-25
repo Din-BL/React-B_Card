@@ -7,7 +7,7 @@ import B_CARD from "../components/B_Card";
 import { useContext } from "react";
 import { DataContext } from "../context/Cards";
 
-function My_Cards() {
+function MyCards() {
     const navigate = useNavigate()
     const { id } = useParams();
     const { data } = useContext(DataContext)
@@ -33,4 +33,4 @@ function My_Cards() {
     );
 }
 
-export default My_Cards;
+export default MyCards;

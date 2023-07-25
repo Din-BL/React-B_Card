@@ -22,7 +22,7 @@ export default function B_CARD({ card }: B_CardProps) {
     const { setFavorite, deleteFavorite } = useContext(FavoriteContext)
     const { setCards } = useContext(CardsContext)
     const navigate = useNavigate()
-    const trashView = pathUrl(`my%20cards`, location) || pathUrl(`home`, location) && admin
+    const trashView = (pathUrl(`my-cards`, location) || pathUrl(`home`, location)) && admin
 
     function removeCard() {
         removeAlert()
@@ -79,12 +79,12 @@ export default function B_CARD({ card }: B_CardProps) {
                     <Stack direction={'row'} spacing={1} >
                         {trashView &&
                             <Delete onClick={removeCard} color='action' />}
-                        {pathUrl(`my%20cards/`, location) &&
+                        {pathUrl(`my-cards/`, location) &&
                             <Edit onClick={() => navigate(`/edit/${card._id}`)} color='action' />
                         }
                     </Stack>
                     <Stack direction={'row'} spacing={1} >
-                        <a href={`tel://${card.phone}`}><Phone color='action' /></a>
+                        <Phone onClick={() => window.location.href = `tel://${card.phone}`} color='action' />
                         {logged &&
                             <Checkbox onClick={() => favoriteCard(toggle, card, setFavorite)}
                                 checked={checked}

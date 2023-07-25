@@ -4,6 +4,10 @@ import { Location, NavigateFunction } from "react-router-dom";
 import { getData, removeData, setData } from "./localStorage";
 import { toast } from "react-toastify";
 
+export function kebabCase(path: string) {
+    return path.includes('-') ? path.replace('-', " ") : path
+}
+
 export const inputData = (field: FormField) => {
     return field.state ? field.state : field.label
 }

@@ -31,13 +31,13 @@ function Edit() {
                     editCard(id, data)
                         .then((info) => {
                             editData(id, info.data)
-                            navigate(`/my cards/${userId}`)
+                            navigate(`/my-cards/${userId}`)
                             toast.success(`${info.data.title} info been updated`)
                         })
                         .catch(e => errorMsg(e, navigate, setLoginInfo))
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
-                    navigate(`/my cards/${userId}`)
+                    navigate(`/my-cards/${userId}`)
                 }
             })
     }

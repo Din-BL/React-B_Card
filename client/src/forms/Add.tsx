@@ -29,7 +29,7 @@ function Add() {
                 const defaultCards: BusinessCard[] = getData("*defaultCards*")
                 setData(("*defaultCards*"), [...defaultCards, info.data])
                 addDefaultCard(info.data)
-                navigate(`/my cards/${id}`)
+                navigate(`/my-cards/${id}`)
                 toast.success(`${info.data.title} card been added`)
             })
             .catch(e => errorMsg(e, navigate, setLoginInfo))
