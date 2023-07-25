@@ -8,10 +8,14 @@ import { AxiosResponse } from "axios";
 
 export function useAllCards() {
     const { setLoginInfo, loginInfo } = React.useContext(LoginInfoContext)
-    const [allCards, setAllCards] = useState<BusinessCard[]>()
+    const [allCards, setAllCards] = useState<BusinessCard[]>([])
     const { logged } = loginInfo
     const navigate = useNavigate()
     let error = 0
+
+    function addCardToAll(data: BusinessCard) {
+        setAllCards((currentData) => [...currentData, data])
+    }
 
     useEffect(() => {
         if (logged && !error) {
@@ -22,6 +26,6 @@ export function useAllCards() {
         }
     }, [logged]);
 
-    return { allCards }
+    return { allCards, addCardToAll }
 }
 

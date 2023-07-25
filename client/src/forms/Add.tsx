@@ -10,6 +10,7 @@ import { LoginInfoContext } from "../context/LoginInfo";
 import { errorMsg } from "../utils/helpers";
 import { BusinessCard } from "../utils/types";
 import { getData, setData } from "../utils/localStorage";
+import { useAllCards } from "../hooks/useAllCards";
 
 function Add() {
     const { id } = useParams();
@@ -17,6 +18,7 @@ function Add() {
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const { addData } = useContext(DataContext)
     const { addDefaultCard } = useContext(CardsContext)
+    const { addCardToAll } = useAllCards()
 
     const handleAdd = (data: BusinessCard) => {
         addCard(data)
@@ -25,6 +27,7 @@ function Add() {
                 const defaultCards: BusinessCard[] = getData("*defaultCards*")
                 setData(("*defaultCards*"), [...defaultCards, info.data])
                 addDefaultCard(info.data)
+                addCardToAll(info.data)
                 navigate(`/my-cards/${id}`)
                 toast.success(`${info.data.title} card been added`)
             })

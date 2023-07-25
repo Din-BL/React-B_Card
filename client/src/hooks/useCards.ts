@@ -14,11 +14,11 @@ export default function useCards() {
             localStorage.clear()
             return defaultCards;
         } else {
-
             return storedCards;
         }
     });
 
+    // ?????
     function addDefaultCard(data: BusinessCard) {
         setCards((currentData) => [...currentData, data])
     }
@@ -30,6 +30,8 @@ export default function useCards() {
                 return !removedCards.some((removeCard: BusinessCard) => removeCard.email === card.email)
             })
         } else {
+            console.log(AllCards);
+
             return [...defaultCards, ...(AllCards?.length ? AllCards : [])];
         }
     }
