@@ -1,4 +1,4 @@
-import { Box, Container, Fab, Grid } from "@mui/material";
+import { Alert, Box, Container, Fab, Grid } from "@mui/material";
 import Title from "../components/Title";
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,6 +16,7 @@ function MyCards() {
         <Container sx={{ paddingBottom: 3 }}>
             <Box component={'main'} flexGrow={1} minHeight='85dvh' >
                 <Title main="My Cards" sub="Here you can manage all of your business cards" />
+                {data.length === 0 && <Alert sx={{ marginBottom: 3 }} variant="outlined" severity="info">No business card has been registered yet</Alert>}
                 <Grid container spacing={{ xs: 4, sm: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     {data.map((card: BusinessCard) => (
                         <Grid key={card._id} item xs={4} sm={4} md={3} >
