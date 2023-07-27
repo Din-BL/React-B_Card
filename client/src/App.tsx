@@ -30,7 +30,7 @@ function App() {
             <Routes>
               <Route path='/register' element={<Register />} />
               <Route path='/login' element={<Login />} />
-              <Route path='/about' element={<About />} />
+              <Route path='/about/:id?' element={<About />} />
               <Route path='/home/:id?' element={<Home />} />
               <Route path='/business/:id' element={<Business />} />
               <Route path='/favorite/:id' element={<RouteGuard><Favorite /></RouteGuard>} />

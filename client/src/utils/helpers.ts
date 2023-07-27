@@ -1,8 +1,12 @@
-import { FormField, UserCard, UseLogin, BusinessCard, SignatureFormData, UserStatus, NavActive } from "./types";
+import { FormField, UserCard, UseLogin, BusinessCard, SignatureFormData, UserStatus, NavActive, Pages } from "./types";
 import Unknown from "../assets/Unknown.jpg"
 import { Location, NavigateFunction } from "react-router-dom";
 import { getData, removeData, setData } from "./localStorage";
 import { toast } from "react-toastify";
+
+export const pages: Pages[] = ['home', 'about', 'favorite', 'my-cards', 'sandbox'];
+export const menuPages: Pages[] = [...pages, 'login']
+export const allowedPages = ['home', 'about', 'login'];
 
 export function capitalizeFirstLetter(path: string) {
     const pathValue = path.includes('-') ? path.replace('-', " ") : path
@@ -123,5 +127,4 @@ export const smallNavStyle = ({ isActive }: NavActive) => {
         textDecoration: 'none'
     };
 }
-
 

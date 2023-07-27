@@ -1,7 +1,7 @@
 import { AnySchema } from "joi";
 import { ReactNode } from "react";
 
-export type Pages = 'about' | 'favorite' | 'my-cards' | 'sandbox'
+export type Pages = 'home' | 'about' | 'favorite' | 'my-cards' | 'sandbox' | 'login'
 export type UserStatus = 'User' | 'Business' | 'Admin'
 export type FormData = BusinessCard | UserCard
 export type SignatureFormData = FormData & { [key: string]: any };
