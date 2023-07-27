@@ -96,7 +96,7 @@ function Navbar() {
                                 style={navStyle} key={page}
                                 to={!id ? `/${page}` : `/${page}/${id}`}
                                 onClick={handleCloseNavMenu}>
-                                <Typography marginLeft={1}> {capitalizeFirstLetter(page)}</Typography>
+                                <Typography marginLeft={1.5}> {capitalizeFirstLetter(page)}</Typography>
                             </NavLink>
                         ))}
                     </Box>

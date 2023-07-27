@@ -1,4 +1,4 @@
-import { Card, CardActions, Checkbox, CardContent, CardMedia, Typography, Stack, Box } from '@mui/material';
+import { Card, CardActions, Checkbox, CardContent, CardMedia, Typography, Stack, Box, IconButton } from '@mui/material';
 import { Phone, Favorite, Delete, Edit, FavoriteBorder } from '@mui/icons-material';
 import { B_CardProps, BusinessCard } from '../utils/types';
 import { addressFormatter, defaultAlt, defaultImage, errorMsg, idShortcut, pathUrl, phoneFormatter, removeDefaultCard } from '../utils/helpers';
@@ -75,25 +75,34 @@ export default function B_CARD({ card }: B_CardProps) {
                         </Typography>
                     </CardContent>
                 </Box>
-                <CardActions sx={{ justifyContent: 'space-between' }}>
-                    <Stack direction={'row'} spacing={1} >
+                <CardActions sx={{ justifyContent: 'space-between', padding: '4px' }}>
+                    <Box >
                         {trashView &&
-                            <Delete onClick={removeCard} color='action' />}
+                            <IconButton sx={{ padding: '6px' }} onClick={removeCard} aria-label="delete">
+                                <Delete color='action' />
+                            </IconButton>
+                        }
                         {pathUrl(`my-cards/`, location) &&
-                            <Edit onClick={() => navigate(`/edit/${card._id}`)} color='action' />
+                            <IconButton sx={{ padding: '6px' }} onClick={() => navigate(`/edit/${card._id}`)} aria-label="edit" >
+                                <Edit color='action' />
+                            </IconButton>
                         }
-                    </Stack>
-                    <Stack direction={'row'} spacing={1} >
-                        <Phone onClick={() => window.location.href = `tel://${card.phone}`} color='action' />
+                    </Box>
+                    <Box >
+                        <IconButton sx={{ padding: '6px' }} onClick={() => window.location.href = `tel://${card.phone}`} aria-label="phone" >
+                            <Phone color='action' />
+                        </IconButton>
                         {logged &&
-                            <Checkbox onClick={() => favoriteCard(toggle, card, setFavorite)}
-                                checked={checked}
-                                icon={<FavoriteBorder />}
-                                checkedIcon={<Favorite />}
-                                color='error'
-                                sx={{ padding: 0 }} />
+                            <IconButton sx={{ padding: '6px' }} onClick={() => favoriteCard(toggle, card, setFavorite)} aria-label="favorite" >
+                                <Checkbox sx={{ padding: 0 }}
+                                    checked={checked}
+                                    icon={<FavoriteBorder />}
+                                    checkedIcon={<Favorite />}
+                                    color='error'
+                                />
+                            </IconButton>
                         }
-                    </Stack>
+                    </Box>
                 </CardActions>
             </Card>
         </Box>
