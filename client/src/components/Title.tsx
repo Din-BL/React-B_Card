@@ -11,12 +11,15 @@ function Title({ main, sub }: TitleProps) {
             marginBottom={3}
             borderBottom={'1px solid #9d9d9d'}>
             <Typography
-                variant={isSmallScreen ? 'h3' : 'h2'}
+                paddingBottom={0.5}
+                variant={isSmallScreen ? 'h4' : 'h2'}
                 component={'h1'}>{main}
             </Typography>
             <Typography
                 variant={isSmallScreen ? 'subtitle2' : 'h5'}
-                component={'h2'}>{sub}</Typography>
+                fontSize={isSmallScreen ? 'small' : 'large'}
+                component={'h2'}>{sub}
+            </Typography>
         </Box>
     );
 }
