@@ -1,19 +1,16 @@
-import { FormField, UserCard, UseLogin, BusinessCard, SignatureFormData, UserStatus } from "./types";
+import { FormField, UserCard, UseLogin, BusinessCard, SignatureFormData, UserStatus, NavActive } from "./types";
 import Unknown from "../assets/Unknown.jpg"
 import { Location, NavigateFunction } from "react-router-dom";
 import { getData, removeData, setData } from "./localStorage";
 import { toast } from "react-toastify";
 
-export function kebabCase(path: string) {
-    return path.includes('-') ? path.replace('-', " ") : path
+export function capitalizeFirstLetter(path: string) {
+    const pathValue = path.includes('-') ? path.replace('-', " ") : path
+    return pathValue.replace(/\b\w/g, c => c.toUpperCase());;
 }
 
 export const inputData = (field: FormField) => {
     return field.state ? field.state : field.label
-}
-
-export function capitalizeFirstLetter(field: string) {
-    return field.charAt(0).toUpperCase() + field.slice(1);
 }
 
 export function convertMsg(msg: string, num: string) {
@@ -25,7 +22,7 @@ export function phoneFormatter(phone: string) {
 }
 
 export function idShortcut(id: string) {
-    return id.slice(0, 8)
+    return id.replace(/[^0-9]/g, '').slice(0, 6)
 }
 
 export function addressFormatter(city: string, street: string, houseNumber: string, country: string = '') {
@@ -113,5 +110,18 @@ export function removeDefaultCard(id: string, setCards: React.Dispatch<React.Set
     toast.success(`${removed[0].title} been removed`)
 }
 
+export const navStyle = ({ isActive }: NavActive) => {
+    return {
+        color: isActive ? "white" : "#CCCCCC",
+        textDecoration: 'none'
+    };
+}
+
+export const smallNavStyle = ({ isActive }: NavActive) => {
+    return {
+        color: isActive ? "black" : "#999999",
+        textDecoration: 'none'
+    };
+}
 
 

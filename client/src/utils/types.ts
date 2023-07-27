@@ -17,6 +17,10 @@ export interface TitleProps {
     sub: string
 }
 
+export interface NavActive {
+    isActive: boolean
+}
+
 export interface FormProps {
     FormTitle: string,
     FormFields: FormField[],
