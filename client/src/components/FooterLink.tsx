@@ -1,10 +1,10 @@
 import { Typography } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FooterLinkProps } from '../utils/types';
 
 export const FooterLink = ({ to, icon, text }: FooterLinkProps) => (
     <Typography color="text.secondary" variant="body2" component="h5">
-        <NavLink
+        <Link
             to={to}
             style={{
                 textDecoration: 'none',
@@ -16,7 +16,7 @@ export const FooterLink = ({ to, icon, text }: FooterLinkProps) => (
         >
             {icon}
             <span>{text}</span>
-        </NavLink>
+        </Link>
     </Typography>
 );
 

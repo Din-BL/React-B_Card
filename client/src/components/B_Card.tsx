@@ -1,4 +1,4 @@
-import { Card, CardActions, Checkbox, CardContent, CardMedia, Typography, Stack, Box, IconButton } from '@mui/material';
+import { Card, CardActions, Checkbox, CardContent, CardMedia, Typography, Box, IconButton } from '@mui/material';
 import { Phone, Favorite, Delete, Edit, FavoriteBorder } from '@mui/icons-material';
 import { B_CardProps, BusinessCard } from '../utils/types';
 import { addressFormatter, defaultAlt, defaultImage, errorMsg, idShortcut, pathUrl, phoneFormatter, removeDefaultCard } from '../utils/helpers';
