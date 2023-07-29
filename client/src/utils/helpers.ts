@@ -128,3 +128,15 @@ export const smallNavStyle = ({ isActive }: NavActive) => {
     };
 }
 
+export const isPasswordValid = (value: string) => {
+    if (!/(?=.*[a-z])(?=.*[A-Z])/.test(value)) {
+        return 'passwordLowerUpper';
+    }
+    if (!/(?=.*\d.*\d.*\d.*\d)/.test(value)) {
+        return 'passwordFourNumbers';
+    }
+    if (!/(?=.*[#$@!%&*?])/.test(value)) {
+        return 'passwordSpecialChar';
+    }
+    return null;
+};

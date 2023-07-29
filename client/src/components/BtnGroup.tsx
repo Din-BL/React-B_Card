@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { userId } from "../utils/helpers";
 import { BtnGroupProps } from "../utils/types";
 
-function BtnGroup({ resetFields, isValid = () => false }: BtnGroupProps) {
+function BtnGroup({ resetFields }: BtnGroupProps) {
     const navigate = useNavigate()
     return (
         <Box marginTop={3} >
@@ -14,7 +14,7 @@ function BtnGroup({ resetFields, isValid = () => false }: BtnGroupProps) {
                     <Sync />
                 </Button>
             </ButtonGroup>
-            <Button disabled={isValid()} type="submit" sx={{ width: '100%', marginTop: 1, padding: 1 }} variant="contained" endIcon={<Send />} >Submit</Button>
+            <Button type="submit" sx={{ width: '100%', marginTop: 1, padding: 1 }} variant="contained" endIcon={<Send />} >Submit</Button>
         </Box>
     );
 }

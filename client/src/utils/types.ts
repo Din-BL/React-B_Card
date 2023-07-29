@@ -125,8 +125,7 @@ export interface BusinessStatus {
 }
 
 export interface BtnGroupProps {
-    resetFields?: () => void;
-    isValid?: () => boolean;
+    resetFields: () => void;
 }
 
 export interface ContactProps {

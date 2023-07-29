@@ -20,7 +20,7 @@ function Navbar() {
     const id = getData('user', '_id')
     const isLoggedPage: Pages[] = logged ? pages : menuPages
     const conditionalPage = (page: Pages) => allowedPages.includes(page) || (page === 'favorite' && logged) || (page === 'my-cards' && business) || admin
-    const searchView = paths(['business', 'sandbox', 'login', 'register', 'about', 'add', 'edit'], location)
+    const searchView = paths(['home', 'favorite', 'my-cards'], location)
     const bigScreenMenu = logged ? { xs: 'none', md: 'flex' } : { xs: 'none', sm: 'flex' }
     const smallScreenMenu = logged ? { xs: 'flex', md: 'none' } : { xs: 'flex', sm: 'none' }
     const loggedView = logged ? { xs: 'none' } : { xs: 'none', sm: 'block' }
@@ -100,7 +100,7 @@ function Navbar() {
                             </NavLink>
                         ))}
                     </Box>
-                    {!searchView && <Search />}
+                    {searchView && <Search />}
                     <Theme />
                     <Typography
                         sx={{ display: loggedView }}

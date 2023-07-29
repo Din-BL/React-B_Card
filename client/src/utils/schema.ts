@@ -1,7 +1,26 @@
 import Joi, { AnySchema } from "joi";
-import { convertMsg } from "./helpers";
+import { convertMsg, isPasswordValid } from "./helpers";
+
+const phoneValidation = Joi.string().allow("").trim().optional().min(10).max(10).pattern(/^(050|052|053|054|055|058)\d{7}$/)
+    .messages({
+        'string.pattern.base': 'Phone must start with 050/2/3/4/5/8 and only contain numbers',
+        "string.min": convertMsg('Phone', '10'),
+        "string.max": `Phone length cant be greater then 10 characters long`
+    })
 
 const registerSchema: AnySchema = Joi.object({
+    password: Joi.string().trim().allow('').optional().min(8).max(30)
+        .custom((value, helpers) => {
+            const validationResult = isPasswordValid(value);
+            return validationResult ? helpers.error(validationResult) : value
+        })
+        .messages({
+            'passwordLowerUpper': 'Password must contain lowercase and uppercase letters',
+            'passwordFourNumbers': 'Password must contain four or more numbers',
+            'passwordSpecialChar': 'Password must contain one special character (!@#$%^&*?)',
+            "string.max": `Password length cant be greater then 30 characters long`,
+            "string.min": convertMsg('Password', '8')
+        }),
     firstName: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('First name', '2')
     }),
@@ -11,21 +30,9 @@ const registerSchema: AnySchema = Joi.object({
     userName: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('User name', '2')
     }),
-    phone: Joi.string().allow("").trim().optional().min(10).max(10).pattern(/^(050|052|053|054|055|058)\d{7}$/)
-        .messages({
-            'string.pattern.base': 'Phone must start with 050/2/3/4/5/8 and only contain numbers',
-            "string.min": convertMsg('Phone', '10'),
-            "string.max": `Phone length cant be greater then 10 characters long`
-        }),
     email: Joi.string().trim().pattern(/^\S+@\S+\.\S+$/,).allow("").optional().messages({
         "string.pattern.base": "Invalid email address format"
     }),
-    password: Joi.string().trim().allow("").optional().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/).messages({
-        "string.pattern.base": "Password must contain at least one lowercase and uppercase letter, four or more numbers, one special character (!@#$%^&*?), and a minimum length of 8 characters "
-    }),
-    imageUrl: Joi.string().trim().uri().allow("").optional(),
-    imageAlt: Joi.string().trim().allow("").optional(),
-    state: Joi.string().allow("").optional(),
     country: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('Country', '2')
     }),
@@ -41,8 +48,12 @@ const registerSchema: AnySchema = Joi.object({
     zip: Joi.string().allow("").optional().pattern(/^\d+$/).messages({
         "string.pattern.base": "Zip can only contain numbers"
     }),
+    imageUrl: Joi.string().trim().uri().allow("").optional(),
+    imageAlt: Joi.string().trim().allow("").optional(),
+    state: Joi.string().allow("").optional(),
     business: Joi.boolean().default(false),
-    admin: Joi.boolean().default(false)
+    admin: Joi.boolean().default(false),
+    phone: phoneValidation
 }).required();
 
 const cardSchema: AnySchema = Joi.object({
@@ -55,22 +66,12 @@ const cardSchema: AnySchema = Joi.object({
     description: Joi.string().min(10).allow("").optional().messages({
         "string.min": convertMsg('Description', '10')
     }),
-    phone: Joi.string().allow("").trim().optional().min(10).max(10).pattern(/^(050|052|053|054|055|058)\d{7}$/)
-        .messages({
-            'string.pattern.base': 'Phone must start with 050/2/3/4/5/8 and only contain numbers',
-            "string.min": convertMsg('Phone', '10'),
-            "string.max": `Phone length cant be greater then 10 characters long`
-        }),
     email: Joi.string().trim().pattern(/^\S+@\S+\.\S+$/,).allow("").optional().messages({
         "string.pattern.base": "Invalid email address format"
     }),
     password: Joi.string().trim().min(8).allow("").optional().messages({
         "string.min": convertMsg('Password', '8')
     }),
-    web: Joi.string().trim().uri().allow("").optional(),
-    imageUrl: Joi.string().trim().uri().optional().allow(""),
-    imageAlt: Joi.string().trim().optional().allow(""),
-    state: Joi.string().allow("").optional(),
     country: Joi.string().min(2).allow("").optional().messages({
         "string.min": convertMsg('Country', '2')
     }),
@@ -86,6 +87,11 @@ const cardSchema: AnySchema = Joi.object({
     zip: Joi.string().allow("").optional().pattern(/^\d+$/).messages({
         "string.pattern.base": "Zip can only contain numbers"
     }),
+    web: Joi.string().trim().uri().allow("").optional(),
+    imageUrl: Joi.string().trim().uri().optional().allow(""),
+    imageAlt: Joi.string().trim().optional().allow(""),
+    state: Joi.string().allow("").optional(),
+    phone: phoneValidation
 }).required();
 
 const contactSchema: AnySchema = Joi.object({

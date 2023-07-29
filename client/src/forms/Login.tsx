@@ -10,7 +10,6 @@ function Login() {
     const { fields, handleField, handleSubmit, resetFields } = useFields({ email: "", password: "" })
     const emailError = !fields.email.match(/^\S+@\S+\.\S+$/,) && fields.email.length > 0
     const passwordError = !fields.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/) && fields.password.length > 0
-    const isValid = () => (emailError || passwordError)
     const { themeMode } = useContext(ThemeContext)
     const textColor = themeMode === 'light' ? 'black' : 'white'
 
@@ -23,6 +22,7 @@ function Login() {
                 </Typography>
                 <TextField
                     required
+                    autoComplete="off"
                     placeholder="Example@email.com"
                     value={fields.email}
                     name="email"
@@ -52,11 +52,11 @@ function Login() {
                     label="Password"
                     type="password"
                     error={passwordError}
-                    helperText={passwordError && "Password must contain at least one lowercase and uppercase letter, 4 numbers, one special character, and a minimum length of 8 characters"}
+                    helperText={passwordError && "Invalid password format"}
                     autoComplete="current-password"
                     variant="outlined"
                 />
-                <BtnGroup resetFields={resetFields} isValid={isValid} />
+                <BtnGroup resetFields={resetFields} />
                 <Typography paddingTop={3} paddingLeft={1} color={'text.secondary'}>
                     Dont have an account yet?
                     <NavLink to={`/register`} style={{ paddingLeft: 5, textDecoration: 'none', color: textColor }}>
