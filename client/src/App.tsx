@@ -19,6 +19,7 @@ import Footer from './layouts/Footer';
 import BackGround from './layouts/BackGround';
 import Navbar from './layouts/Navbar';
 import RouteGuard from './layouts/RouteGuard';
+import Contact from './components/Contact';
 
 function App() {
   return (
@@ -28,9 +29,12 @@ function App() {
           <Navbar />
           <BackGround>
             <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='*' element={<Error />} />
               <Route path='/register' element={<Register />} />
               <Route path='/login' element={<Login />} />
               <Route path='/about/:id?' element={<About />} />
+              {/* <Route path='/contact' element={<Contact />} /> */}
               <Route path='/home/:id?' element={<Home />} />
               <Route path='/business/:id' element={<Business />} />
               <Route path='/favorite/:id' element={<RouteGuard><Favorite /></RouteGuard>} />
@@ -39,7 +43,6 @@ function App() {
               <Route path='/add/:id' element={<RouteGuard><Add /></RouteGuard>} />
               <Route path='/edit/:id' element={<RouteGuard><Edit /></RouteGuard>} />
               <Route path='/sandbox/:id' element={<RouteGuard><SandBox /></RouteGuard>} />
-              <Route path='*' element={<Error />} />
             </Routes>
           </BackGround>
           <Footer />
