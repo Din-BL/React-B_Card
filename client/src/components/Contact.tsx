@@ -9,12 +9,13 @@ import { ThemeContext } from '../context/Theme';
 import { blueGrey } from '@mui/material/colors';
 import { ContactFields } from '../utils/fields';
 import { submitAlert } from '../utils/sweetalert';
+import { contactSchema } from '../utils/schema';
 
-function Contact({ businessInfo, contactSchema }: ContactProps) {
+function Contact({ businessInfo }: ContactProps) {
     const { themeMode } = useContext(ThemeContext)
     const color = blueGrey[50];
     const backgroundColor = { backgroundColor: themeMode === 'light' ? color : '' }
-    const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: joiResolver(contactSchema), });
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: joiResolver(contactSchema) });
 
     function onSubmit() {
         reset()

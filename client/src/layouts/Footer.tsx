@@ -23,18 +23,19 @@ export default function Footer() {
                 <Grid alignItems={'center'} container spacing={3}>
                     {isMediumScreen &&
                         <Grid textAlign={'start'} item xs={1.5}>
-                            <Typography variant='caption'>Copyright &copy; 2023 | Din </Typography>
+                            <Typography variant='caption'>Copyright &copy; <br /> 2023 | Din_BL </Typography>
                         </Grid>
                     }
                     <Grid item xs={isMediumScreen ? 9 : 12}>
                         <Box display="flex" justifyContent="center" alignItems="center" paddingBottom='10px'>
-                            <Stack direction="row" spacing={{ xs: logged ? 2 : 4, sm: 5 }}>
-                                {(isSmallScreen && logged) ? ""
+                            <Stack direction="row" spacing={{ xs: business ? 2 : 4, sm: 5 }}>
+                                {(isSmallScreen && admin) ? ""
                                     : <Typography onClick={goBack} display={'flex'} flexDirection={'column'} alignItems={'center'} sx={{ cursor: 'pointer' }} color="text.secondary" variant={isSmallScreen ? 'caption' : 'body2'} component="h5">
                                         <ArrowBack />
                                         <span>Back</span>
                                     </Typography>
                                 }
+                                <FooterLink to="/contact" icon={<Email color="action" />} text="Contact Us" />
                                 <FooterLink to="/about" icon={<Info color="action" />} text="About" />
                                 {logged &&
                                     <FooterLink to={`/favorite/${id}`} icon={<Favorite color="action" />} text="Favorite" />
@@ -45,7 +46,6 @@ export default function Footer() {
                                 {admin &&
                                     <FooterLink to={`/sandbox/${id}`} icon={<AdminPanelSettings color="action" />} text="SandBox" />
                                 }
-                                <FooterLink to="/contact" icon={<Email color="action" />} text="Contact Us" />
                             </Stack>
                         </Box>
                     </Grid>

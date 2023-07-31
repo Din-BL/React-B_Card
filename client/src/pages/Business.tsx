@@ -4,7 +4,6 @@ import { getData } from "../utils/localStorage";
 import { useParams } from "react-router-dom";
 import { BusinessCard } from "../utils/types";
 import Contact from "../components/Contact";
-import { contactSchema } from "../utils/schema";
 import { defaultImage } from "../utils/helpers";
 import useCard from "../hooks/useCard";
 
@@ -40,7 +39,7 @@ function Business() {
                 }
             </Box>
             {isBusiness &&
-                <Contact businessInfo={card} contactSchema={contactSchema} />
+                <Contact businessInfo={card} />
             }
         </Box>
     );

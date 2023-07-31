@@ -20,6 +20,8 @@ import BackGround from './layouts/BackGround';
 import Navbar from './layouts/Navbar';
 import RouteGuard from './layouts/RouteGuard';
 import Contact from './components/Contact';
+import Redirect from './layouts/Redirect';
+import { companyInfo } from './utils/cards';
 
 function App() {
   return (
@@ -29,12 +31,12 @@ function App() {
           <Navbar />
           <BackGround>
             <Routes>
-              <Route path='/' element={<Home />} />
+              <Route path='/' element={<Redirect />} />
               <Route path='*' element={<Error />} />
               <Route path='/register' element={<Register />} />
               <Route path='/login' element={<Login />} />
               <Route path='/about/:id?' element={<About />} />
-              {/* <Route path='/contact' element={<Contact />} /> */}
+              <Route path='/contact' element={<Contact businessInfo={companyInfo} />} />
               <Route path='/home/:id?' element={<Home />} />
               <Route path='/business/:id' element={<Business />} />
               <Route path='/favorite/:id' element={<RouteGuard><Favorite /></RouteGuard>} />

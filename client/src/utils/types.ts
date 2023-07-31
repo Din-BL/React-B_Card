@@ -130,7 +130,6 @@ export interface BtnGroupProps {
 
 export interface ContactProps {
     businessInfo: BusinessCard,
-    contactSchema: AnySchema,
 }
 
 export interface UseLogin {

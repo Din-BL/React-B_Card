@@ -2,7 +2,6 @@ import { Typography, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { FooterLinkProps } from '../utils/types';
 
-
 export const FooterLink = ({ to, icon, text }: FooterLinkProps) => {
     const isSmallScreen = useMediaQuery((theme: any) => theme.breakpoints.up('sm'));
     return (
@@ -22,7 +21,6 @@ export const FooterLink = ({ to, icon, text }: FooterLinkProps) => {
             </Link>
         </Typography>
     )
-
 }
 
 

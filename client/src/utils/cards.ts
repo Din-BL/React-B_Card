@@ -1,4 +1,5 @@
 import { BusinessCard } from "./types";
+import Pic from "../assets/B-Symbol.png"
 
 export const defaultCards: BusinessCard[] = [
     {
@@ -113,7 +114,6 @@ export const defaultCards: BusinessCard[] = [
         zip: '12345',
         _id: '70df41c8f6f4f0012ae2d3a'
     },
-
     {
         title: "Sophie's Bakery",
         subtitle: "Baker",
@@ -131,3 +131,23 @@ export const defaultCards: BusinessCard[] = [
         _id: '55df4e1c8f6u4f0342ae2d3'
     }
 ];
+
+export const companyInfo: BusinessCard =
+{
+    title: "B-Card",
+    subtitle: "Business management platform",
+    description: ` B-Card is a leading business management platform empowering entrepreneurs to effectively promote their businesses. Our digital business cards provide exposure and detailed information to potential customers, maximizing reach and creating opportunities for success.
+    Founded in 2005, we've been simplifying operations and connecting businesses with customers. Headquartered in Tel-Aviv, our dedicated team works passionately to enhance our platform and support your entrepreneurial journey.
+     Join B-Card to unlock your business's potential, together let's shape a future where dreams become reality and businesses thrive.`,
+    phone: "0532456659",
+    email: "B-Card@gmail.com",
+    web: "B-Card.com",
+    imageUrl: Pic,
+    imageAlt: "B-Card Image",
+    country: "Israel",
+    city: "Tel Aviv",
+    street: "HaHashmonaim ",
+    houseNumber: '13',
+    zip: '82525',
+    _id: '30dfe1c2f6f4f8812ae7d34'
+}
