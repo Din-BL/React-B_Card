@@ -3,8 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const Business = require("../models/business");
-const User = require("../models/user");
-const { userValidate, userAuthenticate } = require("../utils/middleware");
+const { userValidate, userAuthenticate, userExistence } = require("../utils/middleware");
 
 // Endpoints
 
@@ -18,14 +17,10 @@ router.delete("/init", async (req, res) => { /*Postman use case*/
   }
 });
 
-router.post("/", userAuthenticate, userValidate, async (req, res) => {
+router.post("/", userAuthenticate, userValidate, userExistence, async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.user.sub });
-    if (!user) return res.status(404).json("User doest exist");
-    if (user.email === req.body.email) return res.status(400).json("User email can't be used twice");
-    if (!user.business) return res.status(403).json("Must be a business owner");
     const business = new Business(req.body);
-    business.user_id = user.id;
+    business.user_id = req.user.id
     await business.save();
     res.status(201).json(business);
   } catch (error) {
@@ -34,7 +29,7 @@ router.post("/", userAuthenticate, userValidate, async (req, res) => {
   }
 });
 
-router.put("/:id", userAuthenticate, async (req, res) => {
+router.put("/:id", userAuthenticate, userValidate, userExistence, async (req, res) => {
   try {
     const updateBusiness = await Business.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!updateBusiness) return res.status(404).json("Business doest exist");
@@ -44,7 +39,7 @@ router.put("/:id", userAuthenticate, async (req, res) => {
   }
 });
 
-router.delete("/:id", userAuthenticate, async (req, res) => {
+router.delete("/:id", userAuthenticate, userExistence, async (req, res) => {
   try {
     const deleteBusiness = await Business.findByIdAndDelete(req.params.id);
     if (!deleteBusiness) return res.status(404).json("Business doest exist");
@@ -54,11 +49,9 @@ router.delete("/:id", userAuthenticate, async (req, res) => {
   }
 });
 
-router.get("", userAuthenticate, async (req, res) => {
+router.get("", userAuthenticate, userExistence, async (req, res) => {
   try {
-    const userInfo = await User.findOne({ email: req.user.sub });
-    if (!userInfo) return res.status(404).json("User doest exist");
-    const findBusinesses = await Business.find({ user_id: userInfo.id });
+    const findBusinesses = await Business.find({ user_id: req.user.id });
     if (!findBusinesses) return res.status(404).json("User has no registered businesses");
     res.status(200).json(findBusinesses);
   } catch (error) {
@@ -66,7 +59,7 @@ router.get("", userAuthenticate, async (req, res) => {
   }
 });
 
-router.get("/all", userAuthenticate, async (req, res) => {
+router.get("/all", async (req, res) => {
   try {
     const findBusinesses = await Business.find();
     if (!findBusinesses) return res.status(404).json("No businesses found");
@@ -76,7 +69,7 @@ router.get("/all", userAuthenticate, async (req, res) => {
   }
 });
 
-router.get("/:id", userAuthenticate, async (req, res) => {
+router.get("/:id", userAuthenticate, userExistence, async (req, res) => {
   try {
     const findBusiness = await Business.findById(req.params.id);
     if (!findBusiness) return res.status(404).json("Business doest exist");

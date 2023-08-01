@@ -16,6 +16,7 @@ function User() {
     const { id } = useParams();
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const { initialValue } = useUser()
+
     const navigate = useNavigate()
     const status = { business: initialValue?.business || false, admin: initialValue?.admin || false }
     const staticData = { email: initialValue?.email || '', userName: initialValue?.userName || '' }

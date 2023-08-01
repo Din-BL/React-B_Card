@@ -1,7 +1,7 @@
 {
-  "name": "node.js-project",
+  "name": "node.js-rest",
   "version": "1.0.0",
-  "description": "Final Project Of Node.js",
+  "description": "Final Project",
   "main": "index.js",
   "scripts": {
     "test": "node index.js",
@@ -17,6 +17,7 @@
     "joi": "^17.7.0",
     "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
-    "mongoose": "^7.4.0"
+    "mongoose": "^7.4.0",
+    "morgan": "^1.10.0"
   }
 }

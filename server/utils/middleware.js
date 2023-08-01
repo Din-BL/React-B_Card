@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const User = require("../models/user");
 const { registerSchema, loginSchema, businessSchema } = require("./Validations");
 const { formatDateTime } = require("./helpers")
 
@@ -26,5 +27,15 @@ module.exports.userAuthenticate = (req, res, next) => {
     next();
   });
 };
+
+module.exports.userExistence = async (req, res, next) => {
+  const user = await User.findOne({ email: req.user.sub });
+  if (!user) return res.status(404).json("User doest exist");
+  if (user.email === req.body.email) return res.status(400).json("User email can't be used twice");
+  if (!user.business) return res.status(403).json("Must be a business account");
+  req.user = user
+  next();
+};
+
 
 

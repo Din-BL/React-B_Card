@@ -36,8 +36,8 @@ function App() {
               <Route path='/register' element={<Register />} />
               <Route path='/login' element={<Login />} />
               <Route path='/about/:id?' element={<Redirect><About /></Redirect>} />
-              <Route path='/contact' element={<Contact businessInfo={companyInfo} />} />
               <Route path='/home/:id?' element={<Redirect><Home /></Redirect>} />
+              <Route path='/contact' element={<Contact businessInfo={companyInfo} />} />
               <Route path='/business/:id' element={<Business />} />
               <Route path='/favorite/:id' element={<RouteGuard><Favorite /></RouteGuard>} />
               <Route path='/user/:id' element={<RouteGuard><User /></RouteGuard>} />

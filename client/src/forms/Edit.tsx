@@ -23,12 +23,14 @@ function Edit() {
     let { business } = loginInfo
     business = business === null ? false : business
     const card = useCard(business)
+    const staticData = { email: card?.email || '' }
 
     const handleEdit = (data: BusinessCard) => {
+
         editAlert()
             .then((result) => {
                 if (result.isConfirmed && id) {
-                    editCard(id, data)
+                    editCard(id, { ...data, ...staticData })
                         .then((info) => {
                             editData(id, info.data)
                             navigate(`/my-cards/${userId}`)

@@ -51,11 +51,9 @@ export default function useCards() {
 
     useEffect(() => {
         setData("*defaultCards*", cards)
-        if (logged) {
-            getAllCards()
-                .then((res: AxiosResponse<BusinessCard[]>) => setAllCards(res.data))
-                .catch((e) => errorMsg(e, navigate, setLoginInfo, true))
-        }
+        getAllCards()
+            .then((res: AxiosResponse<BusinessCard[]>) => setAllCards(res.data))
+            .catch((e) => errorMsg(e, navigate, setLoginInfo, true))
     }, [cards]);
 
     return { cards, setCards, searchDefaultCards, addDefaultCard };
