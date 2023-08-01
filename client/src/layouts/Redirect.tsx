@@ -1,8 +1,17 @@
-import { Navigate } from "react-router-dom";
-import { userId } from "../utils/helpers";
+import { Navigate, useParams } from "react-router-dom";
+import { getData } from "../utils/localStorage";
 
-function Redirect() {
-    return <Navigate to={`/home${userId()}`} replace={true} />
+function Redirect(props?: React.PropsWithChildren<{}>) {
+    const { id } = useParams()
+    const storageId = getData('user', '_id')
+
+    if (storageId) {
+        return storageId === id ? (<>{props?.children}</>) : <Navigate to={`/error`} />
+    } else if (props?.children) {
+        return !id ? <>{props.children}</> : <Navigate to={`/error`} />
+    } else {
+        return <Navigate to={`/home`} />
+    }
 }
 
 export default Redirect;
