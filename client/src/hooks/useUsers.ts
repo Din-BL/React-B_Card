@@ -22,7 +22,7 @@ export function useUsers() {
             error += 1
             getUsers()
                 .then((res: AxiosResponse<UserCard[]>) => setUsers(res.data))
-                .catch((e) => errorMsg(e, navigate, setLoginInfo, true))
+                .catch((e) => errorMsg(e, navigate, setLoginInfo))
         }
     }, [admin])
 

@@ -19,7 +19,7 @@ export function useUser() {
             error += 1
             getUser(id)
                 .then((res: AxiosResponse<UserCard>) => setInitialValue(res.data))
-                .catch((e) => errorMsg(e, navigate, setLoginInfo, true))
+                .catch((e) => errorMsg(e, navigate, setLoginInfo))
         }
     }, [logged]);
 

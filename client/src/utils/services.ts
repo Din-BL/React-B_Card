@@ -39,7 +39,7 @@ export function getUser(id: string) {
 }
 
 export function editStatus(id: string, userStatus: BusinessStatus) {
-    return axios.put(`${url}/user/${id}`, userStatus, createConfig());
+    return axios.patch(`${url}/user/${id}`, userStatus, createConfig());
 }
 
 export function editUser(id: string, user: UserCard) {

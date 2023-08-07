@@ -1,5 +1,12 @@
-Delete card function
-All users (email)
-Favorite cards still exist in other users after being deleted from the admin
+UI:
 Refresh "User doest exist" msg in edit business page
-    // if (!req.user.admin) return res.status(404).json("Must be an admin account");
+Redirect to login back if not logged
+business & admin together
+
+Server:
+Must be an admin account validation on delete User and Business http calls
+
+Bonus:
+loader sign
+Delete card function
+Favorite cards still exist in other users after being deleted from the admin

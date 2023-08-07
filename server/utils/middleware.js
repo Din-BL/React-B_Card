@@ -21,18 +21,26 @@ module.exports.userValidate = (req, res, next) => {
 module.exports.userAuthenticate = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   if (!authHeader) return res.sendStatus(401);
+  // const token = authHeader.split(" ")[1];
   jwt.verify(authHeader, config.get("ACCESS_TOKEN_SECRET"), (err, user) => {
-    if (err) return res.status(403).json(`Your token was expired at ${formatDateTime(err.expiredAt)}`);
+    if (err) {
+      return (err.name === "TokenExpiredError") ?
+        res.status(403).json(`Your token was expired at ${formatDateTime(err.expiredAt)}`) :
+        res.sendStatus(403)
+    }
     req.user = user;
     next();
   });
 };
 
-module.exports.userExistence = async (req, res, next) => {
+module.exports.userPermission = async (req, res, next) => {
   const user = await User.findOne({ email: req.user.sub });
   if (!user) return res.status(404).json("User doest exist");
-  if (user.email === req.body.email) return res.status(400).json("User email can't be used twice");
-  if (!user.business) return res.status(403).json("Must be a business account");
+  if (req.baseUrl === "/user") {
+    if (!user.admin) return res.status(404).json("Must be an admin account");
+  } else {
+    if (!user.business) return res.status(403).json("Must be a business account");
+  }
   req.user = user
   next();
 };

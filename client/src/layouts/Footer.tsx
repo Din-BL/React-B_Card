@@ -23,7 +23,8 @@ export default function Footer() {
                 <Grid alignItems={'center'} container spacing={3}>
                     {isMediumScreen &&
                         <Grid textAlign={'start'} item xs={1.5}>
-                            <Typography variant='caption'>Copyright &copy; <br /> 2023 | Din_BL </Typography>
+                            <Typography variant='caption' display={'block'} >Copyright &copy; </Typography>
+                            <Typography variant='caption' display={'block'} > 2023 | Din_BL </Typography>
                         </Grid>
                     }
                     <Grid item xs={isMediumScreen ? 9 : 12}>

@@ -1,13 +1,14 @@
 import { useContext } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import { LoginInfoContext } from "../context/LoginInfo";
 import { paths } from "../utils/helpers";
-import { useUser } from "../hooks/useUser";
+import { getData } from "../utils/localStorage";
 
 function RouteGuard(props: React.PropsWithChildren<{}>) {
     const { loginInfo } = useContext(LoginInfoContext)
     const location = useLocation()
-    useUser()
+    const { id } = useParams()
+    const storageId = getData('user', '_id')
 
     function authGuard() {
         if (paths(['favorite', 'user'], location)) {
@@ -19,9 +20,13 @@ function RouteGuard(props: React.PropsWithChildren<{}>) {
         }
     }
 
-    return authGuard() ?
-        (<>{props.children}</>) :
-        (<Navigate to="/login" replace={true} />);
+    if (storageId !== id) {
+        return <Navigate to={`/error`} />
+    } else if (authGuard()) {
+        return (<>{props.children}</>)
+    } else {
+        return (<Navigate to="/login" replace={true} />);
+    }
 }
 
 export default RouteGuard;

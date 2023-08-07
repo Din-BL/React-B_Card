@@ -10,6 +10,7 @@ import { LoginInfoContext } from "../context/LoginInfo";
 import { errorMsg } from "../utils/helpers";
 import { BusinessCard } from "../utils/types";
 import { getData, setData } from "../utils/localStorage";
+import { useUser } from "../hooks/useUser";
 
 function Add() {
     const { id } = useParams();
@@ -17,9 +18,12 @@ function Add() {
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const { addData } = useContext(DataContext)
     const { addDefaultCard } = useContext(CardsContext)
+    const { initialValue } = useUser()
+    const userEmail = { email: initialValue?.email || '' }
+    for (let key in initialValue) if (key !== "email") initialValue[key] = "";
 
     const handleAdd = (data: BusinessCard) => {
-        addCard(data)
+        addCard({ ...data, ...userEmail })
             .then((info) => {
                 addData(info.data)
                 const defaultCards: BusinessCard[] = getData("*defaultCards*")
@@ -32,12 +36,17 @@ function Add() {
     }
 
     return (
-        <Form
-            FormTitle='Create Card'
-            FormFields={CardFields}
-            FormSchema={cardSchema}
-            handleForm={handleAdd}
-        />
+        <>
+            {initialValue && (
+                <Form
+                    FormTitle='Create Card'
+                    FormFields={CardFields}
+                    FormSchema={cardSchema}
+                    handleForm={handleAdd}
+                    initialValue={initialValue}
+                />
+            )}
+        </>
     )
 }
 

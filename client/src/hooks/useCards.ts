@@ -1,63 +1,55 @@
-import { BusinessCard } from './../utils/types';
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { defaultCards } from "../utils/cards";
-import { getData, setData } from "../utils/localStorage";
-import { getAllCards } from '../utils/services';
-import { errorMsg } from '../utils/helpers';
-import { LoginInfoContext } from '../context/LoginInfo';
-import { useNavigate } from 'react-router-dom';
-import { AxiosResponse } from 'axios';
+import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { BusinessCard } from "../utils/types";
+import { getCards } from "../utils/services";
+import { AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
+import { errorMsg } from "../utils/helpers";
+import { LoginInfoContext } from "../context/LoginInfo";
 
-export default function useCards() {
-    const { setLoginInfo, loginInfo } = React.useContext(LoginInfoContext)
-    const [allCards, setAllCards] = useState<BusinessCard[]>([])
-    const { logged } = loginInfo
+export function useCards() {
     const navigate = useNavigate()
-    const updatedCards = [...defaultCards, ...(allCards?.length ? allCards : [])]
-    const removedCards = getData('removedCards')
+    const { loginInfo, setLoginInfo } = useContext(LoginInfoContext)
+    const { business } = loginInfo
+    const [data, setData] = useState<BusinessCard[]>([])
+    let error = 0
 
-    const [cards, setCards] = useState<Array<BusinessCard>>(() => {
-        const storedCards: BusinessCard[] = getData("*defaultCards*")
-        if (!storedCards) {
-            localStorage.clear()
-            return defaultCards;
-        } else {
-            return storedCards;
-        }
-    });
-
-    function addDefaultCard(data: BusinessCard) {
-        setCards((currentData) => [...currentData, data])
+    function addData(data: BusinessCard) {
+        setData((currentData) => [...currentData, data])
     }
 
-    function cardsFiltered() {
-        if (removedCards) {
-            return updatedCards.filter(card => {
-                return !removedCards.some((removeCard: BusinessCard) => removeCard.email === card.email)
-            })
-        } else {
-            return updatedCards;
-        }
+    function deleteData(id: string) {
+        setData((currentData) => currentData.filter((data) => data._id !== id))
     }
 
-    const searchDefaultCards = (e: ChangeEvent<HTMLInputElement>) => {
-        setCards((currentCards: BusinessCard[]) => {
-            const filteredCards = currentCards.filter((card: BusinessCard) => {
-                return card.title.toLocaleLowerCase().startsWith(e.target.value.toLocaleLowerCase())
+    function editData(id: string, data: BusinessCard) {
+        setData((currentData) => currentData.map((card) => {
+            return card._id === id ? data : card
+        }))
+    }
+
+    const searchData = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value !== "") {
+            setData((currentCards: BusinessCard[]) => {
+                return currentCards.filter((card: BusinessCard) => {
+                    return card.title.toLocaleLowerCase().startsWith(e.target.value.toLocaleLowerCase())
+                })
             })
-            return e.target.value === "" ? cardsFiltered() : filteredCards
-        })
+        }
+        else {
+            getCards()
+                .then((res: AxiosResponse<BusinessCard[]>) => setData(res.data))
+                .catch((e) => errorMsg(e, navigate, setLoginInfo))
+        }
     }
 
     useEffect(() => {
-        setData("*defaultCards*", cards)
-        getAllCards()
-            .then((res: AxiosResponse<BusinessCard[]>) => setAllCards(res.data))
-            .catch((e) => errorMsg(e, navigate, setLoginInfo, true))
-    }, [cards]);
+        if (business && !error) {
+            error += 1
+            getCards()
+                .then((res: AxiosResponse<BusinessCard[]>) => setData(res.data))
+                .catch((e) => errorMsg(e, navigate, setLoginInfo))
+        }
+    }, [business])
 
-    return { cards, setCards, searchDefaultCards, addDefaultCard };
+    return { data, deleteData, addData, editData, searchData }
 }
-
-
-

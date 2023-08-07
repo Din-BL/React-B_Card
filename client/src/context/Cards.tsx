@@ -1,15 +1,15 @@
 import { createContext } from "react";
-import useCards from "../hooks/useCards";
-import { useData } from "../hooks/useData";
+import useAllCards from "../hooks/useAllCards";
+import { useCards } from "../hooks/useCards";
 import { useFavorite } from "../hooks/useFavorite";
 
-export const CardsContext = createContext<ReturnType<typeof useCards>>(null!);
-export const DataContext = createContext<ReturnType<typeof useData>>(null!);
+export const CardsContext = createContext<ReturnType<typeof useAllCards>>(null!);
+export const DataContext = createContext<ReturnType<typeof useCards>>(null!);
 export const FavoriteContext = createContext<ReturnType<typeof useFavorite>>(null!);
 
 function Cards(props: React.PropsWithChildren<{}>) {
-    const { cards, setCards, searchDefaultCards, addDefaultCard } = useCards();
-    const { data, deleteData, addData, editData, searchData } = useData()
+    const { cards, setCards, searchDefaultCards, addDefaultCard } = useAllCards();
+    const { data, deleteData, addData, editData, searchData } = useCards()
     const { favorite, setFavorite, deleteFavorite, searchFavorite } = useFavorite()
 
     return (

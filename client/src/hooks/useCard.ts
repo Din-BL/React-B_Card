@@ -24,7 +24,7 @@ function useCard(status: boolean | string, defaultCard?: BusinessCard) {
             error += 1
             getCard(id)
                 .then((card) => setCard(card.data))
-                .catch((e) => errorMsg(e, navigate, setLoginInfo, true))
+                .catch((e) => errorMsg(e, navigate, setLoginInfo))
         }
         if (typeof status !== 'boolean') {
             setCard(defaultCard)
