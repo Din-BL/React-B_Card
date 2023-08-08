@@ -37,7 +37,7 @@ export default function Footer() {
                                     </Typography>
                                 }
                                 <FooterLink to="/contact" icon={<Email color="action" />} text="Contact Us" />
-                                <FooterLink to="/about" icon={<Info color="action" />} text="About" />
+                                <FooterLink to={`/about${userId()}`} icon={<Info color="action" />} text="About" />
                                 {logged &&
                                     <FooterLink to={`/favorite/${id}`} icon={<Favorite color="action" />} text="Favorite" />
                                 }

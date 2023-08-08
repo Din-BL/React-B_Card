@@ -25,6 +25,12 @@ router.delete("/init", async (req, res) => { /*Postman use case*/
 router.post("/register", userValidate, async (req, res) => {
   try {
     const user = await User.create(req.body);
+    if (user.admin) {
+      if (!user.business) {
+        user.business = true
+        await user.save();
+      }
+    }
     res.status(201).json(_.pick(user, ["userName"]));
   } catch (error) {
     res.status(400).json(extractMsg(error.message));
@@ -89,6 +95,8 @@ router.get("/", userAuthenticate, userPermission, async (req, res) => {
 
 router.put("/:id", userAuthenticate, userValidate, async (req, res) => {
   try {
+    if (req.user.email !== req.body.email) return res.status(400).json(`Email must be ${req.user.email}`);
+    // if (req.user.userName !== req.body.userName) return res.status(400).json(`User name must be ${req.user.userName}`);
     if (req.body.password) req.body.password = await bcrypt.hash(req.body.password, 10);
     const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!updateUser) return res.status(404).json(`User doesn't exist`);
@@ -100,7 +108,6 @@ router.put("/:id", userAuthenticate, userValidate, async (req, res) => {
 
 router.patch("/:id", userAuthenticate, userPermission, async (req, res) => {
   try {
-    console.log(req.body.admin);
     const { business } = req.body;
     const updateUser = await User.findByIdAndUpdate(req.params.id, { $set: { business } }, { new: true, runValidators: true });
     res.status(201).json(updateUser);

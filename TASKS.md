@@ -1,11 +1,11 @@
 UI:
-Refresh "User doest exist" msg in edit business page
-business & admin together
 
 Server:
-Must be an admin account validation on delete User and Business http calls
+Must be an admin account validation - delete User & delete Business 
+User name validation (user put request)
 
 Bonus:
 loader sign
-Delete card function
+Shorten delete card function
 Favorite cards still exist in other users after being deleted from the admin
+Array of favorite usernames
