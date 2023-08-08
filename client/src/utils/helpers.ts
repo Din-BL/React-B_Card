@@ -93,11 +93,13 @@ export function status(status: UserCard) {
 }
 
 export function errorMsg(e: any, navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<UseLogin>>) {
-    if (e.response.data) {
+    if (e?.response?.data) {
         let errMsg = e.response.data
         errMsg = Array.isArray(errMsg) ? errMsg.join('') : errMsg
         toast.error(errMsg)
         if (errMsg.includes('expired')) logout(navigate, setLoginInfo)
+        const errorExists = ['User', 'Business', 'Cast'].some(item => errMsg.includes(item));
+        if (errorExists) navigate('/error')
     } else {
         toast.error(e.message)
         navigate('/error')

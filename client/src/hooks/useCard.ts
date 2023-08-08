@@ -30,7 +30,6 @@ function useCard(status: boolean | string, defaultCard?: BusinessCard) {
             setCard(defaultCard)
         }
     }, [component])
-
     return card
 }
 

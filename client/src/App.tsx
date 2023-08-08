@@ -41,10 +41,12 @@ function App() {
               <Route path='/business/:id' element={<Business />} />
               <Route path='/favorite/:id' element={<RouteGuard><Favorite /></RouteGuard>} />
               <Route path='/user/:id' element={<RouteGuard><User /></RouteGuard>} />
-              <Route path='/my-cards/:id' element={<RouteGuard><MyCards /></RouteGuard>} />
-              <Route path='/add/:id' element={<RouteGuard><Add /></RouteGuard>} />
-              <Route path='/edit/:id' element={<RouteGuard><Edit /></RouteGuard>} />
               <Route path='/sandbox/:id' element={<RouteGuard><SandBox /></RouteGuard>} />
+              <Route path='/my-cards/:id' >
+                <Route index element={<RouteGuard><MyCards /></RouteGuard>} />
+                <Route path='add' element={<RouteGuard><Add /></RouteGuard>} />
+                <Route path='edit/:id' element={<RouteGuard><Edit /></RouteGuard>} />
+              </Route>
             </Routes>
           </BackGround>
           <Footer />

@@ -1,6 +1,5 @@
 UI:
 Refresh "User doest exist" msg in edit business page
-Redirect to login back if not logged
 business & admin together
 
 Server:

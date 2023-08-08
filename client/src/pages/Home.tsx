@@ -2,11 +2,11 @@ import Title from '../components/Title';
 import B_CARD from '../components/B_Card';
 import { BusinessCard } from '../utils/types';
 import { useContext } from 'react';
-import { CardsContext } from '../context/Cards';
+import { AllCardsContext } from '../context/Cards';
 import { Container, Grid, Box, Alert } from '@mui/material';
 
 function Home() {
-    const { cards } = useContext(CardsContext)
+    const { cards } = useContext(AllCardsContext)
     return (
         <Container maxWidth='lg' sx={{ paddingBottom: 3 }}>
             <Box component={'main'} flexGrow={1} minHeight='85dvh' >

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import { LoginInfoContext } from "../context/LoginInfo";
-import { paths } from "../utils/helpers";
+import { pathUrl, paths } from "../utils/helpers";
 import { getData } from "../utils/localStorage";
 
 function RouteGuard(props: React.PropsWithChildren<{}>) {
@@ -13,14 +13,17 @@ function RouteGuard(props: React.PropsWithChildren<{}>) {
     function authGuard() {
         if (paths(['favorite', 'user'], location)) {
             return loginInfo.logged
-        } else if (paths(['my-cards', 'add', 'edit'], location)) {
+        } else if (pathUrl('my-cards', location)) {
             return loginInfo.business
         } else {
             return loginInfo.admin
         }
     }
 
-    if (storageId !== id) {
+    if (location.pathname.includes('edit')) {
+        const editId = location.pathname.split('/')[2];
+        if (storageId === editId) return (<>{props.children}</>)
+    } if (storageId !== id) {
         return <Navigate to={`/error`} />
     } else if (authGuard()) {
         return (<>{props.children}</>)

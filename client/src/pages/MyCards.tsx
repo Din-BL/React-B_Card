@@ -1,16 +1,15 @@
 import { Alert, Box, Container, Fab, Grid } from "@mui/material";
 import Title from "../components/Title";
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BusinessCard } from "../utils/types";
 import B_CARD from "../components/B_Card";
 import { useContext } from "react";
-import { DataContext } from "../context/Cards";
+import { CardsContext } from "../context/Cards";
 
 function MyCards() {
     const navigate = useNavigate()
-    const { id } = useParams();
-    const { data } = useContext(DataContext)
+    const { data } = useContext(CardsContext)
 
     return (
         <Container sx={{ paddingBottom: 3 }}>
@@ -26,7 +25,7 @@ function MyCards() {
                 </Grid>
                 <Box display='flex' justifyContent='end' paddingBottom={12} paddingTop={3}>
                     <Fab color="primary" aria-label="add">
-                        <AddIcon onClick={() => navigate(`/add/${id}`)} />
+                        <AddIcon onClick={() => navigate(`add`)} />
                     </Fab>
                 </Box>
             </Box>

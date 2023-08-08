@@ -4,7 +4,7 @@ import { CardFields } from "../utils/fields";
 import { cardSchema } from "../utils/schema";
 import { addCard } from "../utils/services";
 import { useNavigate, useParams } from "react-router-dom";
-import { CardsContext, DataContext } from "../context/Cards";
+import { AllCardsContext, CardsContext } from "../context/Cards";
 import React, { useContext } from "react";
 import { LoginInfoContext } from "../context/LoginInfo";
 import { errorMsg } from "../utils/helpers";
@@ -16,8 +16,8 @@ function Add() {
     const { id } = useParams();
     const navigate = useNavigate()
     const { setLoginInfo } = React.useContext(LoginInfoContext)
-    const { addData } = useContext(DataContext)
-    const { addDefaultCard } = useContext(CardsContext)
+    const { addData } = useContext(CardsContext)
+    const { addDefaultCard } = useContext(AllCardsContext)
     const { initialValue } = useUser()
     const userEmail = { email: initialValue?.email || '' }
     for (let key in initialValue) if (key !== "email") initialValue[key] = "";

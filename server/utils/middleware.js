@@ -12,6 +12,7 @@ module.exports.userValidate = (req, res, next) => {
   }
   const { error } = schema.validate(req.body, { abortEarly: false });
   if (error) {
+    console.log(error.details.map((msg) => msg.message));
     res.status(400).json(error.details.map((msg) => msg.message));
   } else {
     next();
@@ -35,7 +36,7 @@ module.exports.userAuthenticate = (req, res, next) => {
 
 module.exports.userPermission = async (req, res, next) => {
   const user = await User.findOne({ email: req.user.sub });
-  if (!user) return res.status(404).json("User doest exist");
+  if (!user) return res.status(404).json(`User doesn't exist`);
   if (req.baseUrl === "/user") {
     if (!user.admin) return res.status(404).json("Must be an admin account");
   } else {

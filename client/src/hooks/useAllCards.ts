@@ -9,9 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
 
 export default function useAllCards() {
-    const { setLoginInfo, loginInfo } = React.useContext(LoginInfoContext)
+    const { setLoginInfo } = React.useContext(LoginInfoContext)
     const [allCards, setAllCards] = useState<BusinessCard[]>([])
-    const { logged } = loginInfo
     const navigate = useNavigate()
     const updatedCards = [...defaultCards, ...(allCards?.length ? allCards : [])]
     const removedCards = getData('removedCards')

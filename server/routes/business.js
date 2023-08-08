@@ -4,7 +4,6 @@ const express = require("express");
 const router = express.Router();
 const Business = require("../models/business");
 const { userValidate, userAuthenticate, userPermission } = require("../utils/middleware");
-const { JwtValidator } = require("../utils/helpers")
 
 // Endpoints
 
@@ -34,7 +33,7 @@ router.put("/:id", userAuthenticate, userValidate, userPermission, async (req, r
   try {
     if (req.user.email !== req.body.email) return res.status(400).json(`Email must be ${req.user.email}`);
     const updateBusiness = await Business.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-    JwtValidator(updateBusiness, res, 'Business')
+    if (!updateBusiness) return res.status(404).json(`Business doesn't exist`);
     res.status(201).json(updateBusiness);
   } catch (error) {
     res.status(400).json(error.message);
@@ -44,7 +43,7 @@ router.put("/:id", userAuthenticate, userValidate, userPermission, async (req, r
 router.get("", userAuthenticate, userPermission, async (req, res) => {
   try {
     const findBusinesses = await Business.find({ user_id: req.user.id });
-    JwtValidator(findBusinesses, res, 'Business')
+    if (!findBusinesses) return res.status(404).json(`No registered businesses`);
     res.status(200).json(findBusinesses);
   } catch (error) {
     res.status(400).json(error.message);
@@ -54,7 +53,7 @@ router.get("", userAuthenticate, userPermission, async (req, res) => {
 router.get("/all", async (req, res) => {
   try {
     const findBusinesses = await Business.find();
-    JwtValidator(findBusinesses, res, 'Business')
+    if (!findBusinesses) return res.status(404).json(`No registered businesses`);
     res.status(200).json(findBusinesses);
   } catch (error) {
     res.status(400).json(error.message);
@@ -64,7 +63,7 @@ router.get("/all", async (req, res) => {
 router.get("/:id", userAuthenticate, userPermission, async (req, res) => {
   try {
     const findBusiness = await Business.findById(req.params.id);
-    JwtValidator(findBusiness, res, 'Business')
+    if (!findBusiness) return res.status(404).json(`Business doesn't exist`);
     res.status(200).json(findBusiness);
   } catch (error) {
     res.status(400).json(error.message);
@@ -74,7 +73,7 @@ router.get("/:id", userAuthenticate, userPermission, async (req, res) => {
 router.delete("/:id", userAuthenticate, userPermission, async (req, res) => {
   try {
     const deleteBusiness = await Business.findByIdAndDelete(req.params.id);
-    JwtValidator(deleteBusiness, res, 'Business')
+    if (!deleteBusiness) return res.status(404).json(`Business doesn't exist`);
     res.status(200).json(deleteBusiness);
   } catch (error) {
     res.status(400).json(error.message);

@@ -15,7 +15,3 @@ module.exports.extractMsg = (msg) => {
         return `${match[1]} is already exists`
     } return msg
 }
-
-module.exports.JwtValidator = (document, response, msg) => {
-    if (!document) return response.status(404).json(`${msg} doesn't exist`);
-}

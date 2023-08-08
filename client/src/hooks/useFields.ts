@@ -2,9 +2,9 @@ import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../utils/services";
 import { LoginField } from "../utils/types";
-import { toast } from 'react-toastify';
 import { getData, setData } from "../utils/localStorage";
 import { LoginInfoContext } from "../context/LoginInfo";
+import { errorMsg } from "../utils/helpers";
 
 export default function useFields(initialValue: LoginField) {
     const navigate = useNavigate()
@@ -24,7 +24,7 @@ export default function useFields(initialValue: LoginField) {
                 setLoginInfo({ admin: getData('user', 'admin'), business: getData('user', 'business'), logged: getData('user') })
                 navigate(`/home/${user.data._id}`)
             })
-            .catch(e => toast.error(e.response.data))
+            .catch(e => errorMsg(e, navigate, setLoginInfo))
     }
 
     const resetFields = () => setFields(initialValue)

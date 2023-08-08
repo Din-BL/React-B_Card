@@ -52,6 +52,10 @@ export function addCard(form: BusinessCard) {
     return axios.post(`${url}/business`, form, createConfig());
 }
 
+export function getCard(id: string) {
+    return axios.get(`${url}/business/${id}`, createConfig());
+}
+
 export function getCards() {
     return axios.get(`${url}/business`, createConfig());
 }
@@ -62,10 +66,6 @@ export function getAllCards() {
 
 export function deleteCard(id: string) {
     return axios.delete(`${url}/business/${id}`, createConfig());
-}
-
-export function getCard(id: string) {
-    return axios.get(`${url}/business/${id}`, createConfig());
 }
 
 export function editCard(id: string, form: BusinessCard) {

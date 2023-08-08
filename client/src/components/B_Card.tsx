@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useToggle } from '../hooks/useToggle';
 import { deleteCard } from '../utils/services';
 import { toast } from 'react-toastify';
-import { CardsContext, DataContext, FavoriteContext } from '../context/Cards';
+import { AllCardsContext, CardsContext, FavoriteContext } from '../context/Cards';
 import { useContext } from 'react';
 import { favoriteCard } from '../utils/favorite';
 import { LoginInfoContext } from '../context/LoginInfo';
@@ -18,9 +18,9 @@ export default function B_CARD({ card }: B_CardProps) {
     const [checked, toggle] = useToggle(card)
     const { loginInfo, setLoginInfo } = useContext(LoginInfoContext)
     const { logged, admin } = loginInfo
-    const { deleteData } = useContext(DataContext)
+    const { deleteData } = useContext(CardsContext)
     const { setFavorite, deleteFavorite } = useContext(FavoriteContext)
-    const { setCards } = useContext(CardsContext)
+    const { setCards } = useContext(AllCardsContext)
     const navigate = useNavigate()
     const trashView = (pathUrl(`my-cards`, location) || pathUrl(`home`, location)) && admin
 
@@ -83,7 +83,7 @@ export default function B_CARD({ card }: B_CardProps) {
                             </IconButton>
                         }
                         {pathUrl(`my-cards/`, location) &&
-                            <IconButton sx={{ padding: '6px' }} onClick={() => navigate(`/edit/${card._id}`)} aria-label="edit" >
+                            <IconButton sx={{ padding: '6px' }} onClick={() => navigate(`edit/${card._id}`)} aria-label="edit" >
                                 <Edit color='action' />
                             </IconButton>
                         }

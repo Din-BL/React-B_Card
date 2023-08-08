@@ -5,7 +5,7 @@ import { cardSchema } from "../utils/schema";
 import { editCard } from "../utils/services";
 import { toast } from "react-toastify";
 import React, { useContext } from "react";
-import { DataContext } from "../context/Cards";
+import { CardsContext } from "../context/Cards";
 import { getData } from "../utils/localStorage";
 import { LoginInfoContext } from "../context/LoginInfo";
 import { errorMsg } from "../utils/helpers";
@@ -16,7 +16,7 @@ import useCard from "../hooks/useCard";
 
 function Edit() {
     const { setLoginInfo, loginInfo } = React.useContext(LoginInfoContext)
-    const { editData } = useContext(DataContext)
+    const { editData } = useContext(CardsContext)
     const { id } = useParams();
     const navigate = useNavigate()
     const userId = getData('user', '_id')
@@ -26,7 +26,6 @@ function Edit() {
     const staticData = { email: card?.email || '' }
 
     const handleEdit = (data: BusinessCard) => {
-
         editAlert()
             .then((result) => {
                 if (result.isConfirmed && id) {
