@@ -4,7 +4,7 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { Info, Favorite, RecentActors, AdminPanelSettings, Restore, Email } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { allowedPages, userId } from '../utils/helpers';
+import { allowedPages, extractPath, userId } from '../utils/helpers';
 import { getData } from '../utils/localStorage';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { useMediaQuery } from '@mui/material';
@@ -12,33 +12,20 @@ import { useMediaQuery } from '@mui/material';
 export default function FooterLink() {
     const [value, setValue] = React.useState(0);
     const location = useLocation();
-
-    const regexPath = (pathname: string) => {
-        const match = pathname.match(/\/([a-zA-Z0-9-]+)/);
-        return match && match[1] ? match[1] : 0
-    }
-
-    const extractPath = (pathname: string) => {
-        const path = regexPath(pathname)
-        if (typeof path === 'string') {
-            return navigationItems.findIndex((navigatePath) => {
-                if (navigatePath.route) {
-                    const navigateUrl = regexPath(navigatePath.route)
-                    return navigateUrl === path
-                }
-            })
-        } return path
-    }
-
-    React.useEffect(() => {
-        setValue(extractPath(location.pathname))
-    }, [value])
-
     const navigate = useNavigate();
     const id = getData('user', '_id')
     const { loginInfo } = React.useContext(LoginInfoContext)
     const { admin, business, logged } = loginInfo
     const isSmScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
+
+    const navigationItems = [
+        { label: 'Recent', icon: <Restore />, action: () => navigate(-1) },
+        { label: 'Contact Us', icon: <Email />, route: '/contact' },
+        { label: 'About', icon: <Info />, route: `/about${userId()}` },
+        { label: 'Favorite', icon: <Favorite />, route: `/favorite/${id}` },
+        { label: 'My Cards', icon: <RecentActors />, route: `/my-cards/${id}` },
+        { label: 'SandBox', icon: <AdminPanelSettings />, route: `/sandbox/${id}` }
+    ];
 
     const conditionalPage = (page: string) => {
         switch (page) {
@@ -50,14 +37,12 @@ export default function FooterLink() {
                 return (allowedPages.includes(page) || admin && !isSmScreen);
         }
     }
-    const navigationItems = [
-        { label: 'Recent', icon: <Restore />, action: () => navigate(-1) },
-        { label: 'Contact Us', icon: <Email />, route: '/contact' },
-        { label: 'About', icon: <Info />, route: `/about${userId()}` },
-        { label: 'Favorite', icon: <Favorite />, route: `/favorite/${id}` },
-        { label: 'My Cards', icon: <RecentActors />, route: `/my-cards/${id}` },
-        { label: 'SandBox', icon: <AdminPanelSettings />, route: `/sandbox/${id}` }
-    ];
+
+    React.useEffect(() => {
+        let pathIndex = extractPath(location.pathname, navigationItems)
+        pathIndex = pathIndex === -1 ? 0 : pathIndex
+        setValue(pathIndex)
+    }, [location.pathname])
 
     return (
         <Box sx={{ width: 500 }}>

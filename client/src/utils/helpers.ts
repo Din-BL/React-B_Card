@@ -145,4 +145,20 @@ export const isPasswordValid = (value: string) => {
     return null;
 };
 
+export const regexPath = (pathname: string) => {
+    const match = pathname.match(/\/([a-zA-Z0-9-]+)/);
+    return match && match[1] ? match[1] : 0
+}
 
+export const extractPath = (pathname: string, navigationItems: any[]) => {
+    const path = regexPath(pathname)
+    if (typeof path === 'string') {
+        return navigationItems.findIndex((navigatePath) => {
+            if (navigatePath.route) {
+                const navigateUrl = regexPath(navigatePath.route)
+                return navigateUrl === path
+            }
+        })
+    }
+    return path
+}
