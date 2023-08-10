@@ -9,3 +9,4 @@ loader sign
 Shorten delete card function
 Favorite cards still exist in other users after being deleted from the admin
 Array of favorite usernames
+Screen size toggle button 

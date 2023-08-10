@@ -1,31 +1,87 @@
-import { Typography, useMediaQuery } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { FooterLinkProps } from '../utils/types';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import { Info, Favorite, RecentActors, AdminPanelSettings, Restore, Email } from '@mui/icons-material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { allowedPages, userId } from '../utils/helpers';
+import { getData } from '../utils/localStorage';
+import { LoginInfoContext } from '../context/LoginInfo';
+import { useMediaQuery } from '@mui/material';
 
-export const FooterLink = ({ to, icon, text }: FooterLinkProps) => {
-    const isSmallScreen = useMediaQuery((theme: any) => theme.breakpoints.up('sm'));
+export default function FooterLink() {
+    const [value, setValue] = React.useState(0);
+    const location = useLocation();
+
+    const regexPath = (pathname: string) => {
+        const match = pathname.match(/\/([a-zA-Z0-9-]+)/);
+        return match && match[1] ? match[1] : 0
+    }
+
+    const extractPath = (pathname: string) => {
+        const path = regexPath(pathname)
+        if (typeof path === 'string') {
+            return navigationItems.findIndex((navigatePath) => {
+                if (navigatePath.route) {
+                    const navigateUrl = regexPath(navigatePath.route)
+                    return navigateUrl === path
+                }
+            })
+        } return path
+    }
+
+    React.useEffect(() => {
+        setValue(extractPath(location.pathname))
+    }, [value])
+
+    const navigate = useNavigate();
+    const id = getData('user', '_id')
+    const { loginInfo } = React.useContext(LoginInfoContext)
+    const { admin, business, logged } = loginInfo
+    const isSmScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
+
+    const conditionalPage = (page: string) => {
+        switch (page) {
+            case 'favorite':
+                return ((logged && !isSmScreen));
+            case 'my cards':
+                return (business && !isSmScreen);
+            default:
+                return (allowedPages.includes(page) || admin && !isSmScreen);
+        }
+    }
+    const navigationItems = [
+        { label: 'Recent', icon: <Restore />, action: () => navigate(-1) },
+        { label: 'Contact Us', icon: <Email />, route: '/contact' },
+        { label: 'About', icon: <Info />, route: `/about${userId()}` },
+        { label: 'Favorite', icon: <Favorite />, route: `/favorite/${id}` },
+        { label: 'My Cards', icon: <RecentActors />, route: `/my-cards/${id}` },
+        { label: 'SandBox', icon: <AdminPanelSettings />, route: `/sandbox/${id}` }
+    ];
+
     return (
-        <Typography color="text.secondary" variant={isSmallScreen ? 'body2' : 'caption'} component="h5">
-            <Link
-                to={to}
-                style={{
-                    textDecoration: 'none',
-                    color: 'inherit',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
+        <Box sx={{ width: 500 }}>
+            <BottomNavigation
+                showLabels
+                value={value}
+                onChange={(event, newValue) => {
+                    const selectedItem = navigationItems[newValue];
+                    if (selectedItem?.action) {
+                        selectedItem.action();
+                    } else if (selectedItem?.route) {
+                        setValue(newValue);
+                        navigate(selectedItem.route);
+                    }
                 }}
             >
-                {icon}
-                <span>{text}</span>
-            </Link>
-        </Typography>
-    )
+                {navigationItems.filter((page) => conditionalPage(page.label.toLocaleLowerCase())).map((item, index) => (
+                    <BottomNavigationAction
+                        key={index}
+                        label={item.label}
+                        icon={item.icon}
+                    />
+                ))}
+            </BottomNavigation>
+        </Box>
+    );
 }
-
-
-
-
-
-
-
