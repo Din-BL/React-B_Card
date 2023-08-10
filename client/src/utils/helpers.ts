@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 export const pages: Pages[] = ['home', 'about', 'favorite', 'my-cards', 'sandbox'];
 export const menuPages: Pages[] = [...pages, 'login']
-export const allowedPages = ['home', 'about', 'login'];
+export const allowedPages = ['home', 'about', 'login', 'recent', 'contact us'];
 
 export function capitalizeFirstLetter(path: string) {
     const pathValue = path.includes('-') ? path.replace('-', " ") : path
@@ -144,3 +144,5 @@ export const isPasswordValid = (value: string) => {
     }
     return null;
 };
+
+
