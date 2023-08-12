@@ -61,6 +61,7 @@ export default function FooterLink() {
             >
                 {navigationItems.filter((page) => conditionalPage(page.label.toLocaleLowerCase())).map((item, index) => (
                     <BottomNavigationAction
+                        sx={{ padding: 0 }}
                         key={index}
                         label={item.label}
                         icon={item.icon}

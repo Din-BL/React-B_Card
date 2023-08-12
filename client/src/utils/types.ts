@@ -5,6 +5,7 @@ export type Pages = 'home' | 'about' | 'favorite' | 'my-cards' | 'sandbox' | 'lo
 export type UserStatus = 'User' | 'Business' | 'Admin'
 export type FormData = BusinessCard | UserCard
 export type SignatureFormData = FormData & { [key: string]: any };
+export type View = 'grid' | 'table'
 
 export interface SelectProps {
     userStatus: UserStatus,
@@ -115,9 +116,18 @@ export interface LoginContextType {
     setLoginInfo: React.Dispatch<React.SetStateAction<UseLogin>>
 }
 
+export interface ViewContextType {
+    view: View
+    handleView: (event: React.MouseEvent<HTMLElement>, nextView: View) => void
+}
+
 export interface TableProps {
     Users: UserCard[]
     userDeletion: (id: string) => void
+}
+
+export interface TableModeProps {
+    cards: BusinessCard[]
 }
 
 export interface BusinessStatus {

@@ -22,34 +22,37 @@ import RouteGuard from './layouts/RouteGuard';
 import Contact from './components/Contact';
 import Redirect from './layouts/Redirect';
 import { companyInfo } from './utils/cards';
+import ViewMode from './context/ViewMode';
 
 function App() {
   return (
     <Theme>
       <LoginInfo>
         <Cards>
-          <Navbar />
-          <BackGround>
-            <Routes>
-              <Route path='/' element={<Redirect />} />
-              <Route path='*' element={<Error />} />
-              <Route path='/register' element={<Register />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/about/:id?' element={<Redirect><About /></Redirect>} />
-              <Route path='/home/:id?' element={<Redirect><Home /></Redirect>} />
-              <Route path='/contact' element={<Contact businessInfo={companyInfo} />} />
-              <Route path='/business/:id' element={<Business />} />
-              <Route path='/favorite/:id' element={<RouteGuard><Favorite /></RouteGuard>} />
-              <Route path='/user/:id' element={<RouteGuard><User /></RouteGuard>} />
-              <Route path='/sandbox/:id' element={<RouteGuard><SandBox /></RouteGuard>} />
-              <Route path='/my-cards/:id' >
-                <Route index element={<RouteGuard><MyCards /></RouteGuard>} />
-                <Route path='add' element={<RouteGuard><Add /></RouteGuard>} />
-                <Route path='edit/:id' element={<RouteGuard><Edit /></RouteGuard>} />
-              </Route>
-            </Routes>
-          </BackGround>
-          <Footer />
+          <ViewMode>
+            <Navbar />
+            <BackGround>
+              <Routes>
+                <Route path='/' element={<Redirect />} />
+                <Route path='*' element={<Error />} />
+                <Route path='/register' element={<Register />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/about/:id?' element={<Redirect><About /></Redirect>} />
+                <Route path='/home/:id?' element={<Redirect><Home /></Redirect>} />
+                <Route path='/contact' element={<Contact businessInfo={companyInfo} />} />
+                <Route path='/business/:id' element={<Business />} />
+                <Route path='/favorite/:id' element={<RouteGuard><Favorite /></RouteGuard>} />
+                <Route path='/user/:id' element={<RouteGuard><User /></RouteGuard>} />
+                <Route path='/sandbox/:id' element={<RouteGuard><SandBox /></RouteGuard>} />
+                <Route path='/my-cards/:id' >
+                  <Route index element={<RouteGuard><MyCards /></RouteGuard>} />
+                  <Route path='add' element={<RouteGuard><Add /></RouteGuard>} />
+                  <Route path='edit/:id' element={<RouteGuard><Edit /></RouteGuard>} />
+                </Route>
+              </Routes>
+            </BackGround>
+            <Footer />
+          </ViewMode>
         </Cards>
       </LoginInfo>
     </Theme>

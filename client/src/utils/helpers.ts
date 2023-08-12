@@ -82,7 +82,7 @@ export function sortUser(users: UserCard[]) {
     })
 }
 
-export function status(status: UserCard) {
+export function status(status: UserCard | BusinessCard) {
     if (status.admin) {
         return 'Admin'
     } else if (status.business)

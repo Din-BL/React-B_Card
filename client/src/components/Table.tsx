@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import { TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses } from '@mui/material';
+import { TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses, IconButton } from '@mui/material';
 import UserTable from '@mui/material/Table';
 import { Delete } from '@mui/icons-material';
 import { TableProps, UserStatus } from '../utils/types';
@@ -66,14 +66,14 @@ export default function Table({ Users, userDeletion }: TableProps) {
                         {sortUser(Users).map((row, index) => (
                             <StyledTableRow key={index}>
                                 <StyledTableCell component="th" scope="row">
-                                    <Box display={'flex'} justifyContent={'space-between'}>
+                                    <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
                                         <Typography fontSize={15} variant="button">
                                             {index + 1}
                                         </Typography>
                                         {status(row) !== 'Admin' &&
-                                            <Box>
-                                                <Delete onClick={() => { removeUser(row._id!, row.userName) }} />
-                                            </Box>}
+                                            <IconButton sx={{ padding: '6px' }} onClick={() => { removeUser(row._id!, row.userName) }} aria-label="delete">
+                                                <Delete color='action' />
+                                            </IconButton>}
                                     </Box>
                                 </StyledTableCell>
                                 <StyledTableCell>{row.userName}</StyledTableCell>
