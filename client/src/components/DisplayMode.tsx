@@ -5,13 +5,7 @@ import { ViewContext } from '../context/ViewMode';
 
 export default function DisplayMode() {
     const { view, handleView } = React.useContext(ViewContext)
-
-    // const [view, setView] = React.useState('grid');
     const isSmScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
-
-    // const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
-    //     setView(nextView);
-    // };
 
     return (
         <ToggleButtonGroup

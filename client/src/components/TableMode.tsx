@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import { TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses, IconButton, Checkbox } from '@mui/material';
+import { TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses, IconButton, Checkbox, Alert } from '@mui/material';
 import UserTable from '@mui/material/Table';
 import { Delete, Favorite, FavoriteBorder, Phone, Language } from '@mui/icons-material';
 import { TableModeProps, TableProps, UserStatus } from '../utils/types';
@@ -36,11 +36,9 @@ export default function TableMode({ cards }: TableModeProps/*{ Users, userDeleti
     const { logged } = loginInfo
     // const [checked, toggle] = useToggle(card)
 
-    let card = Object.keys(cards[0])
-    const excludedProperties = ["imageUrl", "imageAlt", "_id", "description", "houseNumber", "web", "state", "zip", "user_id", "__v"];
+    const excludedProperties = ["imageUrl", "imageAlt", "_id", "description", "houseNumber", "web", "state", "zip", "user_id", "__v", "isFavorite"];
 
-    card = card.filter(property => !excludedProperties.includes(property));
-    card = card.map(property => capitalizeFirstLetter(property))
+
     // function removeUser(id: string, username: string) {
     //     removeAlert()
     //         .then((result) => {
@@ -55,6 +53,10 @@ export default function TableMode({ cards }: TableModeProps/*{ Users, userDeleti
     //         })
     // }
 
+
+    let card = Object.keys(cards[0])
+    card = card.filter(property => !excludedProperties.includes(property));
+    card = card.map(property => capitalizeFirstLetter(property))
     return (
         <Box paddingBottom={3}>
             <TableContainer component={Paper}>
@@ -102,8 +104,6 @@ export default function TableMode({ cards }: TableModeProps/*{ Users, userDeleti
                                         <StyledTableCell key={index}>{value}</StyledTableCell>
                                     )
                                 ))}
-
-
                             </StyledTableRow>
                         ))}
                     </TableBody>
@@ -111,4 +111,5 @@ export default function TableMode({ cards }: TableModeProps/*{ Users, userDeleti
             </TableContainer>
         </Box>
     );
+
 }
