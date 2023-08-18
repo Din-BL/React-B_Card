@@ -39,6 +39,21 @@ export default function useAllCards() {
         }
     }
 
+    const categoryFilter = (event: React.ChangeEvent<{}>, newValue: any) => {
+        const filteredById = (cards: BusinessCard[]) => {
+            return cards.filter((card: BusinessCard) => card._id === newValue._id)
+        }
+        if (newValue) {
+            setCards((currentCards: BusinessCard[]) => {
+                const filteredCards = filteredById(currentCards)
+                const otherCards = filteredById(cardsFiltered())
+                return filteredCards.length === 0 ? otherCards : filteredCards
+            })
+        } else {
+            setCards(cardsFiltered())
+        }
+    }
+
     const searchDefaultCards = (e: ChangeEvent<HTMLInputElement>) => {
         setCards((currentCards: BusinessCard[]) => {
             const filteredCards = currentCards.filter((card: BusinessCard) => {
@@ -55,7 +70,7 @@ export default function useAllCards() {
             .catch((e) => errorMsg(e, navigate, setLoginInfo))
     }, [cards]);
 
-    return { cards, setCards, searchDefaultCards, addDefaultCard };
+    return { cards, setCards, searchDefaultCards, addDefaultCard, categoryFilter };
 }
 
 

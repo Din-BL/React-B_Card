@@ -111,6 +111,10 @@ export interface B_CardProps {
     card: BusinessCard;
 }
 
+export interface FavoriteIconProps {
+    card: BusinessCard
+}
+
 export interface LoginContextType {
     loginInfo: UseLogin
     setLoginInfo: React.Dispatch<React.SetStateAction<UseLogin>>

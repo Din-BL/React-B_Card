@@ -2,10 +2,15 @@ import { Box, Typography, useMediaQuery } from "@mui/material";
 import { TitleProps } from "../utils/types"
 import Categories from "./Categories";
 import DisplayMode from "./DisplayMode";
+import { pathUrl } from "../utils/helpers";
+import { useLocation } from "react-router-dom";
 
 function Title({ main, sub }: TitleProps) {
     const isMdScreen = useMediaQuery((theme: any) => theme.breakpoints.down('md'));
     const isSmScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
+    const location = useLocation()
+    const additionalView = !pathUrl(`sandbox`, location)
+    const homeView = pathUrl(`home`, location)
 
     return (
         <Box display={'flex'}
@@ -29,10 +34,12 @@ function Title({ main, sub }: TitleProps) {
                     component={'h2'}>{sub}
                 </Typography>
             </Box>
-            <Box display={'flex'} alignItems={'end'}>
-                <DisplayMode />
-                <Categories />
-            </Box>
+            {additionalView &&
+                <Box display={'flex'} alignItems={'end'}>
+                    <DisplayMode />
+                    {homeView && <Categories />}
+                </Box>
+            }
         </Box>
     );
 }

@@ -1,28 +1,26 @@
-import { Card, CardActions, Checkbox, CardContent, CardMedia, Typography, Box, IconButton } from '@mui/material';
-import { Phone, Favorite, Delete, Edit, FavoriteBorder } from '@mui/icons-material';
+import { Card, CardActions, CardContent, CardMedia, Typography, Box, IconButton } from '@mui/material';
+import { Phone, Delete, Edit } from '@mui/icons-material';
 import { B_CardProps, BusinessCard } from '../utils/types';
 import { addressFormatter, defaultAlt, defaultImage, errorMsg, idShortcut, pathUrl, phoneFormatter, removeDefaultCard } from '../utils/helpers';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useToggle } from '../hooks/useToggle';
 import { deleteCard } from '../utils/services';
 import { toast } from 'react-toastify';
 import { AllCardsContext, CardsContext, FavoriteContext } from '../context/Cards';
 import { useContext } from 'react';
-import { favoriteCard } from '../utils/favorite';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { removeAlert } from '../utils/sweetalert';
 import { getData, setData } from '../utils/localStorage';
+import FavoriteIcon from './FavoriteIcon';
 
 export default function B_CARD({ card }: B_CardProps) {
     const location = useLocation()
-    const [checked, toggle] = useToggle(card)
     const { loginInfo, setLoginInfo } = useContext(LoginInfoContext)
     const { logged, admin } = loginInfo
     const { deleteData } = useContext(CardsContext)
-    const { setFavorite, deleteFavorite } = useContext(FavoriteContext)
+    const { deleteFavorite } = useContext(FavoriteContext)
     const { setCards } = useContext(AllCardsContext)
     const navigate = useNavigate()
-    const trashView = (pathUrl(`my-cards`, location) || pathUrl(`home`, location)) && admin
+    const trashView = !pathUrl(`favorite`, location) && admin
 
     function removeCard() {
         removeAlert()
@@ -92,16 +90,7 @@ export default function B_CARD({ card }: B_CardProps) {
                         <IconButton sx={{ padding: '6px' }} onClick={() => window.location.href = `tel://${card.phone}`} aria-label="phone" >
                             <Phone color='action' />
                         </IconButton>
-                        {logged &&
-                            <IconButton sx={{ padding: '6px' }} onClick={() => favoriteCard(toggle, card, setFavorite)} aria-label="favorite" >
-                                <Checkbox sx={{ padding: 0 }}
-                                    checked={checked}
-                                    icon={<FavoriteBorder />}
-                                    checkedIcon={<Favorite />}
-                                    color='error'
-                                />
-                            </IconButton>
-                        }
+                        {logged && <FavoriteIcon card={card} />}
                     </Box>
                 </CardActions>
             </Card>

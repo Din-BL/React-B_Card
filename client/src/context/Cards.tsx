@@ -8,12 +8,12 @@ export const CardsContext = createContext<ReturnType<typeof useCards>>(null!);
 export const FavoriteContext = createContext<ReturnType<typeof useFavorite>>(null!);
 
 function Cards(props: React.PropsWithChildren<{}>) {
-    const { cards, setCards, searchDefaultCards, addDefaultCard } = useAllCards();
+    const { cards, setCards, searchDefaultCards, addDefaultCard, categoryFilter } = useAllCards();
     const { data, deleteData, addData, editData, searchData } = useCards()
     const { favorite, setFavorite, deleteFavorite, searchFavorite } = useFavorite()
 
     return (
-        <AllCardsContext.Provider value={{ cards, setCards, searchDefaultCards, addDefaultCard }}>
+        <AllCardsContext.Provider value={{ cards, setCards, searchDefaultCards, addDefaultCard, categoryFilter }}>
             <CardsContext.Provider value={{ data, deleteData, addData, editData, searchData }}>
                 <FavoriteContext.Provider value={{ favorite, setFavorite, deleteFavorite, searchFavorite }}>
                     {props.children}

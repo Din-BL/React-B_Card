@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import { TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses, IconButton, Checkbox, Alert } from '@mui/material';
+import { TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses, IconButton } from '@mui/material';
 import UserTable from '@mui/material/Table';
-import { Delete, Favorite, FavoriteBorder, Phone, Language } from '@mui/icons-material';
-import { TableModeProps, TableProps, UserStatus } from '../utils/types';
-import { deleteUser } from '../utils/services';
+import { Delete, Phone, Language } from '@mui/icons-material';
+import { BusinessCard, TableModeProps } from '../utils/types';
 import { toast } from 'react-toastify';
-import { capitalizeFirstLetter, errorMsg, sortUser, status } from '../utils/helpers';
-import { useNavigate } from 'react-router-dom';
+import { capitalizeFirstLetter, errorMsg, pathUrl, removeDefaultCard, status } from '../utils/helpers';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { removeAlert } from '../utils/sweetalert';
-import Select from './Select';
-import { favoriteCard } from '../utils/favorite';
-import { useToggle } from '../hooks/useToggle';
+import { getData, setData } from '../utils/localStorage';
+import { AllCardsContext, CardsContext, FavoriteContext } from '../context/Cards';
+import { deleteCard } from '../utils/services';
+import FavoriteIcon from './FavoriteIcon';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -30,33 +30,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-export default function TableMode({ cards }: TableModeProps/*{ Users, userDeletion }:*/) {
+export default function TableMode({ cards }: TableModeProps) {
     const navigate = useNavigate()
+    const location = useLocation()
     const { loginInfo, setLoginInfo } = React.useContext(LoginInfoContext)
-    const { logged } = loginInfo
-    // const [checked, toggle] = useToggle(card)
-
+    const { logged, admin } = loginInfo
+    const trashView = !pathUrl(`favorite`, location) && admin
+    const { deleteData } = React.useContext(CardsContext)
+    const { deleteFavorite } = React.useContext(FavoriteContext)
+    const { setCards } = React.useContext(AllCardsContext)
     const excludedProperties = ["imageUrl", "imageAlt", "_id", "description", "houseNumber", "web", "state", "zip", "user_id", "__v", "isFavorite"];
-
-
-    // function removeUser(id: string, username: string) {
-    //     removeAlert()
-    //         .then((result) => {
-    //             if (result.isConfirmed) {
-    //                 deleteUser(id)
-    //                     .then(() => {
-    //                         toast.success(`${username} has been removed`)
-    //                         // userDeletion(id)
-    //                     })
-    //                     .catch(e => errorMsg(e, navigate, setLoginInfo))
-    //             }
-    //         })
-    // }
-
-
     let card = Object.keys(cards[0])
     card = card.filter(property => !excludedProperties.includes(property));
     card = card.map(property => capitalizeFirstLetter(property))
+
+    function removeCard(cardId?: string) {
+        removeAlert()
+            .then((result) => {
+                if (result.isConfirmed && cardId) {
+                    const favData: BusinessCard[] = getData((getData('user', 'userName')))
+                    favData && setData(getData('user', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== cardId))
+                    favData && deleteFavorite(cardId)
+                    if (pathUrl(`home`, location)) {
+                        removeDefaultCard(cardId, setCards)
+                    } else {
+                        deleteCard(cardId)
+                            .then((info) => {
+                                toast.success(`${info.data.title} been removed`)
+                                deleteData(cardId!)
+                            })
+                            .catch(e => errorMsg(e, navigate, setLoginInfo))
+                    }
+                }
+            })
+    }
+
     return (
         <Box paddingBottom={3}>
             <TableContainer component={Paper}>
@@ -77,22 +85,15 @@ export default function TableMode({ cards }: TableModeProps/*{ Users, userDeleti
                                         <Typography paddingRight={index > 8 ? 3 : 4} fontSize={15} variant="button">
                                             {index + 1}
                                         </Typography>
-                                        {status(row) !== 'Admin' &&
-                                            <IconButton sx={{ padding: '6px' }} /* onClick={removeCard} */ aria-label="delete">
+                                        {trashView &&
+                                            <IconButton sx={{ padding: '6px' }} onClick={() => removeCard(row._id)} aria-label="delete">
                                                 <Delete color='action' />
                                             </IconButton>}
                                         <IconButton sx={{ padding: '6px' }} onClick={() => window.location.href = `tel://${row.phone}`} aria-label="phone" >
                                             <Phone color='action' />
                                         </IconButton>
                                         {logged &&
-                                            <IconButton sx={{ padding: '6px' }} /* onClick={() => favoriteCard(toggle, card, setFavorite)} */ aria-label="favorite" >
-                                                <Checkbox sx={{ padding: 0 }}
-                                                    /*  checked={checked} */
-                                                    icon={<FavoriteBorder />}
-                                                    checkedIcon={<Favorite />}
-                                                    color='error'
-                                                />
-                                            </IconButton>
+                                            <FavoriteIcon card={row} />
                                         }
                                         <IconButton sx={{ padding: '6px' }} onClick={() => navigate(`/business/${row._id}`)} aria-label="website" >
                                             <Language color='action' />
@@ -111,5 +112,4 @@ export default function TableMode({ cards }: TableModeProps/*{ Users, userDeleti
             </TableContainer>
         </Box>
     );
-
 }
