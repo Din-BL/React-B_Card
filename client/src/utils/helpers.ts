@@ -125,6 +125,11 @@ export const navStyle = ({ isActive }: NavActive) => {
     };
 }
 
+export function isTextExist(key: string) {
+    const field = getData(key)
+    return field ? true : false
+}
+
 export const smallNavStyle = ({ isActive }: NavActive) => {
     return {
         color: isActive ? "black" : "#999999",

@@ -5,6 +5,7 @@ import { ChangeEvent, useContext } from 'react';
 import { AllCardsContext, CardsContext, FavoriteContext } from '../context/Cards';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { useSearch } from '../hooks/useSearch';
+import { isTextExist } from '../utils/helpers';
 
 const SearchInput = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -68,6 +69,7 @@ function Search() {
             </SearchIconWrapper>
             <StyledInputBase
                 value={searchValue}
+                disabled={isTextExist('category')}
                 onChange={changeSearch}
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}

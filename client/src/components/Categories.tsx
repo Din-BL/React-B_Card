@@ -5,6 +5,7 @@ import { BusinessCard } from '../utils/types';
 import { useContext } from 'react';
 import { AllCardsContext } from '../context/Cards';
 import { useCategories } from '../hooks/useCategories';
+import { isTextExist } from '../utils/helpers';
 
 const GroupHeader = styled('div')(({ theme }) => ({
     position: 'sticky',
@@ -35,6 +36,7 @@ export default function Categories() {
         <Autocomplete
             id="categories"
             value={categories}
+            disabled={isTextExist('searchField')}
             onChange={onChangeFunc}
             options={storedCards.sort((a, b) => -b.city.localeCompare(a.city))}
             groupBy={(option) => option.city}
