@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppBar, Menu, MenuItem, Container, IconButton, Typography, Toolbar, Box } from '@mui/material';
+import { AppBar, Menu, MenuItem, Container, IconButton, Typography, Toolbar, Box, Divider } from '@mui/material';
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { getData } from '../utils/localStorage';
 import { allowedPages, capitalizeFirstLetter, menuPages, navStyle, pages, paths, smallNavStyle, userId } from '../utils/helpers';
@@ -71,18 +71,24 @@ function Navbar() {
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                         >
-                            {isLoggedPage.filter((page) => conditionalPage(page)).map((page) => (
-                                <MenuItem key={page}>
-                                    <NavLink
-                                        style={smallNavStyle}
-                                        to={!id ? `/${page}` : `/${page}/${id}`}
-                                        onClick={handleCloseNavMenu}>
-                                        <Typography>
-                                            {capitalizeFirstLetter(page)}
-                                        </Typography>
-                                    </NavLink>
-                                </MenuItem>
-                            ))}
+                            {isLoggedPage
+                                .filter((page) => conditionalPage(page))
+                                .flatMap((page, index, array) => [
+                                    <MenuItem key={`menuItem_${page}`}>
+                                        <NavLink
+                                            style={smallNavStyle}
+                                            to={!id ? `/${page}` : `/${page}/${id}`}
+                                            onClick={handleCloseNavMenu}
+                                        >
+                                            <Typography>
+                                                {capitalizeFirstLetter(page)}
+                                            </Typography>
+                                        </NavLink>
+                                    </MenuItem>,
+                                    index !== array.length - 1 && (
+                                        <Divider key={`divider_${page}`} />
+                                    )
+                                ])}
                         </Menu>
                         <Box display='flex' alignItems='center' marginX={2} >
                             <Link to={`/home${userId()}`} >

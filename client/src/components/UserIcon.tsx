@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, IconButton, MenuItem, Menu } from '@mui/material';
+import { Box, IconButton, MenuItem, Menu, Divider } from '@mui/material';
 import { AccountCircle, MeetingRoom, PersonRemove, Person } from '@mui/icons-material';
 import { getData, removeData } from '../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
@@ -78,9 +78,11 @@ export default function UserIcon() {
                 <MenuItem onClick={userInfo} ><Person sx={{ paddingRight: 1 }} />
                     {userName}
                 </MenuItem>
+                <Divider />
                 <MenuItem onClick={deleteAccount}><PersonRemove sx={{ paddingRight: 1 }} />
                     Remove
                 </MenuItem>
+                <Divider />
                 <MenuItem onClick={handleLogout}><MeetingRoom sx={{ paddingRight: 1 }} />
                     Logout
                 </MenuItem>

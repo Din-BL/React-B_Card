@@ -1,10 +1,10 @@
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import { Autocomplete, TextField } from '@mui/material';
 import { styled, lighten, darken } from '@mui/system';
 import { getData } from '../utils/localStorage';
 import { BusinessCard } from '../utils/types';
 import { useContext } from 'react';
 import { AllCardsContext } from '../context/Cards';
+import { useCategories } from '../hooks/useCategories';
 
 const GroupHeader = styled('div')(({ theme }) => ({
     position: 'sticky',
@@ -23,14 +23,23 @@ const GroupItems = styled('ul')({
 
 export default function Categories() {
     const { categoryFilter } = useContext(AllCardsContext)
+    const { categories, changeCategory } = useCategories()
+    const storedCards: BusinessCard[] = getData("*defaultCards*")
+
+    function onChangeFunc(event: React.ChangeEvent<{}>, newValue: any) {
+        changeCategory(event, newValue)
+        categoryFilter(event, newValue)
+    }
 
     return (
         <Autocomplete
             id="categories"
-            onChange={categoryFilter}
+            value={categories}
+            onChange={onChangeFunc}
             options={storedCards.sort((a, b) => -b.city.localeCompare(a.city))}
             groupBy={(option) => option.city}
             getOptionLabel={(option) => option.title}
+            isOptionEqualToValue={(option, value) => option.title === value.title}
             sx={{ width: 200 }}
             renderInput={(params) => <TextField {...params} label="Categories" />}
             renderGroup={(params) => (
@@ -43,4 +52,3 @@ export default function Categories() {
     );
 }
 
-const storedCards: BusinessCard[] = getData("*defaultCards*")

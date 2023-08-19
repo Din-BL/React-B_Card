@@ -4,6 +4,7 @@ import { styled, alpha } from '@mui/material/styles';
 import { ChangeEvent, useContext } from 'react';
 import { AllCardsContext, CardsContext, FavoriteContext } from '../context/Cards';
 import { LoginInfoContext } from '../context/LoginInfo';
+import { useSearch } from '../hooks/useSearch';
 
 const SearchInput = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -52,6 +53,7 @@ function Search() {
     const { searchFavorite } = useContext(FavoriteContext)
     const { loginInfo } = useContext(LoginInfoContext)
     const { business, logged } = loginInfo
+    const { searchValue, changeSearch } = useSearch()
 
     function searchCards(e: ChangeEvent<HTMLInputElement>) {
         searchDefaultCards(e)
@@ -65,6 +67,8 @@ function Search() {
                 <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
+                value={searchValue}
+                onChange={changeSearch}
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
             />
