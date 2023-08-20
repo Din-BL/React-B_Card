@@ -20,9 +20,7 @@ export default function useAllCards() {
         if (!storedCards) {
             localStorage.clear()
             return defaultCards;
-        } else {
-            return storedCards;
-        }
+        } return storedCards;
     });
 
     function addDefaultCard(data: BusinessCard) {
@@ -32,11 +30,9 @@ export default function useAllCards() {
     function cardsFiltered() {
         if (removedCards) {
             return updatedCards.filter(card => {
-                return !removedCards.some((removeCard: BusinessCard) => removeCard.email === card.email)
+                return !removedCards.some((removeCard: BusinessCard) => removeCard._id === card._id)
             })
-        } else {
-            return updatedCards;
-        }
+        } return updatedCards;
     }
 
     const categoryFilter = (event: React.ChangeEvent<{}>, newValue: any) => {
@@ -70,7 +66,7 @@ export default function useAllCards() {
             .catch((e) => errorMsg(e, navigate, setLoginInfo))
     }, [cards]);
 
-    return { cards, setCards, searchDefaultCards, addDefaultCard, categoryFilter };
+    return { cards, setCards, searchDefaultCards, addDefaultCard, categoryFilter, cardsFiltered };
 }
 
 

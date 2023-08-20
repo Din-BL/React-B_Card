@@ -1,7 +1,5 @@
 import { Autocomplete, TextField } from '@mui/material';
 import { styled, lighten, darken } from '@mui/system';
-import { getData } from '../utils/localStorage';
-import { BusinessCard } from '../utils/types';
 import { useContext } from 'react';
 import { AllCardsContext } from '../context/Cards';
 import { useCategories } from '../hooks/useCategories';
@@ -23,9 +21,8 @@ const GroupItems = styled('ul')({
 });
 
 export default function Categories() {
-    const { categoryFilter } = useContext(AllCardsContext)
+    const { categoryFilter, cardsFiltered } = useContext(AllCardsContext)
     const { categories, changeCategory } = useCategories()
-    const storedCards: BusinessCard[] = getData("*defaultCards*")
 
     function onChangeFunc(event: React.ChangeEvent<{}>, newValue: any) {
         changeCategory(event, newValue)
@@ -38,7 +35,7 @@ export default function Categories() {
             value={categories}
             disabled={isTextExist('searchField')}
             onChange={onChangeFunc}
-            options={storedCards.sort((a, b) => -b.city.localeCompare(a.city))}
+            options={cardsFiltered().sort((a, b) => -b.city.localeCompare(a.city))}
             groupBy={(option) => option.city}
             getOptionLabel={(option) => option.title}
             isOptionEqualToValue={(option, value) => option.title === value.title}
