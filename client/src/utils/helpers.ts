@@ -167,3 +167,21 @@ export const extractPath = (pathname: string, navigationItems: any[]) => {
     }
     return path
 }
+
+export function favoriteRating(card: BusinessCard) {
+    const favoriteCards = getData('favoriteCards')
+    if (favoriteCards) {
+        const numOfCards = favoriteCards.filter((favoriteCard: BusinessCard) => favoriteCard._id === card._id)
+        return numOfCards.length;
+    }
+}
+
+export function uniqueFavorites(favorites: BusinessCard[] | null) {
+    if (favorites) {
+        return getData('favoriteCards').filter((card: BusinessCard, index: number, cards: BusinessCard[]) => {
+            const previousCards = cards.slice(0, index);
+            const hasDuplicate = previousCards.some(prevCard => prevCard._id === card._id);
+            return !hasDuplicate;
+        });
+    }
+}
