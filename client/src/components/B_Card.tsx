@@ -26,8 +26,8 @@ export default function B_CARD({ card }: B_CardProps) {
         removeAlert()
             .then((result) => {
                 if (result.isConfirmed && card._id) {
-                    const favData: BusinessCard[] = getData((getData('user', 'userName')))
-                    favData && setData(getData('user', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
+                    const favData: BusinessCard[] = getData((getData('userInfo', 'userName')))
+                    favData && setData(getData('userInfo', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
                     favData && deleteFavorite(card._id)
                     if (pathUrl(`home`, location)) {
                         removeDefaultCard(card._id, setCards)

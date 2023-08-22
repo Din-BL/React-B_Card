@@ -8,7 +8,7 @@ function RouteGuard(props: React.PropsWithChildren<{}>) {
     const { loginInfo } = useContext(LoginInfoContext)
     const location = useLocation()
     const { id } = useParams()
-    const storageId = getData('user', '_id')
+    const storageId = getData('userInfo', '_id')
 
     function authGuard() {
         if (paths(['favorite', 'user'], location)) {

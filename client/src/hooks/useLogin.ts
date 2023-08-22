@@ -4,7 +4,7 @@ import { UseLogin } from "../utils/types";
 
 export function useLogin() {
     const [loginInfo, setLoginInfo] = useState<UseLogin>(() => {
-        return { admin: getData('user', 'admin'), business: getData('user', 'business'), logged: getData('user') }
+        return { admin: getData('userInfo', 'admin'), business: getData('userInfo', 'business'), logged: getData('userInfo') }
     })
     return { loginInfo, setLoginInfo }
 }

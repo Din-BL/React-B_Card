@@ -20,8 +20,8 @@ export default function useFields(initialValue: LoginField) {
         e.preventDefault()
         loginUser(fields)
             .then((user) => {
-                setData('user', user.data)
-                setLoginInfo({ admin: getData('user', 'admin'), business: getData('user', 'business'), logged: getData('user') })
+                setData('userInfo', user.data)
+                setLoginInfo({ admin: getData('userInfo', 'admin'), business: getData('userInfo', 'business'), logged: getData('userInfo') })
                 navigate(`/home/${user.data._id}`)
             })
             .catch(e => errorMsg(e, navigate, setLoginInfo))

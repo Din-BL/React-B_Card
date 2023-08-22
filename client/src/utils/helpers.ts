@@ -53,12 +53,12 @@ export const paths = (url: string[], location: Location) => {
 
 export const logout = (navigate: NavigateFunction, setLoginInfo: React.Dispatch<React.SetStateAction<UseLogin>>) => {
     navigate('/login')
-    removeData('user')
-    setLoginInfo({ admin: getData('user', 'admin'), business: getData('user', 'business'), logged: getData('user') })
+    removeData('userInfo')
+    setLoginInfo({ admin: getData('userInfo', 'admin'), business: getData('userInfo', 'business'), logged: getData('userInfo') })
 }
 
 export const userId = () => {
-    const id = getData('user', '_id')
+    const id = getData('userInfo', '_id')
     return id ? `/${id}` : ""
 }
 

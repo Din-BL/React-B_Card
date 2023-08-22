@@ -17,7 +17,7 @@ function Navbar() {
     const { admin, business, logged } = loginInfo
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const location = useLocation();
-    const id = getData('user', '_id')
+    const id = getData('userInfo', '_id')
     const isLoggedPage: Pages[] = logged ? pages : menuPages
     const conditionalPage = (page: Pages) => allowedPages.includes(page) || (page === 'favorite' && logged) || (page === 'my-cards' && business) || admin
     const searchView = paths(['home', 'favorite', 'my-cards'], location)

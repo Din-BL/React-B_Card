@@ -13,7 +13,7 @@ export default function FooterLink() {
     const [value, setValue] = React.useState(0);
     const location = useLocation();
     const navigate = useNavigate();
-    const id = getData('user', '_id')
+    const id = getData('userInfo', '_id')
     const { loginInfo } = React.useContext(LoginInfoContext)
     const { admin, business, logged } = loginInfo
     const isSmScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));

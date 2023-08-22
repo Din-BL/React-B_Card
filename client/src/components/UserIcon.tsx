@@ -13,8 +13,8 @@ export default function UserIcon() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const navigate = useNavigate()
-    const userId = getData('user', '_id')
-    const userName = getData('user', 'userName')
+    const userId = getData('userInfo', '_id')
+    const userName = getData('userInfo', 'userName')
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);

@@ -3,7 +3,7 @@ import { getData } from "../utils/localStorage";
 
 function Redirect(props?: React.PropsWithChildren<{}>) {
     const { id } = useParams()
-    const storageId = getData('user', '_id')
+    const storageId = getData('userInfo', '_id')
 
     if (storageId) {
         return storageId === id ? (<>{props?.children}</>) : <Navigate to={`/error`} />

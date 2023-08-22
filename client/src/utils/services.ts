@@ -5,7 +5,7 @@ import { getData } from './localStorage';
 
 const url = 'http://localhost:8000'
 
-const getToken = () => getData('user', 'token');
+const getToken = () => getData('userInfo', 'token');
 
 const createConfig = (): AxiosRequestConfig => {
     return {

@@ -48,8 +48,8 @@ export default function TableMode({ cards }: TableModeProps) {
         removeAlert()
             .then((result) => {
                 if (result.isConfirmed && cardId) {
-                    const favData: BusinessCard[] = getData((getData('user', 'userName')))
-                    favData && setData(getData('user', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== cardId))
+                    const favData: BusinessCard[] = getData((getData('userInfo', 'userName')))
+                    favData && setData(getData('userInfo', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== cardId))
                     favData && deleteFavorite(cardId)
                     if (pathUrl(`home`, location)) {
                         removeDefaultCard(cardId, setCards)

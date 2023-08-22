@@ -3,22 +3,26 @@ import { BusinessCard } from "./types"
 
 export const favoriteCard = (toggle: () => void, card: BusinessCard, setFavorite: React.Dispatch<React.SetStateAction<any[] | BusinessCard[] | null>>) => {
     toggle()
-    const username = getData('user', 'userName')
-    let favData: BusinessCard[] | null = getData(username)
-    if (favData) {
-        if (favData.some((data: BusinessCard) => data._id === card._id)) {
-            setData(username, favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
-            favData = getData(username)
-            setFavorite(favData)
+    const favorites = getData('favorites')
+    const username = getData('userInfo', 'userName')
+    const favoriteUser = getData(username)
+
+    if (favoriteUser) {
+        if (favoriteUser.some((data: BusinessCard) => data._id === card._id)) {
+            setData(username, favoriteUser.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
+            const indexToRemove = favorites.findIndex((cardInfo: BusinessCard) => cardInfo._id === card._id);
+            favorites.splice(indexToRemove, 1);
+            setData('favorites', favorites);
+            setFavorite(getData(username))
         } else {
-            setData(username, [...favData, { ...card, isFavorite: true }])
-            favData = getData(username)
-            setFavorite(favData)
+            setData(username, [...favoriteUser, { ...card, isFavorite: true }])
+            setData('favorites', [...favorites, { ...card, isFavorite: true }])
+            setFavorite(getData(username))
         }
     } else {
         setData(username, [{ ...card, isFavorite: true }])
-        favData = getData(username)
-        setFavorite(favData)
+        favorites ? setData('favorites', [...favorites, { ...card, isFavorite: true }]) : setData('favorites', [{ ...card, isFavorite: true }])
+        setFavorite(getData(username))
     }
-
 }
+

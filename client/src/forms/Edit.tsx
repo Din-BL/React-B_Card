@@ -19,7 +19,7 @@ function Edit() {
     const { editData } = useContext(CardsContext)
     const { id } = useParams();
     const navigate = useNavigate()
-    const userId = getData('user', '_id')
+    const userId = getData('userInfo', '_id')
     let { business } = loginInfo
     business = business === null ? false : business
     const card = useCard(business)
