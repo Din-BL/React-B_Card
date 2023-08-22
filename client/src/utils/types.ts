@@ -1,11 +1,18 @@
 import { AnySchema } from "joi";
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export type Pages = 'home' | 'about' | 'favorite' | 'my-cards' | 'sandbox' | 'login' | 'contact'
 export type UserStatus = 'User' | 'Business' | 'Admin'
 export type FormData = BusinessCard | UserCard
 export type SignatureFormData = FormData & { [key: string]: any };
 export type View = 'grid' | 'table'
+
+export interface FavoriteCardsParams {
+    toggle: () => void
+    card: BusinessCard,
+    setFavorite: Dispatch<SetStateAction<BusinessCard[]>>
+    admin: boolean | null
+}
 
 export interface SelectProps {
     userStatus: UserStatus,

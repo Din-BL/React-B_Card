@@ -1,28 +1,30 @@
+import { uniqueFavorites } from "./helpers"
 import { getData, setData } from "./localStorage"
-import { BusinessCard } from "./types"
+import { BusinessCard, FavoriteCardsParams } from "./types"
 
-export const favoriteCard = (toggle: () => void, card: BusinessCard, setFavorite: React.Dispatch<React.SetStateAction<any[] | BusinessCard[] | null>>) => {
+export const favoriteCard = ({ toggle, card, setFavorite, admin }: FavoriteCardsParams) => {
     toggle()
-    const favorites = getData('favorites')
+    const favorites = getData('favoriteCards')
     const username = getData('userInfo', 'userName')
     const favoriteUser = getData(username)
+    const setFavoriteChoice = () => admin ? setFavorite(uniqueFavorites(favorites)) : setFavorite(getData(username))
 
     if (favoriteUser) {
         if (favoriteUser.some((data: BusinessCard) => data._id === card._id)) {
             setData(username, favoriteUser.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
             const indexToRemove = favorites.findIndex((cardInfo: BusinessCard) => cardInfo._id === card._id);
             favorites.splice(indexToRemove, 1);
-            setData('favorites', favorites);
-            setFavorite(getData(username))
+            setData('favoriteCards', favorites);
+            setFavoriteChoice()
         } else {
             setData(username, [...favoriteUser, { ...card, isFavorite: true }])
-            setData('favorites', [...favorites, { ...card, isFavorite: true }])
-            setFavorite(getData(username))
+            setData('favoriteCards', [...favorites, { ...card, isFavorite: true }])
+            setFavoriteChoice()
         }
     } else {
         setData(username, [{ ...card, isFavorite: true }])
-        favorites ? setData('favorites', [...favorites, { ...card, isFavorite: true }]) : setData('favorites', [{ ...card, isFavorite: true }])
-        setFavorite(getData(username))
+        favorites ? setData('favoriteCards', [...favorites, { ...card, isFavorite: true }]) : setData('favoriteCards', [{ ...card, isFavorite: true }])
+        setFavoriteChoice()
     }
 }
 

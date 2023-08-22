@@ -1,7 +1,7 @@
-import { Card, CardActions, CardContent, CardMedia, Typography, Box, IconButton } from '@mui/material';
-import { Phone, Delete, Edit } from '@mui/icons-material';
+import { Card, CardActions, CardContent, CardMedia, Typography, Box, IconButton, Badge } from '@mui/material';
+import { Phone, Delete, Edit, Favorite } from '@mui/icons-material';
 import { B_CardProps, BusinessCard } from '../utils/types';
-import { addressFormatter, defaultAlt, defaultImage, errorMsg, idShortcut, pathUrl, phoneFormatter, removeDefaultCard } from '../utils/helpers';
+import { addressFormatter, defaultAlt, defaultImage, errorMsg, favoriteRating, idShortcut, pathUrl, phoneFormatter, removeDefaultCard } from '../utils/helpers';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { deleteCard } from '../utils/services';
 import { toast } from 'react-toastify';
@@ -26,7 +26,7 @@ export default function B_CARD({ card }: B_CardProps) {
         removeAlert()
             .then((result) => {
                 if (result.isConfirmed && card._id) {
-                    const favData: BusinessCard[] = getData((getData('userInfo', 'userName')))
+                    const favData: BusinessCard[] = getData(getData('userInfo', 'userName'))
                     favData && setData(getData('userInfo', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
                     favData && deleteFavorite(card._id)
                     if (pathUrl(`home`, location)) {
@@ -41,6 +41,14 @@ export default function B_CARD({ card }: B_CardProps) {
                     }
                 }
             })
+    }
+
+    function adminFavorite() {
+        if (logged) {
+            if (!(admin && pathUrl(`favorite/`, location))) {
+                return <FavoriteIcon card={card} />
+            }
+        }
     }
 
     return (
@@ -90,7 +98,11 @@ export default function B_CARD({ card }: B_CardProps) {
                         <IconButton sx={{ padding: '6px' }} onClick={() => window.location.href = `tel://${card.phone}`} aria-label="phone" >
                             <Phone color='action' />
                         </IconButton>
-                        {logged && <FavoriteIcon card={card} />}
+                        {adminFavorite()}
+                        {(admin && pathUrl(`favorite/`, location)) &&
+                            <Badge anchorOrigin={{ vertical: 'top', horizontal: 'left' }} badgeContent={favoriteRating(card)} color="primary">
+                                <Favorite color="error" />
+                            </Badge>}
                     </Box>
                 </CardActions>
             </Card>
