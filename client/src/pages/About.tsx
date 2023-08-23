@@ -1,8 +1,11 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, CircularProgress, Paper, Typography } from "@mui/material";
 import Pic from "../assets/Business.png"
 import BackGround from "../assets/B-Symbol.png"
+import { LoadingContext } from "../context/Loading";
+import { useContext } from "react";
 
 function About() {
+    const { loading } = useContext(LoadingContext)
     return (
         <Box sx={{ flexDirection: { xs: 'column', md: 'row' } }} display={'flex'} alignItems={'center'} justifyContent={'space-evenly'} component={'main'} minHeight='85dvh'>
             <div id="section_graphic">
@@ -16,9 +19,14 @@ function About() {
                         <br /> Join B-Card to unlock your business's potential, together let's shape a future where dreams become reality and businesses thrive.</p>
                 </Paper>
             </article>
-            <figure style={{ maxWidth: 520 }}>
-                <img style={{ width: `100%` }} src={Pic} alt="main-page image" />
-            </figure>
+            {loading ?
+                <Box width={520} height='200px' display='flex' justifyContent='center' alignItems='center'>
+                    <CircularProgress />
+                </Box> :
+                <figure style={{ maxWidth: 520 }}>
+                    <img style={{ width: `100%` }} src={Pic} alt="main-page image" />
+                </figure>
+            }
         </Box>
     );
 }

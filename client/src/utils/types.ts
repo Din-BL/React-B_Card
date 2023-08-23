@@ -132,6 +132,10 @@ export interface ViewContextType {
     handleView: (event: React.MouseEvent<HTMLElement>, nextView: View) => void
 }
 
+export interface LoadingContextType {
+    loading: boolean
+}
+
 export interface TableProps {
     Users: UserCard[]
     userDeletion: (id: string) => void

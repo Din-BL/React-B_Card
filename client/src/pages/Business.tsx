@@ -1,4 +1,4 @@
-import { Box, Card, CardMedia, Paper, useMediaQuery, Typography } from "@mui/material";
+import { Box, Card, CardMedia, Paper, useMediaQuery, Typography, CircularProgress } from "@mui/material";
 import BackGround from "../assets/B-Symbol.png"
 import { getData } from "../utils/localStorage";
 import { useParams } from "react-router-dom";
@@ -6,9 +6,12 @@ import { BusinessCard } from "../utils/types";
 import Contact from "../components/Contact";
 import { defaultImage } from "../utils/helpers";
 import useCard from "../hooks/useCard";
+import { LoadingContext } from "../context/Loading";
+import { useContext } from "react";
 
 function Business() {
     const { id } = useParams()
+    const { loading } = useContext(LoadingContext)
     const isSmallScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
     const data = { ...getData('*defaultCards*').find((business: BusinessCard) => business._id === id) };
     const card = useCard('business', data)
@@ -27,7 +30,11 @@ function Business() {
                         <p>{isBusiness && card.description}</p>
                     </Paper>
                 </article>
-                {isBusiness &&
+                {loading ?
+                    <Box width={520} height='200px' display='flex' justifyContent='center' alignItems='center'>
+                        <CircularProgress />
+                    </Box> :
+                    isBusiness &&
                     <Card >
                         <CardMedia
                             component="img"

@@ -16,9 +16,7 @@ const GroupHeader = styled('div')(({ theme }) => ({
             : darken(theme.palette.primary.main, 0.8),
 }));
 
-const GroupItems = styled('ul')({
-    padding: 0,
-});
+const GroupItems = styled('ul')({ padding: 0 });
 
 export default function Categories() {
     const { categoryFilter, cardsFiltered } = useContext(AllCardsContext)
@@ -40,7 +38,7 @@ export default function Categories() {
             getOptionLabel={(option) => option.title}
             isOptionEqualToValue={(option, value) => option.title === value.title}
             sx={{ width: 200 }}
-            renderInput={(params) => <TextField {...params} label="Categories" />}
+            renderInput={(params) => <TextField {...params} label="Sort by city" />}
             renderGroup={(params) => (
                 <li key={params.key}>
                     <GroupHeader>{params.group}</GroupHeader>

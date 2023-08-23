@@ -1,4 +1,4 @@
-import { Container, Grid, TextField, Button, Typography, Fab, Box } from '@mui/material';
+import { Container, Grid, TextField, Button, Typography, Fab, Box, CircularProgress } from '@mui/material';
 import { LocationOn, LocalPhone, Email, Language } from '@mui/icons-material';
 import { ContactProps } from '../utils/types';
 import { addressFormatter, capitalizeFirstLetter, inputData } from '../utils/helpers';
@@ -10,9 +10,11 @@ import { blueGrey } from '@mui/material/colors';
 import { ContactFields } from '../utils/fields';
 import { submitAlert } from '../utils/sweetalert';
 import { contactSchema } from '../utils/schema';
+import { LoadingContext } from '../context/Loading';
 
 function Contact({ businessInfo }: ContactProps) {
     const { themeMode } = useContext(ThemeContext)
+    const { loading } = useContext(LoadingContext)
     const color = blueGrey[50];
     const backgroundColor = { backgroundColor: themeMode === 'light' ? color : '' }
     const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: joiResolver(contactSchema) });
@@ -61,9 +63,14 @@ function Contact({ businessInfo }: ContactProps) {
                                     </Grid>
                                 </Box>
                             </Grid>
-                            <Grid item xs={12} md={5}>
-                                <iframe style={{ height: '100%', width: '100%', border: '0' }} src={`https://www.google.com/maps/embed/v1/place?q=${businessInfo.street}+${businessInfo.houseNumber}+${businessInfo.city}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8`}></iframe>
-                            </Grid>
+                            {loading ?
+                                <Grid container item xs={12} md={5} justifyContent="center" alignItems="center">
+                                    <Grid ><CircularProgress /></Grid>
+                                </Grid> :
+                                <Grid item xs={12} md={5}>
+                                    <iframe style={{ height: '100%', width: '100%', border: '0' }} src={`https://www.google.com/maps/embed/v1/place?q=${businessInfo.street}+${businessInfo.houseNumber}+${businessInfo.city}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8`}></iframe>
+                                </Grid>
+                            }
                         </Grid>
                         <Grid paddingY={5} container>
                             {contactItems.map((item, index) => (
