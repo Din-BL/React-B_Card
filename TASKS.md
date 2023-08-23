@@ -1,5 +1,4 @@
 UI:
-loader sign
 Favorite cards still exist in other users after being deleted from the admin
 Screen size toggle button 
 Shorten delete card function
