@@ -30,7 +30,7 @@ function Edit() {
         editAlert()
             .then((result) => {
                 if (result.isConfirmed && id) {
-                    if (limitedRequests(location, navigate)) {
+                    if (limitedRequests(navigate, location)) {
                         errorAlert()
                     } else {
                         editCard(id, { ...data, ...staticData })

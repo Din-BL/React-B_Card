@@ -34,7 +34,6 @@ export default function TableMode({ cards }: TableModeProps) {
     const location = useLocation()
     const { loginInfo, setLoginInfo } = React.useContext(LoginInfoContext)
     const { logged, admin } = loginInfo
-    const trashView = !pathUrl(`favorite`, location) && admin
     const { deleteData } = React.useContext(CardsContext)
     const { deleteFavorite } = React.useContext(FavoriteContext)
     const { setCards } = React.useContext(AllCardsContext)
@@ -47,7 +46,7 @@ export default function TableMode({ cards }: TableModeProps) {
         removeAlert()
             .then((result) => {
                 if (result.isConfirmed && cardId) {
-                    if (limitedRequests(location, navigate)) {
+                    if (limitedRequests(navigate)) {
                         errorAlert()
                     } else {
                         const favData: BusinessCard[] = getData(getData('userInfo', 'userName'))
@@ -76,6 +75,12 @@ export default function TableMode({ cards }: TableModeProps) {
         }
     }
 
+    const trashView = () => {
+        if (pathUrl(`favorite`, location)) return false
+        if (pathUrl(`home`, location) && !admin) return false
+        return true
+    }
+
     return (
         <Box paddingBottom={3}>
             <TableContainer component={Paper}>
@@ -96,7 +101,7 @@ export default function TableMode({ cards }: TableModeProps) {
                                         <Typography paddingRight={index > 8 ? 3 : 4} fontSize={15} variant="button">
                                             {index + 1}
                                         </Typography>
-                                        {trashView &&
+                                        {trashView() &&
                                             <IconButton sx={{ padding: '6px' }} onClick={() => removeCard(row._id)} aria-label="delete">
                                                 <Delete color='action' />
                                             </IconButton>}

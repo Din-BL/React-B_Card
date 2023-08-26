@@ -28,7 +28,7 @@ function Add() {
         AddAlert()
             .then((result) => {
                 if (result.isConfirmed) {
-                    if (limitedRequests(location, navigate)) {
+                    if (limitedRequests(navigate, location)) {
                         errorAlert()
                     } else {
                         addCard({ ...data, ...userEmail })

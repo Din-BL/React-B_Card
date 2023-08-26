@@ -3,12 +3,12 @@ import { Box, InputLabel, MenuItem, FormControl } from '@mui/material';
 import BasicSelect, { SelectChangeEvent } from '@mui/material/Select';
 import { editStatus } from '../utils/services';
 import { toast } from 'react-toastify';
-import { errorMsg, statusView } from '../utils/helpers';
+import { errorMsg, limitedRequests, statusView } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { SelectProps, UserStatus } from '../utils/types';
 import Swal from 'sweetalert2';
-import { editAlert } from '../utils/sweetalert';
+import { editAlert, errorAlert } from '../utils/sweetalert';
 
 export default function Select({ userStatus, userId, username }: SelectProps) {
     const [status, setStatus] = React.useState(userStatus);
@@ -22,12 +22,16 @@ export default function Select({ userStatus, userId, username }: SelectProps) {
         editAlert()
             .then((result) => {
                 if (result.isConfirmed) {
-                    editStatus(userId, userValue)
-                        .then(() => {
-                            setStatus(status)
-                            toast.success(`${username} is now a ${status}`)
-                        })
-                        .catch(e => errorMsg(e, navigate, setLoginInfo))
+                    if (limitedRequests(navigate)) {
+                        errorAlert()
+                    } else {
+                        editStatus(userId, userValue)
+                            .then(() => {
+                                setStatus(status)
+                                toast.success(`${username} is now a ${status}`)
+                            })
+                            .catch(e => errorMsg(e, navigate, setLoginInfo))
+                    }
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
                 }

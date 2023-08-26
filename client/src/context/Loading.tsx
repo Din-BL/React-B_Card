@@ -12,8 +12,8 @@ function Loading(props: React.PropsWithChildren<{}>) {
         !loading && setLoading(true);
         setTimeout(() => {
             setLoading(false);
-        }, 800);
-    }, [location])
+        }, 1500);
+    }, [])
 
     return (
         <LoadingContext.Provider value={{ loading }}>

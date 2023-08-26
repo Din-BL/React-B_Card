@@ -21,17 +21,11 @@ export default function B_CARD({ card }: B_CardProps) {
     const { deleteFavorite } = useContext(FavoriteContext)
     const { setCards } = useContext(AllCardsContext)
 
-    const trashView = () => {
-        if (pathUrl(`favorite`, location)) return false
-        if (pathUrl(`home`, location) && !admin) return false
-        return true
-    }
-
     function removeCard() {
         removeAlert()
             .then((result) => {
                 if (result.isConfirmed && card._id) {
-                    if (limitedRequests(location, navigate)) {
+                    if (limitedRequests(navigate)) {
                         errorAlert()
                     } else {
                         const favData: BusinessCard[] = getData(getData('userInfo', 'userName'))
@@ -58,6 +52,12 @@ export default function B_CARD({ card }: B_CardProps) {
                 return <FavoriteIcon card={card} />
             }
         }
+    }
+
+    const trashView = () => {
+        if (pathUrl(`favorite`, location)) return false
+        if (pathUrl(`home`, location) && !admin) return false
+        return true
     }
 
     return (

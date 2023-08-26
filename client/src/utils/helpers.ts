@@ -186,40 +186,33 @@ export function uniqueFavorites(favorites: BusinessCard[] | null) {
     }
 }
 
-const HOUR_IN_MS = 60 * 60 * 1000; // Convert hours to milliseconds
-
-export function limitedRequests(location: Location, navigate: NavigateFunction) {
+export function limitedRequests(navigate: NavigateFunction, location?: Location) {
+    const HOUR_IN_MS = 60 * 60 * 1000;
     const requestActions = getData('requestActions') || [];
     const username = getData('userInfo', 'userName');
     const userActionsIndex = requestActions.findIndex((obj: RequestUser) => obj[username] !== undefined);
+    const currentTime = Date.now();
 
     if (userActionsIndex !== -1) {
         const requestUser = requestActions[userActionsIndex][username];
-
         if (requestUser > 9) {
-            const lastResetTimestamp = requestActions[userActionsIndex].lastResetTimestamp || 0;
-            const currentTime = Date.now();
-
+            const lastResetTimestamp = requestActions[userActionsIndex].lastResetTimestamp;
             if (currentTime - lastResetTimestamp >= 24 * HOUR_IN_MS) {
-                // More than 24 hours have passed, reset the count to 0
                 requestActions[userActionsIndex][username] = 0;
                 requestActions[userActionsIndex].lastResetTimestamp = currentTime;
             } else {
-                const id = getData('userInfo', '_id')
-                if (location.pathname.includes('edit') || location.pathname.includes('add')) {
-                    navigate(`/my-cards/${id}`)
-                }
-                else if (pathUrl('user', location)) {
-                    navigate(`/home/${id}`)
-                }
-                return true;
+                if (location) {
+                    const id = getData('userInfo', '_id')
+                    if (pathUrl('my-cards', location)) navigate(`/my-cards/${id}`)
+                    else if (pathUrl('user', location)) navigate(`/home/${id}`)
+                } return true;
             }
-        }
-        requestActions[userActionsIndex][username] += 1;
+        } requestActions[userActionsIndex][username] += 1;
     } else {
-        const newUserActions: RequestUser = { [username]: 1, lastResetTimestamp: 0 };
+        const newUserActions: RequestUser = { [username]: 1, lastResetTimestamp: currentTime };
         requestActions.push(newUserActions);
     }
     setData('requestActions', requestActions);
     return false;
 }
+

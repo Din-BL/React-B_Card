@@ -95,7 +95,7 @@ router.get("/", userAuthenticate, userPermission, async (req, res) => {
 
 router.put("/:id", userAuthenticate, userValidate, async (req, res) => {
   try {
-    if (req.user.email !== req.body.email) return res.status(400).json(`Email must be ${req.user.email}`);
+    if (req.user.sub !== req.body.email) return res.status(400).json(`Email must be ${req.user.sub}`);
     // if (req.user.userName !== req.body.userName) return res.status(400).json(`User name must be ${req.user.userName}`);
     if (req.body.password) req.body.password = await bcrypt.hash(req.body.password, 10);
     const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });

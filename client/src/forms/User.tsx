@@ -25,7 +25,7 @@ function User() {
         editAlert()
             .then((result) => {
                 if (result.isConfirmed && id) {
-                    if (limitedRequests(location, navigate)) {
+                    if (limitedRequests(navigate, location)) {
                         errorAlert()
                     } else {
                         editUser(id, { ...data, ...status, ...staticData })

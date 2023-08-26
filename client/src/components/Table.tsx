@@ -6,10 +6,10 @@ import { Delete } from '@mui/icons-material';
 import { TableProps, UserStatus } from '../utils/types';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
-import { errorMsg, sortUser, status } from '../utils/helpers';
+import { errorMsg, limitedRequests, sortUser, status } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
-import { removeAlert } from '../utils/sweetalert';
+import { errorAlert, removeAlert } from '../utils/sweetalert';
 import Select from './Select';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -40,12 +40,16 @@ export default function Table({ Users, userDeletion }: TableProps) {
         removeAlert()
             .then((result) => {
                 if (result.isConfirmed) {
-                    deleteUser(id)
-                        .then(() => {
-                            toast.success(`${username} has been removed`)
-                            userDeletion(id)
-                        })
-                        .catch(e => errorMsg(e, navigate, setLoginInfo))
+                    if (limitedRequests(navigate)) {
+                        errorAlert()
+                    } else {
+                        deleteUser(id)
+                            .then(() => {
+                                toast.success(`${username} has been removed`)
+                                userDeletion(id)
+                            })
+                            .catch(e => errorMsg(e, navigate, setLoginInfo))
+                    }
                 }
             })
     }
