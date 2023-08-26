@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Form from "../components/Form";
 import { CardFields } from "../utils/fields";
 import { cardSchema } from "../utils/schema";
@@ -8,10 +8,10 @@ import React, { useContext } from "react";
 import { CardsContext } from "../context/Cards";
 import { getData } from "../utils/localStorage";
 import { LoginInfoContext } from "../context/LoginInfo";
-import { errorMsg } from "../utils/helpers";
+import { errorMsg, limitedRequests } from "../utils/helpers";
 import { BusinessCard } from "../utils/types";
 import Swal from "sweetalert2";
-import { editAlert } from "../utils/sweetalert";
+import { editAlert, errorAlert } from "../utils/sweetalert";
 import useCard from "../hooks/useCard";
 
 function Edit() {
@@ -19,6 +19,7 @@ function Edit() {
     const { editData } = useContext(CardsContext)
     const { id } = useParams();
     const navigate = useNavigate()
+    const location = useLocation()
     const userId = getData('userInfo', '_id')
     let { business } = loginInfo
     business = business === null ? false : business
@@ -29,13 +30,17 @@ function Edit() {
         editAlert()
             .then((result) => {
                 if (result.isConfirmed && id) {
-                    editCard(id, { ...data, ...staticData })
-                        .then((info) => {
-                            editData(id, info.data)
-                            navigate(`/my-cards/${userId}`)
-                            toast.success(`${info.data.title} info been updated`)
-                        })
-                        .catch(e => errorMsg(e, navigate, setLoginInfo))
+                    if (limitedRequests(location, navigate)) {
+                        errorAlert()
+                    } else {
+                        editCard(id, { ...data, ...staticData })
+                            .then((info) => {
+                                editData(id, info.data)
+                                navigate(`/my-cards/${userId}`)
+                                toast.success(`${info.data.title} info been updated`)
+                            })
+                            .catch(e => errorMsg(e, navigate, setLoginInfo))
+                    }
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
                     navigate(`/my-cards/${userId}`)

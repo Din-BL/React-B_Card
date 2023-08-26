@@ -18,8 +18,18 @@ export function editAlert() {
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: 'Save',
-        denyButtonText: `Don't save`,
+        denyButtonText: `Don't save`
     })
+}
+
+export function AddAlert() {
+    return Swal.fire({
+        title: 'Do you want to double-check before submitting?',
+        icon: 'question',
+        showCancelButton: true,
+        cancelButtonText: 'Sure, why not',
+        confirmButtonText: 'No, it\'s fine'
+    });
 }
 
 export function submitAlert() {
@@ -32,3 +42,13 @@ export function submitAlert() {
         timer: 1500
     })
 }
+
+export function errorAlert() {
+    return Swal.fire({
+        icon: 'info',
+        title: 'Requests Limit',
+        html: 'You\'ve reached your maximum actions for today...<br><b>Please try again tomorrow</b>'
+    })
+}
+
+

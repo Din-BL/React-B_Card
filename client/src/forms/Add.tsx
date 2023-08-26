@@ -3,18 +3,20 @@ import Form from "../components/Form";
 import { CardFields } from "../utils/fields";
 import { cardSchema } from "../utils/schema";
 import { addCard } from "../utils/services";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AllCardsContext, CardsContext } from "../context/Cards";
 import React, { useContext } from "react";
 import { LoginInfoContext } from "../context/LoginInfo";
-import { errorMsg } from "../utils/helpers";
+import { errorMsg, limitedRequests } from "../utils/helpers";
 import { BusinessCard } from "../utils/types";
 import { getData, setData } from "../utils/localStorage";
 import { useUser } from "../hooks/useUser";
+import { AddAlert, errorAlert } from "../utils/sweetalert";
 
 function Add() {
     const { id } = useParams();
     const navigate = useNavigate()
+    const location = useLocation()
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const { addData } = useContext(CardsContext)
     const { addDefaultCard } = useContext(AllCardsContext)
@@ -23,16 +25,25 @@ function Add() {
     for (let key in initialValue) if (key !== "email") initialValue[key] = "";
 
     const handleAdd = (data: BusinessCard) => {
-        addCard({ ...data, ...userEmail })
-            .then((info) => {
-                addData(info.data)
-                const defaultCards: BusinessCard[] = getData("*defaultCards*")
-                setData(("*defaultCards*"), [...defaultCards, info.data])
-                addDefaultCard(info.data)
-                navigate(`/my-cards/${id}`)
-                toast.success(`${info.data.title} card been added`)
+        AddAlert()
+            .then((result) => {
+                if (result.isConfirmed) {
+                    if (limitedRequests(location, navigate)) {
+                        errorAlert()
+                    } else {
+                        addCard({ ...data, ...userEmail })
+                            .then((info) => {
+                                addData(info.data)
+                                const defaultCards: BusinessCard[] = getData("*defaultCards*")
+                                setData(("*defaultCards*"), [...defaultCards, info.data])
+                                addDefaultCard(info.data)
+                                navigate(`/my-cards/${id}`)
+                                toast.success(`${info.data.title} card been added`)
+                            })
+                            .catch(e => errorMsg(e, navigate, setLoginInfo))
+                    }
+                }
             })
-            .catch(e => errorMsg(e, navigate, setLoginInfo))
     }
 
     return (

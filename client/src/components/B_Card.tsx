@@ -1,43 +1,52 @@
 import { Card, CardActions, CardContent, CardMedia, Typography, Box, IconButton, Badge } from '@mui/material';
 import { Phone, Delete, Edit, Favorite } from '@mui/icons-material';
 import { B_CardProps, BusinessCard } from '../utils/types';
-import { addressFormatter, defaultAlt, defaultImage, errorMsg, favoriteRating, idShortcut, pathUrl, phoneFormatter, removeDefaultCard } from '../utils/helpers';
+import { addressFormatter, defaultAlt, defaultImage, errorMsg, favoriteRating, idShortcut, limitedRequests, pathUrl, phoneFormatter, removeDefaultCard } from '../utils/helpers';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { deleteCard } from '../utils/services';
 import { toast } from 'react-toastify';
 import { AllCardsContext, CardsContext, FavoriteContext } from '../context/Cards';
 import { useContext } from 'react';
 import { LoginInfoContext } from '../context/LoginInfo';
-import { removeAlert } from '../utils/sweetalert';
+import { errorAlert, removeAlert } from '../utils/sweetalert';
 import { getData, setData } from '../utils/localStorage';
 import FavoriteIcon from './FavoriteIcon';
 
 export default function B_CARD({ card }: B_CardProps) {
+    const navigate = useNavigate()
     const location = useLocation()
     const { loginInfo, setLoginInfo } = useContext(LoginInfoContext)
     const { logged, admin } = loginInfo
     const { deleteData } = useContext(CardsContext)
     const { deleteFavorite } = useContext(FavoriteContext)
     const { setCards } = useContext(AllCardsContext)
-    const navigate = useNavigate()
-    const trashView = !pathUrl(`favorite`, location) && admin
+
+    const trashView = () => {
+        if (pathUrl(`favorite`, location)) return false
+        if (pathUrl(`home`, location) && !admin) return false
+        return true
+    }
 
     function removeCard() {
         removeAlert()
             .then((result) => {
                 if (result.isConfirmed && card._id) {
-                    const favData: BusinessCard[] = getData(getData('userInfo', 'userName'))
-                    favData && setData(getData('userInfo', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
-                    favData && deleteFavorite(card._id)
-                    if (pathUrl(`home`, location)) {
-                        removeDefaultCard(card._id, setCards)
+                    if (limitedRequests(location, navigate)) {
+                        errorAlert()
                     } else {
-                        deleteCard(card._id)
-                            .then((info) => {
-                                toast.success(`${info.data.title} been removed`)
-                                deleteData(card._id!)
-                            })
-                            .catch(e => errorMsg(e, navigate, setLoginInfo))
+                        const favData: BusinessCard[] = getData(getData('userInfo', 'userName'))
+                        favData && setData(getData('userInfo', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
+                        favData && deleteFavorite(card._id)
+                        if (pathUrl(`home`, location)) {
+                            removeDefaultCard(card._id, setCards)
+                        } else {
+                            deleteCard(card._id)
+                                .then((info) => {
+                                    toast.success(`${info.data.title} been removed`)
+                                    deleteData(card._id!)
+                                })
+                                .catch(e => errorMsg(e, navigate, setLoginInfo))
+                        }
                     }
                 }
             })
@@ -83,7 +92,7 @@ export default function B_CARD({ card }: B_CardProps) {
                 </Box>
                 <CardActions sx={{ justifyContent: 'space-between', padding: '4px' }}>
                     <Box >
-                        {trashView &&
+                        {trashView() &&
                             <IconButton sx={{ padding: '6px' }} onClick={removeCard} aria-label="delete">
                                 <Delete color='action' />
                             </IconButton>

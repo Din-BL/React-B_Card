@@ -33,7 +33,6 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
     return (
         <Container maxWidth='md' >
             <Box onSubmit={handleSubmit(onSubmit)}
-
                 minHeight='85dvh' flexGrow={1} paddingBottom={5} component={'form'}>
                 <Box paddingTop={5} textAlign={'center'}><LockOpenIcon fontSize="large" /></Box>
                 <Typography paddingBottom={5} textAlign={'center'} variant="h4" component={'h1'}>

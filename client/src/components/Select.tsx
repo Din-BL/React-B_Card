@@ -7,6 +7,8 @@ import { errorMsg, statusView } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { SelectProps, UserStatus } from '../utils/types';
+import Swal from 'sweetalert2';
+import { editAlert } from '../utils/sweetalert';
 
 export default function Select({ userStatus, userId, username }: SelectProps) {
     const [status, setStatus] = React.useState(userStatus);
@@ -17,13 +19,20 @@ export default function Select({ userStatus, userId, username }: SelectProps) {
         const status = event.target.value as UserStatus
         const value = status === 'User' ? false : true
         const userValue = { business: value }
-        editStatus(userId, userValue)
-            .then(() => {
-                setStatus(status)
-                toast.success(`${username} is now a ${status}`)
+        editAlert()
+            .then((result) => {
+                if (result.isConfirmed) {
+                    editStatus(userId, userValue)
+                        .then(() => {
+                            setStatus(status)
+                            toast.success(`${username} is now a ${status}`)
+                        })
+                        .catch(e => errorMsg(e, navigate, setLoginInfo))
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
             })
-            .catch(e => errorMsg(e, navigate, setLoginInfo))
-    };
+    }
 
     return (
         <Box sx={{ minWidth: 120 }}>

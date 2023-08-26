@@ -4,10 +4,10 @@ import { Table, TableBody, TableContainer, TableHead, TableRow, Box, Typography,
 import { Delete, Phone, Language, Favorite } from '@mui/icons-material';
 import { BusinessCard, TableModeProps } from '../utils/types';
 import { toast } from 'react-toastify';
-import { capitalizeFirstLetter, errorMsg, favoriteRating, pathUrl, removeDefaultCard } from '../utils/helpers';
+import { capitalizeFirstLetter, errorMsg, favoriteRating, limitedRequests, pathUrl, removeDefaultCard } from '../utils/helpers';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
-import { removeAlert } from '../utils/sweetalert';
+import { errorAlert, removeAlert } from '../utils/sweetalert';
 import { getData, setData } from '../utils/localStorage';
 import { AllCardsContext, CardsContext, FavoriteContext } from '../context/Cards';
 import { deleteCard } from '../utils/services';
@@ -47,18 +47,22 @@ export default function TableMode({ cards }: TableModeProps) {
         removeAlert()
             .then((result) => {
                 if (result.isConfirmed && cardId) {
-                    const favData: BusinessCard[] = getData(getData('userInfo', 'userName'))
-                    favData && setData(getData('userInfo', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== cardId))
-                    favData && deleteFavorite(cardId)
-                    if (pathUrl(`home`, location)) {
-                        removeDefaultCard(cardId, setCards)
+                    if (limitedRequests(location, navigate)) {
+                        errorAlert()
                     } else {
-                        deleteCard(cardId)
-                            .then((info) => {
-                                toast.success(`${info.data.title} been removed`)
-                                deleteData(cardId!)
-                            })
-                            .catch(e => errorMsg(e, navigate, setLoginInfo))
+                        const favData: BusinessCard[] = getData(getData('userInfo', 'userName'))
+                        favData && setData(getData('userInfo', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== cardId))
+                        favData && deleteFavorite(cardId)
+                        if (pathUrl(`home`, location)) {
+                            removeDefaultCard(cardId, setCards)
+                        } else {
+                            deleteCard(cardId)
+                                .then((info) => {
+                                    toast.success(`${info.data.title} been removed`)
+                                    deleteData(cardId!)
+                                })
+                                .catch(e => errorMsg(e, navigate, setLoginInfo))
+                        }
                     }
                 }
             })

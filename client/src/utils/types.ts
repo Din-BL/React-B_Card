@@ -132,6 +132,10 @@ export interface ViewContextType {
     handleView: (event: React.MouseEvent<HTMLElement>, nextView: View) => void
 }
 
+export interface RequestUser {
+    [username: string]: number;
+}
+
 export interface LoadingContextType {
     loading: boolean
 }

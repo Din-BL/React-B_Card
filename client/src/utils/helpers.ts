@@ -1,4 +1,4 @@
-import { FormField, UserCard, UseLogin, BusinessCard, SignatureFormData, UserStatus, NavActive, Pages } from "./types";
+import { FormField, UserCard, UseLogin, BusinessCard, SignatureFormData, UserStatus, NavActive, Pages, RequestUser } from "./types";
 import Unknown from "../assets/Unknown.jpg"
 import { Location, NavigateFunction } from "react-router-dom";
 import { getData, removeData, setData } from "./localStorage";
@@ -184,4 +184,42 @@ export function uniqueFavorites(favorites: BusinessCard[] | null) {
             return !hasDuplicate;
         });
     }
+}
+
+const HOUR_IN_MS = 60 * 60 * 1000; // Convert hours to milliseconds
+
+export function limitedRequests(location: Location, navigate: NavigateFunction) {
+    const requestActions = getData('requestActions') || [];
+    const username = getData('userInfo', 'userName');
+    const userActionsIndex = requestActions.findIndex((obj: RequestUser) => obj[username] !== undefined);
+
+    if (userActionsIndex !== -1) {
+        const requestUser = requestActions[userActionsIndex][username];
+
+        if (requestUser > 9) {
+            const lastResetTimestamp = requestActions[userActionsIndex].lastResetTimestamp || 0;
+            const currentTime = Date.now();
+
+            if (currentTime - lastResetTimestamp >= 24 * HOUR_IN_MS) {
+                // More than 24 hours have passed, reset the count to 0
+                requestActions[userActionsIndex][username] = 0;
+                requestActions[userActionsIndex].lastResetTimestamp = currentTime;
+            } else {
+                const id = getData('userInfo', '_id')
+                if (location.pathname.includes('edit') || location.pathname.includes('add')) {
+                    navigate(`/my-cards/${id}`)
+                }
+                else if (pathUrl('user', location)) {
+                    navigate(`/home/${id}`)
+                }
+                return true;
+            }
+        }
+        requestActions[userActionsIndex][username] += 1;
+    } else {
+        const newUserActions: RequestUser = { [username]: 1, lastResetTimestamp: 0 };
+        requestActions.push(newUserActions);
+    }
+    setData('requestActions', requestActions);
+    return false;
 }

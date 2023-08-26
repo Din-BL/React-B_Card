@@ -1,15 +1,18 @@
 import { Box, ButtonGroup, Button } from "@mui/material";
 import { Sync, Send } from '@mui/icons-material';
-import { useNavigate } from "react-router-dom";
-import { userId } from "../utils/helpers";
+import { useLocation, useNavigate } from "react-router-dom";
+import { pathUrl, userId } from "../utils/helpers";
 import { BtnGroupProps } from "../utils/types";
 
 function BtnGroup({ resetFields }: BtnGroupProps) {
     const navigate = useNavigate()
+    const location = useLocation()
+    const cancelBtn = () => pathUrl('my-cards', location) ? navigate(`/my-cards${userId()}`) : navigate(`/home${userId()}`)
+
     return (
         <Box marginTop={3} >
             <ButtonGroup sx={{ width: '100% ' }} >
-                <Button onClick={() => navigate(`/home${userId()}`)} color='error' sx={{ width: '50%' }}>Cancel</Button>
+                <Button onClick={cancelBtn} color='error' sx={{ width: '50%' }}>Cancel</Button>
                 <Button onClick={resetFields} sx={{ width: '50%' }}>
                     <Sync />
                 </Button>
