@@ -1,18 +1,17 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const User = require("../models/user");
-const { registerSchema, loginSchema, businessSchema } = require("./Validations");
+const { registerSchema, loginSchema, businessSchema, emailSchema } = require("./validations");
 const { formatDateTime } = require("./helpers")
 
 module.exports.userValidate = (req, res, next) => {
   if (req.baseUrl === "/user") {
-    req.path === "/login" ? (schema = loginSchema) : (schema = registerSchema);
+    req.path === '/' ? schema = emailSchema : req.path === "/login" ? schema = loginSchema : schema = registerSchema;
   } else {
     schema = businessSchema;
   }
   const { error } = schema.validate(req.body, { abortEarly: false });
   if (error) {
-    console.log(error.details.map((msg) => msg.message));
     res.status(400).json(error.details.map((msg) => msg.message));
   } else {
     next();

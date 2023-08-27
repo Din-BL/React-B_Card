@@ -40,3 +40,7 @@ module.exports.businessSchema = Joi.object({
   houseNumber: Joi.string().required().pattern(/^\d+$/),
   zip: Joi.string().allow("").optional().pattern(/^\d+$/)
 }).required();
+
+module.exports.emailSchema = Joi.object({
+  email: Joi.string().trim().required().email().message('Invalid email address format')
+}).required();;

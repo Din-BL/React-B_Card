@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import axios from "axios";
 
 export function removeAlert() {
     return Swal.fire({
@@ -60,26 +61,16 @@ export function emailAlert() {
         confirmButtonText: 'Reset',
         showLoaderOnConfirm: true,
         preConfirm: (login) => {
-            return fetch(`//api.github.com/users/${login}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(response.statusText)
-                    }
-                    return response.json()
-                })
-                .catch(error => {
-                    Swal.showValidationMessage(
-                        `Request failed: ${error}`
-                    )
-                })
+            return axios.patch('http://localhost:8000/user', { email: login })
+                .then(res => res)
+                .catch(error => Swal.showValidationMessage(`Request failed: ${error.response.data}`))
         },
         allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
-                title: `Your new password is waiting for you at${result.value.login}'`,
-                icon: 'success',
-                timer: 1500
+                title: `Your new password is waiting at ${result.value!.data}'`,
+                icon: 'success'
             })
         }
     })
