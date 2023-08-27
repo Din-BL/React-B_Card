@@ -155,6 +155,7 @@ export interface BusinessStatus {
 
 export interface BtnGroupProps {
     resetFields: () => void;
+    disableBtn?: () => boolean
 }
 
 export interface ContactProps {

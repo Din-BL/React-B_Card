@@ -1,10 +1,11 @@
-import { Box, Typography, TextField, InputAdornment, Container } from "@mui/material";
-import { AccountCircle, LockOpen } from '@mui/icons-material';
+import { Box, Typography, TextField, InputAdornment, Container, Button, IconButton } from "@mui/material";
+import { AccountCircle, LockOpen, Visibility, VisibilityOff } from '@mui/icons-material';
 import BtnGroup from "../components/BtnGroup";
 import useFields from "../hooks/useFields";
 import { NavLink } from "react-router-dom";
 import { ThemeContext } from "../context/Theme";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { emailAlert } from "../utils/sweetalert";
 
 function Login() {
     const { fields, handleField, handleSubmit, resetFields } = useFields({ email: "", password: "" })
@@ -12,6 +13,8 @@ function Login() {
     const passwordError = !fields.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/) && fields.password.length > 0
     const { themeMode } = useContext(ThemeContext)
     const textColor = themeMode === 'light' ? 'black' : 'white'
+    const [showPassword, setShowPassword] = useState(false);
+    const disableBtn = () => emailError || passwordError ? true : false
 
     return (
         <Container sx={{ minHeight: '85dvh', display: 'flex', alignItems: 'center', justifyContent: 'center' }} maxWidth='sm' >
@@ -49,14 +52,24 @@ function Login() {
                     onChange={handleField}
                     sx={{ width: '100%', marginTop: 1 }}
                     id="Password"
+                    type={showPassword ? 'text' : 'password'}
                     label="Password"
-                    type="password"
                     error={passwordError}
                     helperText={passwordError && "Invalid password format"}
                     autoComplete="current-password"
                     variant="outlined"
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        )
+                    }}
                 />
-                <BtnGroup resetFields={resetFields} />
+                <Button onClick={emailAlert} sx={{ fontSize: 11, textTransform: 'none' }} size="small" >Forgot password?</Button>
+                <BtnGroup resetFields={resetFields} disableBtn={disableBtn} />
                 <Typography paddingTop={3} paddingLeft={1} color={'text.secondary'}>
                     Dont have an account yet?
                     <NavLink to={`/register`} style={{ paddingLeft: 5, textDecoration: 'none', color: textColor }}>

@@ -51,4 +51,38 @@ export function errorAlert() {
     })
 }
 
+export function emailAlert() {
+    return Swal.fire({
+        title: 'Enter your email address',
+        input: 'text',
+        inputAttributes: { autocapitalize: 'off' },
+        showCancelButton: true,
+        confirmButtonText: 'Reset',
+        showLoaderOnConfirm: true,
+        preConfirm: (login) => {
+            return fetch(`//api.github.com/users/${login}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText)
+                    }
+                    return response.json()
+                })
+                .catch(error => {
+                    Swal.showValidationMessage(
+                        `Request failed: ${error}`
+                    )
+                })
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: `Your new password is waiting for you at${result.value.login}'`,
+                icon: 'success',
+                timer: 1500
+            })
+        }
+    })
+}
+
 

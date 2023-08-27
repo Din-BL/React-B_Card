@@ -45,9 +45,9 @@ function Register() {
                     value={checked}
                     onChange={handleChange}
                 >
-                    <FormControlLabel value="User" control={<Radio />} label="User" />
-                    <FormControlLabel value="Business" control={<Radio />} label="Business" />
-                    <FormControlLabel value="Admin" control={<Radio />} label="Admin" />
+                    <FormControlLabel value="User" control={<Radio size="small" />} label="User" />
+                    <FormControlLabel value="Business" control={<Radio size="small" />} label="Business" />
+                    <FormControlLabel value="Admin" control={<Radio size="small" />} label="Admin" />
                 </RadioGroup>
             </FormControl>
 

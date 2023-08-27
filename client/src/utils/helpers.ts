@@ -196,10 +196,10 @@ export function limitedRequests(navigate: NavigateFunction, location?: Location)
     if (userActionsIndex !== -1) {
         const requestUser = requestActions[userActionsIndex][username];
         if (requestUser > 9) {
-            const lastResetTimestamp = requestActions[userActionsIndex].lastResetTimestamp;
-            if (currentTime - lastResetTimestamp >= 24 * HOUR_IN_MS) {
+            const timestamp = requestActions[userActionsIndex].timestamp;
+            if (currentTime - timestamp >= 24 * HOUR_IN_MS) {
                 requestActions[userActionsIndex][username] = 0;
-                requestActions[userActionsIndex].lastResetTimestamp = currentTime;
+                requestActions[userActionsIndex].timestamp = currentTime;
             } else {
                 if (location) {
                     const id = getData('userInfo', '_id')
@@ -209,7 +209,7 @@ export function limitedRequests(navigate: NavigateFunction, location?: Location)
             }
         } requestActions[userActionsIndex][username] += 1;
     } else {
-        const newUserActions: RequestUser = { [username]: 1, lastResetTimestamp: currentTime };
+        const newUserActions: RequestUser = { [username]: 1, timestamp: currentTime };
         requestActions.push(newUserActions);
     }
     setData('requestActions', requestActions);

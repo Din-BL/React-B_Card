@@ -116,6 +116,17 @@ router.patch("/:id", userAuthenticate, userPermission, async (req, res) => {
   }
 });
 
+// router.patch("/", async (req, res) => {
+//   try {
+//     let findUser = await User.findOne({ email: req.body });
+//     if (!findUser) return res.status(404).json(`Email doesn't exist`);
+
+//     res.status(201).json(updateUser);
+//   } catch (error) {
+//     res.status(400).json(error.message);
+//   }
+// });
+
 router.delete("/:id", userAuthenticate, async (req, res) => {
   try {
     const deleteUser = await User.findByIdAndDelete(req.params.id);
