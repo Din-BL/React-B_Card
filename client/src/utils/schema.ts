@@ -17,7 +17,7 @@ const registerSchema: AnySchema = Joi.object({
         .messages({
             'passwordLowerUpper': 'Password must contain lowercase and uppercase letters',
             'passwordFourNumbers': 'Password must contain four or more numbers',
-            'passwordSpecialChar': 'Password must contain one special character (!@#$%^&*?)',
+            'passwordSpecialChar': 'Password must contain one special character (!@#$%^&*?_-)',
             "string.max": `Password length cant be greater then 30 characters long`,
             "string.min": convertMsg('Password', '8')
         }),

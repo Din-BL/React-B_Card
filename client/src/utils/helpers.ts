@@ -144,7 +144,7 @@ export const isPasswordValid = (value: string) => {
     if (!/(?=.*\d.*\d.*\d.*\d)/.test(value)) {
         return 'passwordFourNumbers';
     }
-    if (!/(?=.*[#$@!%&*?])/.test(value)) {
+    if (!/(?=.*[#$@!%&*?_-])/.test(value)) {
         return 'passwordSpecialChar';
     }
     return null;

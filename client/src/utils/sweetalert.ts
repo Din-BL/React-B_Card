@@ -55,10 +55,12 @@ export function errorAlert() {
 export function emailAlert() {
     return Swal.fire({
         title: 'Enter your email address',
-        input: 'text',
+        html: `<p style="font-size: 12px;">Be sure you have access to the receiving account
+        <span style="font-size: 18px; vertical-align: center;">🔐</span></p>`,
+        input: 'email',
         inputAttributes: { autocapitalize: 'off' },
         showCancelButton: true,
-        confirmButtonText: 'Reset',
+        confirmButtonText: 'Reset password',
         showLoaderOnConfirm: true,
         preConfirm: (login) => {
             return axios.patch('http://localhost:8000/user', { email: login })
@@ -69,7 +71,7 @@ export function emailAlert() {
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
-                title: `Your new password is waiting at ${result.value!.data}'`,
+                title: `Your new password is waiting at ${result.value!.data}`,
                 icon: 'success'
             })
         }

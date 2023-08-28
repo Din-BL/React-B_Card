@@ -40,8 +40,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minlength: 8,
-      maxlength: 128
     },
     imageUrl: {
       type: String,

@@ -7,8 +7,17 @@ const _ = require("lodash");
 const config = require("config");
 const User = require("../models/user");
 const { userValidate, userAuthenticate, userPermission } = require("../utils/middleware");
-const { extractMsg } = require("../utils/helpers")
+const { extractMsg, randomPassword } = require("../utils/helpers")
 const jwt = require("jsonwebtoken");
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: 'din.bl.fullstack@gmail.com',
+    pass: 'crnwhigrlgwrshsb'
+  }
+});
 
 // Endpoints
 
@@ -120,7 +129,19 @@ router.patch("/", userValidate, async (req, res) => {
   try {
     let findUser = await User.findOne({ email: req.body.email });
     if (!findUser) return res.status(404).json(`Email doesn't exist`);
-    res.status(201).json(findUser.email);
+    const newPassword = randomPassword()
+    findUser.password = await bcrypt.hash(newPassword, 10);
+    await User.findByIdAndUpdate(findUser._id, findUser, { new: true, runValidators: true });
+
+    const mailOptions = {
+      from: 'din.bl.fullstack@gmail.com',
+      to: req.body.email,
+      subject: 'B-Card - reset password',
+      text: `Your new password is: ${newPassword}`
+    }
+    transporter.sendMail(mailOptions, (error, info) => {
+      return error ? res.status(500).json('Failed to send email') : res.status(201).json(findUser.email);
+    });
   } catch (error) {
     res.status(400).json(error.message);
   }

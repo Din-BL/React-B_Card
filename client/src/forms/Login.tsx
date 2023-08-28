@@ -10,7 +10,7 @@ import { emailAlert } from "../utils/sweetalert";
 function Login() {
     const { fields, handleField, handleSubmit, resetFields } = useFields({ email: "", password: "" })
     const emailError = !fields.email.match(/^\S+@\S+\.\S+$/,) && fields.email.length > 0
-    const passwordError = !fields.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/) && fields.password.length > 0
+    const passwordError = !fields.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9].*[0-9].*[0-9].*[0-9])(?=.*[#$@!%&*?_-]).{8,30}$/) && fields.password.length > 0
     const { themeMode } = useContext(ThemeContext)
     const textColor = themeMode === 'light' ? 'black' : 'white'
     const [showPassword, setShowPassword] = useState(false);
