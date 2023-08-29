@@ -7,7 +7,7 @@ const _ = require("lodash");
 const config = require("config");
 const User = require("../models/user");
 const { userValidate, userAuthenticate, userPermission } = require("../utils/middleware");
-const { extractMsg, randomPassword } = require("../utils/helpers")
+const { extractMsg, generatePassword } = require("../utils/helpers")
 const jwt = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
 
@@ -67,7 +67,7 @@ router.post("/login", userValidate, async (req, res) => {
       const token = jwt.sign(payload, config.get("ACCESS_TOKEN_SECRET"));
       findUser = findUser.toObject();
       findUser.token = token;
-      res.status(200).json(_.pick(findUser, ["_id", "business", "admin", "token", "userName"]));
+      res.status(200).json(_.pick(findUser, ["_id", "business", "admin", "token", "userName", "imageUrl"]));
     } else {
       res.status(400).send("Incorrect password");
       findUser.loginAttempts += 1;
@@ -129,7 +129,7 @@ router.patch("/", userValidate, async (req, res) => {
   try {
     let findUser = await User.findOne({ email: req.body.email });
     if (!findUser) return res.status(404).json(`Email doesn't exist`);
-    const newPassword = randomPassword()
+    const newPassword = generatePassword()
     findUser.password = await bcrypt.hash(newPassword, 10);
     await User.findByIdAndUpdate(findUser._id, findUser, { new: true, runValidators: true });
 

@@ -115,8 +115,7 @@ function Navbar() {
                             Login
                         </NavLink>
                     </Typography>
-                    {logged && <UserIcon />}
-                    {!logged && <NoAccountsIcon />}
+                    {logged ? <UserIcon /> : <NoAccountsIcon />}
                 </Toolbar>
             </Container>
         </AppBar >

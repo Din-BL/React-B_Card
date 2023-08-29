@@ -16,7 +16,7 @@ module.exports.extractMsg = (msg) => {
     } return msg
 }
 
-module.exports.randomPassword = () => {
+module.exports.generatePassword = () => {
     const lowercase = 'abcdefghijklmnopqrstuvwxyz';
     const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const digits = '0123456789';

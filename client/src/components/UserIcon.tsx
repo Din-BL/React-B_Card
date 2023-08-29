@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, IconButton, MenuItem, Menu, Divider } from '@mui/material';
+import { Box, IconButton, MenuItem, Menu, Divider, Avatar } from '@mui/material';
 import { AccountCircle, MeetingRoom, PersonRemove, Person } from '@mui/icons-material';
 import { getData, removeData } from '../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,7 @@ export default function UserIcon() {
     const navigate = useNavigate()
     const userId = getData('userInfo', '_id')
     const userName = getData('userInfo', 'userName')
+    const userImage = getData('userInfo', 'imageUrl')
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -58,20 +59,14 @@ export default function UserIcon() {
                 onClick={handleMenu}
                 color="inherit"
             >
-                <AccountCircle />
+                {userImage ? <Avatar src={userImage} /> : <AccountCircle />}
             </IconButton>
             <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 keepMounted
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >

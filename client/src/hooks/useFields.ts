@@ -13,7 +13,7 @@ export default function useFields(initialValue: LoginField) {
 
     const handleField = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
-        setFields((currentValue) => ({ ...currentValue, [name]: value }))
+        setFields((currentValue) => ({ ...currentValue, [name]: value.trim() }))
     }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

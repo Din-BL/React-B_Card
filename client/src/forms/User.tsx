@@ -11,6 +11,7 @@ import { UserCard } from "../utils/types";
 import Swal from "sweetalert2";
 import { editAlert, errorAlert } from "../utils/sweetalert";
 import { useUser } from "../hooks/useUser";
+import { getData, setData } from "../utils/localStorage";
 
 function User() {
     const { id } = useParams();
@@ -18,8 +19,10 @@ function User() {
     const { initialValue } = useUser()
     const location = useLocation()
     const navigate = useNavigate()
+    const userInfo = getData('userInfo')
     const status = { business: initialValue?.business || false, admin: initialValue?.admin || false }
     const staticData = { email: initialValue?.email || '', userName: initialValue?.userName || '' }
+    const updateImage = (imageUrl: string) => imageUrl !== userInfo.imageUrl && setData('userInfo', { ...userInfo, imageUrl })
 
     const handleUser = (data: UserCard) => {
         editAlert()
@@ -30,6 +33,7 @@ function User() {
                     } else {
                         editUser(id, { ...data, ...status, ...staticData })
                             .then((info) => {
+                                updateImage(info.data.imageUrl)
                                 navigate(`/home/${id}`)
                                 toast.success(`${info.data.userName} info been updated`)
                             })
