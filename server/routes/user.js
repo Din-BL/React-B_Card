@@ -137,7 +137,10 @@ router.patch("/", userValidate, async (req, res) => {
       from: 'din.bl.fullstack@gmail.com',
       to: req.body.email,
       subject: 'B-Card - reset password',
-      text: `Your new password is: ${newPassword}`
+      html: `
+      <p>Your new password is: <strong>${newPassword}</strong></p>
+      <img style="height: 150px; width: 150px;"
+      src="https://st2.depositphotos.com/5142301/12319/v/950/depositphotos_123199778-stock-illustration-letter-b-logo-at-blue.jpg" alt="B-Card Logo" />`
     }
     transporter.sendMail(mailOptions, (error, info) => {
       return error ? res.status(500).json('Failed to send email') : res.status(201).json(findUser.email);
