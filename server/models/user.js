@@ -17,7 +17,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 2,
-      unique: true
+      unique: true,
+      match: /^[A-Z]/
     },
     phone: {
       type: String,

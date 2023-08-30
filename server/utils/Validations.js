@@ -3,7 +3,7 @@ const Joi = require("joi");
 module.exports.registerSchema = Joi.object({
   firstName: Joi.string().required().min(2),
   lastName: Joi.string().required().min(2),
-  userName: Joi.string().required().min(2),
+  userName: Joi.string().required().min(2).pattern(/^[A-Z]/),
   phone: Joi.string().trim().required().min(10).max(10).pattern(/^(050|052|053|054|055)\d{7}$/),
   email: Joi.string().trim().required().email(),
   password: Joi.string().trim().required().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9].*[0-9].*[0-9].*[0-9])(?=.*[#$@!%&*?_-]).{8,30}$/),

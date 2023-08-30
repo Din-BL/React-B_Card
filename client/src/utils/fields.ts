@@ -16,7 +16,7 @@ export const RegisterFields: FormField[] = [
     },
     {
         required: true,
-        label: 'user name',
+        label: 'username',
         state: 'userName',
         type: 'text'
     },

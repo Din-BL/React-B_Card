@@ -20,6 +20,10 @@ export default function B_CARD({ card }: B_CardProps) {
     const { deleteData } = useContext(CardsContext)
     const { deleteFavorite } = useContext(FavoriteContext)
     const { setCards } = useContext(AllCardsContext)
+    const storageList = Object.keys(localStorage);
+    const users = storageList.filter(item => /^[A-Z]/.test(item));
+
+    console.log(users);
 
     function removeCard() {
         removeAlert()
@@ -33,6 +37,9 @@ export default function B_CARD({ card }: B_CardProps) {
                         favData && deleteFavorite(card._id)
                         if (pathUrl(`home`, location)) {
                             removeDefaultCard(card._id, setCards)
+                            const favoriteCards = getData('favoriteCards')
+                            const updatedCards = favoriteCards.filter((favCard: BusinessCard) => favCard._id !== card._id)
+                            setData('favoriteCards', updatedCards)
                         } else {
                             deleteCard(card._id)
                                 .then((info) => {
