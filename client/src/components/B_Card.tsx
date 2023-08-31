@@ -1,51 +1,19 @@
 import { Card, CardActions, CardContent, CardMedia, Typography, Box, IconButton, Badge } from '@mui/material';
 import { Phone, Delete, Edit, Favorite } from '@mui/icons-material';
-import { B_CardProps, BusinessCard } from '../utils/types';
-import { addressFormatter, defaultAlt, defaultImage, errorMsg, favoriteRating, filteredCards, idShortcut, limitedRequests, pathUrl, phoneFormatter, removeDefaultCard } from '../utils/helpers';
+import { B_CardProps } from '../utils/types';
+import { addressFormatter, defaultAlt, defaultImage, favoriteRating, idShortcut, pathUrl, phoneFormatter } from '../utils/helpers';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { deleteCard } from '../utils/services';
-import { AllCardsContext, CardsContext, FavoriteContext } from '../context/Cards';
+import { AllCardsContext } from '../context/Cards';
 import { useContext } from 'react';
 import { LoginInfoContext } from '../context/LoginInfo';
-import { errorAlert, removeAlert } from '../utils/sweetalert';
-import { getData, setData } from '../utils/localStorage';
 import FavoriteIcon from './FavoriteIcon';
 
 export default function B_CARD({ card }: B_CardProps) {
     const navigate = useNavigate()
     const location = useLocation()
-    const { loginInfo, setLoginInfo } = useContext(LoginInfoContext)
+    const { loginInfo } = useContext(LoginInfoContext)
     const { logged, admin } = loginInfo
-    const { deleteData } = useContext(CardsContext)
-    const { deleteFavorite } = useContext(FavoriteContext)
-    const { setCards } = useContext(AllCardsContext)
-    const favoriteCards = getData('favoriteCards')
-    const users = Object.keys(localStorage).filter(item => /^[A-Z]/.test(item));
-
-    function removeCard() {
-        removeAlert()
-            .then((result) => {
-                if (result.isConfirmed && card._id) {
-                    if (limitedRequests(navigate)) {
-                        errorAlert()
-                    } else {
-                        if (favoriteCards) {
-                            setData('favoriteCards', filteredCards(favoriteCards, card))
-                            deleteFavorite(card._id)
-                            users.forEach(user => {
-                                const username = getData(`${user}`)
-                                setData(user, filteredCards(username, card))
-                            });
-                        } removeDefaultCard(card, setCards)
-                        if (card.__v !== undefined) {
-                            deleteCard(card._id)
-                                .then(info => deleteData(card.id!))
-                                .catch(e => errorMsg(e, navigate, setLoginInfo))
-                        }
-                    }
-                }
-            })
-    }
+    const { removeCard } = useContext(AllCardsContext)
 
     function adminFavorite() {
         if (logged) {
@@ -94,7 +62,7 @@ export default function B_CARD({ card }: B_CardProps) {
                 <CardActions sx={{ justifyContent: 'space-between', padding: '4px' }}>
                     <Box >
                         {trashView() &&
-                            <IconButton sx={{ padding: '6px' }} onClick={removeCard} aria-label="delete">
+                            <IconButton sx={{ padding: '6px' }} onClick={() => removeCard(card)} aria-label="delete">
                                 <Delete color='action' />
                             </IconButton>
                         }
