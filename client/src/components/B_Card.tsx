@@ -1,10 +1,9 @@
 import { Card, CardActions, CardContent, CardMedia, Typography, Box, IconButton, Badge } from '@mui/material';
 import { Phone, Delete, Edit, Favorite } from '@mui/icons-material';
 import { B_CardProps, BusinessCard } from '../utils/types';
-import { addressFormatter, defaultAlt, defaultImage, errorMsg, favoriteRating, idShortcut, limitedRequests, pathUrl, phoneFormatter, removeDefaultCard } from '../utils/helpers';
+import { addressFormatter, defaultAlt, defaultImage, errorMsg, favoriteRating, filteredCards, idShortcut, limitedRequests, pathUrl, phoneFormatter, removeDefaultCard } from '../utils/helpers';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { deleteCard } from '../utils/services';
-import { toast } from 'react-toastify';
 import { AllCardsContext, CardsContext, FavoriteContext } from '../context/Cards';
 import { useContext } from 'react';
 import { LoginInfoContext } from '../context/LoginInfo';
@@ -20,10 +19,8 @@ export default function B_CARD({ card }: B_CardProps) {
     const { deleteData } = useContext(CardsContext)
     const { deleteFavorite } = useContext(FavoriteContext)
     const { setCards } = useContext(AllCardsContext)
-    const storageList = Object.keys(localStorage);
-    const users = storageList.filter(item => /^[A-Z]/.test(item));
-
-    console.log(users);
+    const favoriteCards = getData('favoriteCards')
+    const users = Object.keys(localStorage).filter(item => /^[A-Z]/.test(item));
 
     function removeCard() {
         removeAlert()
@@ -32,20 +29,17 @@ export default function B_CARD({ card }: B_CardProps) {
                     if (limitedRequests(navigate)) {
                         errorAlert()
                     } else {
-                        const favData: BusinessCard[] = getData(getData('userInfo', 'userName'))
-                        favData && setData(getData('userInfo', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
-                        favData && deleteFavorite(card._id)
-                        if (pathUrl(`home`, location)) {
-                            removeDefaultCard(card._id, setCards)
-                            const favoriteCards = getData('favoriteCards')
-                            const updatedCards = favoriteCards.filter((favCard: BusinessCard) => favCard._id !== card._id)
-                            setData('favoriteCards', updatedCards)
-                        } else {
+                        if (favoriteCards) {
+                            setData('favoriteCards', filteredCards(favoriteCards, card))
+                            deleteFavorite(card._id)
+                            users.forEach(user => {
+                                const username = getData(`${user}`)
+                                setData(user, filteredCards(username, card))
+                            });
+                        } removeDefaultCard(card, setCards)
+                        if (card.__v !== undefined) {
                             deleteCard(card._id)
-                                .then((info) => {
-                                    toast.success(`${info.data.title} been removed`)
-                                    deleteData(card._id!)
-                                })
+                                .then(info => deleteData(card.id!))
                                 .catch(e => errorMsg(e, navigate, setLoginInfo))
                         }
                     }

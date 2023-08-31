@@ -106,15 +106,16 @@ export function errorMsg(e: any, navigate: NavigateFunction, setLoginInfo: React
     }
 }
 
-export function removeDefaultCard(id: string, setCards: React.Dispatch<React.SetStateAction<BusinessCard[]>>) {
+export const filteredCards = (favoriteCards: BusinessCard[], card: BusinessCard) => favoriteCards.filter((favCard: BusinessCard) => favCard._id !== card._id)
+
+export function removeDefaultCard(card: BusinessCard, setCards: React.Dispatch<React.SetStateAction<BusinessCard[]>>) {
     const storedCards = getData("*defaultCards*")
-    const filteredCards = storedCards.filter((card: BusinessCard) => card._id !== id)
-    const removed = storedCards.filter((card: BusinessCard) => card._id === id)
+    const removed = storedCards.filter((storedCard: BusinessCard) => storedCard._id === card._id)
     let removedCards = getData("removedCards")
     !removedCards ? removedCards = removed : removedCards = [...removedCards, ...removed]
     setData('removedCards', removedCards)
-    setData("*defaultCards*", filteredCards)
-    setCards(filteredCards)
+    setData("*defaultCards*", filteredCards(storedCards, card))
+    setCards(filteredCards(storedCards, card))
     toast.success(`${removed[0].title} been removed`)
 }
 

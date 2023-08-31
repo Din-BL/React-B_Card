@@ -3,8 +3,7 @@ import { styled } from '@mui/material/styles';
 import { Table, TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses, IconButton, Badge } from '@mui/material';
 import { Delete, Phone, Language, Favorite } from '@mui/icons-material';
 import { BusinessCard, TableModeProps } from '../utils/types';
-import { toast } from 'react-toastify';
-import { capitalizeFirstLetter, errorMsg, favoriteRating, limitedRequests, pathUrl, removeDefaultCard } from '../utils/helpers';
+import { capitalizeFirstLetter, errorMsg, favoriteRating, filteredCards, limitedRequests, pathUrl, removeDefaultCard } from '../utils/helpers';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { errorAlert, removeAlert } from '../utils/sweetalert';
@@ -18,15 +17,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         backgroundColor: theme.palette.primary.dark,
         color: theme.palette.common.white,
     },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
+    [`&.${tableCellClasses.body}`]: { fontSize: 14 }
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:last-child td, &:last-child th': {
-        border: 0,
-    },
+    '&:last-child td, &:last-child th': { border: 0 }
 }));
 
 export default function TableMode({ cards }: TableModeProps) {
@@ -37,29 +32,31 @@ export default function TableMode({ cards }: TableModeProps) {
     const { deleteData } = React.useContext(CardsContext)
     const { deleteFavorite } = React.useContext(FavoriteContext)
     const { setCards } = React.useContext(AllCardsContext)
+    const favoriteCards = getData('favoriteCards')
+    const users = Object.keys(localStorage).filter(item => /^[A-Z]/.test(item));
     const excludedProperties = ["imageUrl", "imageAlt", "_id", "description", "houseNumber", "web", "state", "zip", "user_id", "__v", "isFavorite"];
     let card = Object.keys(cards[0])
     card = card.filter(property => !excludedProperties.includes(property));
     card = card.map(property => capitalizeFirstLetter(property))
 
-    function removeCard(cardId?: string) {
+    function removeCard(card: BusinessCard) {
         removeAlert()
             .then((result) => {
-                if (result.isConfirmed && cardId) {
+                if (result.isConfirmed && card._id) {
                     if (limitedRequests(navigate)) {
                         errorAlert()
                     } else {
-                        const favData: BusinessCard[] = getData(getData('userInfo', 'userName'))
-                        favData && setData(getData('userInfo', 'userName'), favData.filter((cardInfo: BusinessCard) => cardInfo._id !== cardId))
-                        favData && deleteFavorite(cardId)
-                        if (pathUrl(`home`, location)) {
-                            removeDefaultCard(cardId, setCards)
-                        } else {
-                            deleteCard(cardId)
-                                .then((info) => {
-                                    toast.success(`${info.data.title} been removed`)
-                                    deleteData(cardId!)
-                                })
+                        if (favoriteCards) {
+                            setData('favoriteCards', filteredCards(favoriteCards, card))
+                            deleteFavorite(card._id)
+                            users.forEach(user => {
+                                const username = getData(`${user}`)
+                                setData(user, filteredCards(username, card))
+                            });
+                        } removeDefaultCard(card, setCards)
+                        if (card.__v !== undefined) {
+                            deleteCard(card._id)
+                                .then(info => deleteData(card.id!))
                                 .catch(e => errorMsg(e, navigate, setLoginInfo))
                         }
                     }
@@ -102,7 +99,7 @@ export default function TableMode({ cards }: TableModeProps) {
                                             {index + 1}
                                         </Typography>
                                         {trashView() &&
-                                            <IconButton sx={{ padding: '6px' }} onClick={() => removeCard(row._id)} aria-label="delete">
+                                            <IconButton sx={{ padding: '6px' }} onClick={() => removeCard(row)} aria-label="delete">
                                                 <Delete color='action' />
                                             </IconButton>}
                                         <IconButton sx={{ padding: '6px' }} onClick={() => window.location.href = `tel://${row.phone}`} aria-label="phone" >

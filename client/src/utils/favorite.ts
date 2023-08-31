@@ -1,4 +1,4 @@
-import { uniqueFavorites } from "./helpers"
+import { filteredCards, uniqueFavorites } from "./helpers"
 import { getData, setData } from "./localStorage"
 import { BusinessCard, FavoriteCardsParams } from "./types"
 
@@ -11,7 +11,7 @@ export const favoriteCard = ({ toggle, card, setFavorite, admin }: FavoriteCards
 
     if (favoriteUser) {
         if (favoriteUser.some((data: BusinessCard) => data._id === card._id)) {
-            setData(username, favoriteUser.filter((cardInfo: BusinessCard) => cardInfo._id !== card._id))
+            setData(username, filteredCards(favoriteUser, card))
             const indexToRemove = favorites.findIndex((cardInfo: BusinessCard) => cardInfo._id === card._id);
             favorites.splice(indexToRemove, 1);
             setData('favoriteCards', favorites);

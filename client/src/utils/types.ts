@@ -102,6 +102,7 @@ export interface BusinessCard {
     houseNumber: string;
     zip?: string;
     _id?: string
+    __v?: number
     isFavorite?: boolean
     [key: string]: any;
 }
