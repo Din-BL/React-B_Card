@@ -44,6 +44,7 @@ export default function FooterLink() {
     return (
         <Box sx={{ width: 500 }}>
             <BottomNavigation
+                sx={{ backgroundColor: 'transparent' }}
                 showLabels
                 value={value}
                 onChange={(event, newValue) => {
