@@ -15,7 +15,6 @@ function MyCards() {
     const { data } = useContext(CardsContext)
     const { view } = useContext(ViewContext)
     const { loading } = useContext(LoadingContext)
-
     return (
         <Container sx={{ paddingBottom: 3 }}>
             <Box component={'main'} flexGrow={1} minHeight='85dvh' >

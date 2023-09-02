@@ -7,7 +7,6 @@ export const RegisterFields: FormField[] = [
         state: 'firstName',
         type: 'text'
     },
-
     {
         required: true,
         label: 'last Name',
@@ -79,6 +78,7 @@ export const RegisterFields: FormField[] = [
         type: 'text'
     }
 ]
+
 export const CardFields: FormField[] = [
     {
         required: true,
@@ -154,6 +154,7 @@ export const CardFields: FormField[] = [
         type: 'text'
     }
 ]
+
 export const ContactFields: FormField[] = [
     {
         required: true,
@@ -181,5 +182,4 @@ export const ContactFields: FormField[] = [
         multiline: true,
         width: 12
     }
-
 ]
