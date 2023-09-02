@@ -71,7 +71,7 @@ function Login() {
                 <Button onClick={emailAlert} sx={{ fontSize: 11, textTransform: 'none' }} size="small" >Forgot password?</Button>
                 <BtnGroup resetFields={resetFields} disableBtn={disableBtn} />
                 <Typography paddingTop={3} paddingLeft={1} color={'text.secondary'}>
-                    Dont have an account yet?
+                    Don't have an account yet?
                     <NavLink to={`/register`} style={{ paddingLeft: 5, textDecoration: 'none', color: textColor }}>
                         Register now
                     </NavLink>

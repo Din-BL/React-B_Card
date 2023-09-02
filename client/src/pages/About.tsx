@@ -1,31 +1,45 @@
-import { Box, CircularProgress, Paper, Typography } from "@mui/material";
-import Pic from "../assets/Business.png"
+import { Box, Card, CardMedia, CircularProgress, Paper, Typography, useMediaQuery } from "@mui/material";
 import BackGround from "../assets/B-Symbol.png"
 import { LoadingContext } from "../context/Loading";
 import { useContext } from "react";
+import { ContactProps } from "../utils/types";
+import { defaultImage } from "../utils/helpers";
 
-function About() {
+function About({ businessInfo }: ContactProps) {
     const { loading } = useContext(LoadingContext)
+    const isSmallScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
+    const isAboutPage = businessInfo.title !== 'B-Card'
+
     return (
-        <Box sx={{ flexDirection: { xs: 'column', md: 'row' } }} display={'flex'} alignItems={'center'} justifyContent={'space-evenly'} component={'main'} minHeight='85dvh'>
+        <Box sx={{ flexDirection: { xs: 'column', md: 'row' } }} display={'flex'} alignItems={'center'} gap={2} justifyContent={'space-evenly'} component={'main'} minHeight='85dvh'>
             <div id="section_graphic">
                 <img src={BackGround} alt="image background" />
             </div>
             <article >
+                {isAboutPage &&
+                    <Typography variant={isSmallScreen ? 'h5' : 'h4'} paddingY={3} component={'h1'} color={'primary'} paddingLeft={1} >{businessInfo.title}</Typography>
+                }
                 <Paper elevation={3} sx={{ padding: 2 }}>
-                    <Typography className="title" color={'primary'} sx={{ fontSize: "25px" }}> About Us: </Typography>
-                    <p>B-Card is a leading business management platform empowering entrepreneurs to effectively promote their businesses.<br /> Our digital business cards provide exposure and detailed information to potential customers, maximizing reach and creating opportunities for success.
-                        <br />Founded in 2005, we've been simplifying operations and connecting businesses with customers.<br /> Headquartered in Tel-Aviv, our dedicated team works passionately to enhance our platform and support your entrepreneurial journey.
-                        <br /> Join B-Card to unlock your business's potential, together let's shape a future where dreams become reality and businesses thrive.</p>
+                    <Typography component={'h3'} className="title" color={'primary'} sx={{ fontSize: "20px" }}>{isAboutPage ? businessInfo.subtitle : 'About Us:'} </Typography>
+                    <p>{businessInfo.description}</p>
                 </Paper>
             </article>
             {loading ?
                 <Box width={520} height='200px' display='flex' justifyContent='center' alignItems='center'>
                     <CircularProgress />
                 </Box> :
-                <figure style={{ maxWidth: 520 }}>
-                    <img style={{ width: `100%` }} src={Pic} alt="main-page image" />
-                </figure>
+                isAboutPage ?
+                    <Card sx={{ width: 400 }}>
+                        <CardMedia
+                            component="img"
+                            height="350"
+                            image={defaultImage(businessInfo.imageUrl)}
+                            alt={defaultImage(businessInfo.imageAlt)}
+                        />
+                    </Card> :
+                    <figure style={{ maxWidth: 520 }}>
+                        <img style={{ width: `100%` }} src={businessInfo.imageUrl} alt={businessInfo.imageAlt} />
+                    </figure>
             }
         </Box>
     );

@@ -17,15 +17,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         backgroundColor: theme.palette.primary.dark,
         color: theme.palette.common.white,
     },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
+    [`&.${tableCellClasses.body}`]: { fontSize: 14 }
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:last-child td, &:last-child th': {
-        border: 0,
-    },
+    '&:last-child td, &:last-child th': { border: 0 }
 }));
 
 export default function Table({ Users, userDeletion }: TableProps) {

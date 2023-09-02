@@ -1,13 +1,10 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { Info, Favorite, RecentActors, AdminPanelSettings, Restore, Email } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { allowedPages, extractPath, userId } from '../utils/helpers';
 import { getData } from '../utils/localStorage';
 import { LoginInfoContext } from '../context/LoginInfo';
-import { useMediaQuery } from '@mui/material';
+import { useMediaQuery, BottomNavigationAction, BottomNavigation, Box } from '@mui/material';
 
 export default function FooterLink() {
     const [value, setValue] = React.useState(0);

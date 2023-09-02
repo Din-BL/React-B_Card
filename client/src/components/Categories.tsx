@@ -13,7 +13,7 @@ const GroupHeader = styled('div')(({ theme }) => ({
     backgroundColor:
         theme.palette.mode === 'light'
             ? lighten(theme.palette.primary.light, 0.85)
-            : darken(theme.palette.primary.main, 0.8),
+            : darken(theme.palette.primary.main, 0.8)
 }));
 
 const GroupItems = styled('ul')({ padding: 0 });

@@ -1,5 +1,5 @@
 import { BusinessCard } from "./types";
-import Pic from "../assets/B-Symbol.png"
+import Pic from "../assets/Business.png"
 
 export const defaultCards: BusinessCard[] = [
     {
