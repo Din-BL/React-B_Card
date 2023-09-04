@@ -24,6 +24,7 @@ import Redirect from './layouts/Redirect';
 import { companyInfo } from './utils/cards';
 import ViewMode from './context/ViewMode';
 import Loading from './context/Loading';
+import Maintenance from './pages/Maintenance ';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
                 <Routes>
                   <Route path='/' element={<Redirect />} />
                   <Route path='*' element={<Error />} />
+                  <Route path='/maintenance' element={<Maintenance />} />
                   <Route path='/register' element={<Register />} />
                   <Route path='/login' element={<Login />} />
                   <Route path='/about/:id?' element={<Redirect><About businessInfo={companyInfo} /></Redirect>} />

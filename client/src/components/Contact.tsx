@@ -1,7 +1,7 @@
 import { Container, Grid, TextField, Button, Typography, Fab, Box, CircularProgress } from '@mui/material';
 import { LocationOn, LocalPhone, Email, Language } from '@mui/icons-material';
 import { ContactProps } from '../utils/types';
-import { addressFormatter, capitalizeFirstLetter, inputData } from '../utils/helpers';
+import { addressFormatter, capitalizeFirstLetter, inputData, userId, websiteLink } from '../utils/helpers';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -23,12 +23,13 @@ function Contact({ businessInfo }: ContactProps) {
         reset()
         submitAlert()
     }
+    // console.log(businessInfo);
 
     const contactItems = [
         { icon: <LocationOn />, label: 'Address', value: addressFormatter(businessInfo.city, businessInfo.street, businessInfo.houseNumber, businessInfo.country) },
         { icon: <LocalPhone />, label: 'Phone', value: businessInfo.phone, link: `tel://${businessInfo.phone}` },
         { icon: <Email />, label: 'Email', value: businessInfo.email, link: `mailto:${businessInfo.email}` },
-        { icon: <Language />, label: 'Website', value: businessInfo.web, link: businessInfo.web }
+        { icon: <Language />, label: 'Website', value: businessInfo.web, link: websiteLink(businessInfo.web) }
     ];
 
     return (

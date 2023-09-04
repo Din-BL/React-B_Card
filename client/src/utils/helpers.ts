@@ -3,10 +3,17 @@ import Unknown from "../assets/Unknown.jpg"
 import { Location, NavigateFunction } from "react-router-dom";
 import { getData, removeData, setData } from "./localStorage";
 import { toast } from "react-toastify";
+import { defaultCards } from "./cards";
 
 export const pages: Pages[] = ['home', 'about', 'favorite', 'my-cards', 'sandbox'];
 export const menuPages: Pages[] = [...pages, 'login']
 export const allowedPages = ['home', 'about', 'login', 'recent', 'contact us'];
+
+export function websiteLink(website?: string) {
+    if (defaultCards.some(card => card.web === website)) {
+        return '/maintenance';
+    } return website;
+}
 
 export function capitalizeFirstLetter(path: string) {
     const pathValue = path.includes('-') ? path.replace('-', " ") : path
@@ -63,7 +70,7 @@ export const userId = () => {
 }
 
 export function isDisabled(initialValue: SignatureFormData | undefined, field: string) {
-    return initialValue && (field === 'email' || field === 'user name') ? true : false
+    return initialValue && (field === 'email' || field === 'username') ? true : false
 }
 
 export function statusView(userStatus: UserStatus) {
@@ -106,17 +113,30 @@ export function errorMsg(e: any, navigate: NavigateFunction, setLoginInfo: React
     }
 }
 
-export const filteredCards = (favoriteCards: BusinessCard[], card: BusinessCard) => favoriteCards.filter((favCard: BusinessCard) => favCard._id !== card._id)
+export const filteredCards = (favoriteCards: BusinessCard[], cards: BusinessCard | BusinessCard[]) => {
+    if (Array.isArray(cards)) {
+        return favoriteCards.filter((favCard: BusinessCard) => {
+            return !cards.some((card: BusinessCard) => card._id === favCard._id);
+        });
+    } else {
+        return favoriteCards.filter((favCard: BusinessCard) => favCard._id !== cards._id)
+    }
+}
 
-export function removeDefaultCard(card: BusinessCard, setCards: React.Dispatch<React.SetStateAction<BusinessCard[]>>) {
+export function removeDefaultCard(cards: BusinessCard | BusinessCard[], setCards: React.Dispatch<React.SetStateAction<BusinessCard[]>>) {
     const storedCards = getData("*defaultCards*")
-    const removed = storedCards.filter((storedCard: BusinessCard) => storedCard._id === card._id)
     let removedCards = getData("removedCards")
+    let removed: BusinessCard[]
+    if (Array.isArray(cards)) {
+        removed = storedCards.filter((storedCard: BusinessCard) => cards.some((card: BusinessCard) => card._id === storedCard._id));
+    } else {
+        removed = storedCards.filter((storedCard: BusinessCard) => storedCard._id === cards._id)
+    }
     !removedCards ? removedCards = removed : removedCards = [...removedCards, ...removed]
     setData('removedCards', removedCards)
-    setData("*defaultCards*", filteredCards(storedCards, card))
-    setCards(filteredCards(storedCards, card))
-    toast.success(`${removed[0].title} been removed`)
+    setData("*defaultCards*", filteredCards(storedCards, cards))
+    setCards(filteredCards(storedCards, cards))
+    !Array.isArray(cards) && toast.success(`${removed[0].title} been removed`)
 }
 
 export const navStyle = ({ isActive }: NavActive) => {

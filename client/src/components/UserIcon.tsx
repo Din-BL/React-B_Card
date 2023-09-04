@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { Box, IconButton, MenuItem, Menu, Divider, Avatar } from '@mui/material';
 import { AccountCircle, MeetingRoom, PersonRemove, Person } from '@mui/icons-material';
-import { getData, removeData } from '../utils/localStorage';
+import { getData, removeData, setData } from '../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
-import { errorMsg, logout } from '../utils/helpers';
+import { errorMsg, filteredCards, logout, removeDefaultCard } from '../utils/helpers';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { removeAlert } from '../utils/sweetalert';
+import { AllCardsContext, CardsContext } from '../context/Cards';
 
 export default function UserIcon() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -16,6 +17,11 @@ export default function UserIcon() {
     const userId = getData('userInfo', '_id')
     const userName = getData('userInfo', 'userName')
     const userImage = getData('userInfo', 'imageUrl')
+    const { data } = React.useContext(CardsContext)
+    const { setCards } = React.useContext(AllCardsContext)
+    const favoriteCards = getData('favoriteCards')
+    const users = Object.keys(localStorage).filter(item => /^[A-Z]/.test(item));
+
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -33,11 +39,19 @@ export default function UserIcon() {
         setAnchorEl(null);
     };
 
+
     const deleteAccount = () => {
         setAnchorEl(null);
         removeAlert()
             .then((result) => {
                 if (result.isConfirmed) {
+                    if (favoriteCards) {
+                        setData('favoriteCards', filteredCards(favoriteCards, data))
+                        users.forEach(user => {
+                            const username = getData(`${user}`)
+                            setData(user, filteredCards(username, data))
+                        });
+                    } removeDefaultCard(data, setCards)
                     deleteUser(userId)
                         .then(() => {
                             toast.success(`${userName} has been removed`)

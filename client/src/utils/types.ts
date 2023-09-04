@@ -169,5 +169,8 @@ export interface UseLogin {
     logged: UserStorage | null
 }
 
-
+export interface CrossoverProps {
+    main: string
+    sub: string
+}
 
