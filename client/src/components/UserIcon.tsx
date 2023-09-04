@@ -5,7 +5,7 @@ import { getData, removeData, setData } from '../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
-import { errorMsg, filteredCards, logout, removeDefaultCard } from '../utils/helpers';
+import { errorMsg, filteredCards, logout, removeDefaultCard, usernameStorageSync } from '../utils/helpers';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { removeAlert } from '../utils/sweetalert';
 import { AllCardsContext, CardsContext } from '../context/Cards';
@@ -20,8 +20,6 @@ export default function UserIcon() {
     const { data } = React.useContext(CardsContext)
     const { setCards } = React.useContext(AllCardsContext)
     const favoriteCards = getData('favoriteCards')
-    const users = Object.keys(localStorage).filter(item => /^[A-Z]/.test(item));
-
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -39,7 +37,6 @@ export default function UserIcon() {
         setAnchorEl(null);
     };
 
-
     const deleteAccount = () => {
         setAnchorEl(null);
         removeAlert()
@@ -47,10 +44,7 @@ export default function UserIcon() {
                 if (result.isConfirmed) {
                     if (favoriteCards) {
                         setData('favoriteCards', filteredCards(favoriteCards, data))
-                        users.forEach(user => {
-                            const username = getData(`${user}`)
-                            setData(user, filteredCards(username, data))
-                        });
+                        usernameStorageSync(data)
                     } removeDefaultCard(data, setCards)
                     deleteUser(userId)
                         .then(() => {
@@ -68,7 +62,7 @@ export default function UserIcon() {
             <IconButton
                 size="large"
                 aria-label="account of current user"
-                aria-controls="menu-appbar"
+                aria-controls="barMenu"
                 aria-haspopup="true"
                 onClick={handleMenu}
                 color="inherit"
@@ -76,7 +70,7 @@ export default function UserIcon() {
                 {userImage ? <Avatar src={userImage} /> : <AccountCircle />}
             </IconButton>
             <Menu
-                id="menu-appbar"
+                id="barMenu"
                 anchorEl={anchorEl}
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 keepMounted

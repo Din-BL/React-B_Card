@@ -27,6 +27,12 @@ export default function useAllCards() {
         setCards((currentData) => [...currentData, data])
     }
 
+    function editDefaultCard(id: string, data: BusinessCard) {
+        setCards((currentData) => currentData.map((card) => {
+            return card._id === id ? data : card
+        }))
+    }
+
     function cardsFiltered() {
         if (removedCards) {
             return updatedCards.filter(card => {
@@ -66,7 +72,7 @@ export default function useAllCards() {
             .catch((e) => errorMsg(e, navigate, setLoginInfo))
     }, [cards]);
 
-    return { cards, setCards, searchDefaultCards, addDefaultCard, categoryFilter, cardsFiltered };
+    return { cards, setCards, searchDefaultCards, addDefaultCard, categoryFilter, cardsFiltered, editDefaultCard };
 }
 
 

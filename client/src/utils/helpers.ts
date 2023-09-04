@@ -113,14 +113,24 @@ export function errorMsg(e: any, navigate: NavigateFunction, setLoginInfo: React
     }
 }
 
-export const filteredCards = (favoriteCards: BusinessCard[], cards: BusinessCard | BusinessCard[]) => {
+export const updatedCards = (cards: BusinessCard[], serverCard: BusinessCard) => {
+    return cards.map((card: BusinessCard) => card._id === serverCard._id ? card = serverCard : card)
+}
+
+export function usernameStorageSync(data: BusinessCard | BusinessCard[], editAction?: boolean) {
+    const users = Object.keys(localStorage).filter(item => /^[A-Z]/.test(item));
+    users.forEach(user => {
+        const username = getData(`${user}`)
+        setData(user, filteredCards(username, data, editAction))
+    });
+}
+
+export const filteredCards = (favoriteCards: BusinessCard[], cards: BusinessCard | BusinessCard[], editAction?: boolean) => {
     if (Array.isArray(cards)) {
         return favoriteCards.filter((favCard: BusinessCard) => {
             return !cards.some((card: BusinessCard) => card._id === favCard._id);
         });
-    } else {
-        return favoriteCards.filter((favCard: BusinessCard) => favCard._id !== cards._id)
-    }
+    } return editAction ? updatedCards(favoriteCards, cards) : favoriteCards.filter((favCard: BusinessCard) => favCard._id !== cards._id)
 }
 
 export function removeDefaultCard(cards: BusinessCard | BusinessCard[], setCards: React.Dispatch<React.SetStateAction<BusinessCard[]>>) {

@@ -22,6 +22,12 @@ export function useFavorite() {
         })
     }
 
+    function editFavorite(id: string, data: BusinessCard) {
+        setFavorite((currentData) => currentData.map((card) => {
+            return card._id === id ? data : card
+        }))
+    }
+
     function deleteFavorite(id: string) {
         setFavorite((currentData) => currentData.filter((data: BusinessCard) => data._id !== id))
     }
@@ -30,5 +36,5 @@ export function useFavorite() {
         admin ? setFavorite(uniqueFavorites(allFavoriteCards) || []) : setFavorite(favoriteCards || [])
     }, [logged])
 
-    return { favorite, setFavorite, deleteFavorite, searchFavorite }
+    return { favorite, setFavorite, deleteFavorite, searchFavorite, editFavorite }
 }

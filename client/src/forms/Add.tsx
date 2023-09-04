@@ -20,6 +20,7 @@ function Add() {
     const { setLoginInfo } = React.useContext(LoginInfoContext)
     const { addData } = useContext(CardsContext)
     const { addDefaultCard } = useContext(AllCardsContext)
+    const defaultCards = getData("*defaultCards*")
     const { initialValue } = useUser()
     const userEmail = { email: initialValue?.email || '' }
     for (let key in initialValue) if (key !== "email") initialValue[key] = "";
@@ -34,7 +35,6 @@ function Add() {
                         addCard({ ...data, ...userEmail })
                             .then((info) => {
                                 addData(info.data)
-                                const defaultCards: BusinessCard[] = getData("*defaultCards*")
                                 setData(("*defaultCards*"), [...defaultCards, info.data])
                                 addDefaultCard(info.data)
                                 navigate(`/my-cards/${id}`)
