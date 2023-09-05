@@ -7,7 +7,7 @@ export const favoriteCard = ({ toggle, card, setFavorite, admin }: FavoriteCards
     const favorites = getData('favoriteCards')
     const username = getData('userInfo', 'userName')
     const favoriteUser = getData(username)
-    const setFavoriteChoice = () => admin ? setFavorite(uniqueFavorites(favorites)) : setFavorite(getData(username))
+    const setFavoriteChoice = () => admin ? setFavorite(uniqueFavorites()) : setFavorite(getData(username))
 
     if (favoriteUser) {
         if (favoriteUser.some((data: BusinessCard) => data._id === card._id)) {

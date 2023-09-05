@@ -17,9 +17,9 @@ export default function UserIcon() {
     const userId = getData('userInfo', '_id')
     const userName = getData('userInfo', 'userName')
     const userImage = getData('userInfo', 'imageUrl')
+    const favoriteCards = getData('favoriteCards')
     const { data } = React.useContext(CardsContext)
     const { setCards } = React.useContext(AllCardsContext)
-    const favoriteCards = getData('favoriteCards')
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);

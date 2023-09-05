@@ -19,8 +19,8 @@ function Register() {
         setChecked(event.target.value as UserStatus);
     };
 
-    const handleRegister = (data: UserCard, business: boolean, admin: boolean) => {
-        registerUser({ ...data, business, admin })
+    const handleRegister = (data: UserCard) => {
+        registerUser(data)
             .then((info) => {
                 navigate('/login')
                 toast.success(`${info.data.userName} successfully registered`)
@@ -33,7 +33,7 @@ function Register() {
             FormFields={RegisterFields}
             FormSchema={registerSchema}
             CheckField={{ checked, setChecked }}
-            handleRegister={handleRegister}>
+            handleForm={handleRegister}>
 
             <FormControl sx={{ paddingLeft: 3, paddingTop: 3 }}>
                 <FormLabel id="row-radio-buttons-group-label">Register as</FormLabel>

@@ -35,8 +35,7 @@ export interface FormProps {
     FormSchema: AnySchema,
     CheckField?: CheckField,
     children?: ReactNode,
-    handleRegister?: (data: any, business: boolean, admin: boolean) => void,
-    handleForm?: (data: any) => void,
+    handleForm: (data: any) => void,
     initialValue?: SignatureFormData
 }
 

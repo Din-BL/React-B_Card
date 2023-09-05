@@ -1,15 +1,16 @@
 import { Box, Typography, TextField, Container, Grid } from "@mui/material";
 import BtnGroup from "./BtnGroup";
-import React from "react";
+import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { capitalizeFirstLetter, inputData, isDisabled } from "../utils/helpers";
 import { FormData, FormProps } from "../utils/types";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
-function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleRegister, handleForm, initialValue }: FormProps) {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>({ resolver: joiResolver(FormSchema) });
+function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleForm, initialValue }: FormProps) {
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: joiResolver(FormSchema) });
     const childrenArray = React.Children.toArray(children);
+    const formRef = useRef<HTMLFormElement | null>(null);
 
     const onSubmit = (data: FormData) => {
         if (CheckField) {
@@ -18,22 +19,20 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
             if (CheckField.checked === 'Admin') {
                 admin = true
                 business = true
-            }
-            handleRegister && handleRegister(data, business, admin)
-        } else {
-            handleForm && handleForm(data)
-        }
+            } data = { ...data, business, admin }
+        } handleForm(data)
     };
 
     const handleReset = () => {
-        reset();
-        CheckField && CheckField.setChecked('User')
-    }
+        if (formRef.current) {
+            formRef.current.reset();
+        } CheckField?.setChecked('User');
+    };
 
     return (
         <Container maxWidth='md' >
             <Box onSubmit={handleSubmit(onSubmit)}
-                minHeight='85dvh' flexGrow={1} paddingBottom={5} component={'form'}>
+                ref={formRef} minHeight='85dvh' flexGrow={1} paddingBottom={5} component={'form'}>
                 <Box paddingTop={5} textAlign={'center'}><LockOpenIcon fontSize="large" /></Box>
                 <Typography paddingBottom={5} textAlign={'center'} variant="h4" component={'h1'}>
                     {FormTitle}
@@ -66,6 +65,14 @@ function Form({ FormTitle, FormFields, FormSchema, CheckField, children, handleR
 }
 
 export default Form;
+
+
+
+
+
+
+
+
 
 
 

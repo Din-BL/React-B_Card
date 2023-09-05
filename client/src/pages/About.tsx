@@ -8,12 +8,13 @@ import { defaultImage } from "../utils/helpers";
 function About({ businessInfo }: ContactProps) {
     const { loading } = useContext(LoadingContext)
     const isSmallScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
+    const isMediumScreen = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
     const isAboutPage = businessInfo.title !== 'B-Card'
 
     return (
         <Box sx={{ flexDirection: { xs: 'column', md: 'row' } }} display={'flex'} alignItems={'center'} gap={2} justifyContent={'space-evenly'} component={'main'} minHeight='85dvh'>
             <div id="section_graphic">
-                <img src={BackGround} alt="image background" />
+                <img src={BackGround} alt="background" />
             </div>
             <article >
                 {isAboutPage &&
@@ -29,7 +30,7 @@ function About({ businessInfo }: ContactProps) {
                     <CircularProgress />
                 </Box> :
                 isAboutPage ?
-                    <Card sx={{ width: 400 }}>
+                    <Card sx={{ width: isMediumScreen ? 400 : 'none' }}>
                         <CardMedia
                             component="img"
                             height="350"

@@ -9,7 +9,6 @@ export function useFavorite() {
     const { logged, admin } = loginInfo
     const [favorite, setFavorite] = useState<BusinessCard[]>([])
     const favoriteCards = getData(getData('userInfo', 'userName'))
-    const allFavoriteCards = getData('favoriteCards')
 
     const searchFavorite = (e: ChangeEvent<HTMLInputElement>) => {
         setFavorite((currentCards: BusinessCard[]) => {
@@ -17,7 +16,7 @@ export function useFavorite() {
                 return card.title.toLowerCase().startsWith(e.target.value.toLowerCase())
             })
             if (admin) {
-                return e.target.value === "" ? uniqueFavorites(allFavoriteCards) : filteredCards
+                return e.target.value === "" ? uniqueFavorites() : filteredCards
             } return e.target.value === "" ? favoriteCards : filteredCards
         })
     }
@@ -33,7 +32,7 @@ export function useFavorite() {
     }
 
     useEffect(() => {
-        admin ? setFavorite(uniqueFavorites(allFavoriteCards) || []) : setFavorite(favoriteCards || [])
+        admin ? setFavorite(uniqueFavorites() || []) : setFavorite(favoriteCards || [])
     }, [logged])
 
     return { favorite, setFavorite, deleteFavorite, searchFavorite, editFavorite }

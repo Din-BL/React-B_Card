@@ -28,7 +28,7 @@ const registerSchema: AnySchema = Joi.object({
         "string.min": convertMsg('Last name', '2')
     }),
     userName: Joi.string().min(2).allow("").optional().pattern(/^[A-Z]/).messages({
-        "string.min": convertMsg('User name', '2'),
+        "string.min": convertMsg('Username', '2'),
         "string.pattern.base": 'Username must start with a capital letter'
     }),
     email: Joi.string().trim().pattern(/^\S+@\S+\.\S+$/,).allow("").optional().messages({

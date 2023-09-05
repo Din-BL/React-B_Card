@@ -1,7 +1,7 @@
 import { getData } from "../utils/localStorage";
 import { useParams } from "react-router-dom";
 import { BusinessCard } from "../utils/types";
-import Contact from "../components/Contact";
+import Contact from "./Contact";
 import useCard from "../hooks/useCard";
 import About from "./About";
 

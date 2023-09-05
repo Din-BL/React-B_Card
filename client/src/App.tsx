@@ -19,7 +19,7 @@ import Footer from './layouts/Footer';
 import BackGround from './layouts/BackGround';
 import Navbar from './layouts/Navbar';
 import RouteGuard from './layouts/RouteGuard';
-import Contact from './components/Contact';
+import Contact from './pages/Contact';
 import Redirect from './layouts/Redirect';
 import { companyInfo } from './utils/cards';
 import ViewMode from './context/ViewMode';

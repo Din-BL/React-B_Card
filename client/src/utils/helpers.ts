@@ -10,9 +10,13 @@ export const menuPages: Pages[] = [...pages, 'login']
 export const allowedPages = ['home', 'about', 'login', 'recent', 'contact us'];
 
 export function websiteLink(website?: string) {
-    if (defaultCards.some(card => card.web === website)) {
-        return '/maintenance';
-    } return website;
+    if (website === "B-Card.com") {
+        return `/home${userId()}`
+    } else {
+        if (defaultCards.some(card => card.web === website)) {
+            return '/maintenance';
+        } return website;
+    }
 }
 
 export function capitalizeFirstLetter(path: string) {
@@ -207,12 +211,15 @@ export function favoriteRating(card: BusinessCard) {
     }
 }
 
-export function uniqueFavorites(favorites: BusinessCard[]) {
-    return favorites.filter((card: BusinessCard, index: number, cards: BusinessCard[]) => {
-        const previousCards = cards.slice(0, index);
-        const hasDuplicate = previousCards.some(prevCard => prevCard._id === card._id);
-        return !hasDuplicate;
-    });
+export function uniqueFavorites() {
+    const favorites = getData('favoriteCards') || []
+    if (favorites) {
+        return favorites.filter((card: BusinessCard, index: number, cards: BusinessCard[]) => {
+            const previousCards = cards.slice(0, index);
+            const hasDuplicate = previousCards.some(prevCard => prevCard._id === card._id);
+            return !hasDuplicate;
+        });
+    }
 }
 
 export function limitedRequests(navigate: NavigateFunction, location?: Location) {

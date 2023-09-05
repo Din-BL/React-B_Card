@@ -48,7 +48,7 @@ export default function Table({ Users, userDeletion }: TableProps) {
                             .then((info) => {
                                 if (favoriteCards) {
                                     setData('favoriteCards', filteredCards(favoriteCards, info.data))
-                                    setFavorite(uniqueFavorites(getData('favoriteCards')))
+                                    setFavorite(uniqueFavorites())
                                     removeData(username)
                                     usernameStorageSync(info.data)
                                 } removeDefaultCard(info.data, setCards)
