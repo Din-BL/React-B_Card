@@ -14,17 +14,18 @@ export default function B_CARD({ card }: B_CardProps) {
     const { loginInfo } = useContext(LoginInfoContext)
     const { logged, admin } = loginInfo
     const { removeCard } = useContext(AllCardsContext)
+    const isFavoritePage = pathUrl(`favorite/`, location)
 
     function adminFavorite() {
         if (logged) {
-            if (!(admin && pathUrl(`favorite/`, location))) {
+            if (!(admin && isFavoritePage)) {
                 return <FavoriteIcon card={card} />
             }
         }
     }
 
     const trashView = () => {
-        if (pathUrl(`favorite`, location)) return false
+        if (isFavoritePage) return false
         if (pathUrl(`home`, location) && !admin) return false
         return true
     }
@@ -77,7 +78,7 @@ export default function B_CARD({ card }: B_CardProps) {
                             <Phone color='action' />
                         </IconButton>
                         {adminFavorite()}
-                        {(admin && pathUrl(`favorite/`, location)) &&
+                        {(admin && isFavoritePage) &&
                             <Badge anchorOrigin={{ vertical: 'top', horizontal: 'left' }} badgeContent={favoriteRating(card)} color="primary">
                                 <Favorite color="error" />
                             </Badge>}

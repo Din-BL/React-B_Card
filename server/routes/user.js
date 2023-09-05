@@ -10,6 +10,7 @@ const { userValidate, userAuthenticate, userPermission } = require("../utils/mid
 const { extractMsg, generatePassword } = require("../utils/helpers")
 const jwt = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
+const Business = require("../models/business");
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -154,6 +155,17 @@ router.delete("/:id", userAuthenticate, async (req, res) => {
     const deleteUser = await User.findByIdAndDelete(req.params.id);
     if (!deleteUser) return res.status(404).json("User doest exist");
     res.status(200).json("User been deleted");
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+router.delete("/:id/admin", userAuthenticate, userPermission, async (req, res) => {
+  try {
+    const findBusinesses = await Business.find({ user_id: req.params.id });
+    if (!findBusinesses) return res.status(404).json(`No registered businesses`);
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json(findBusinesses);
   } catch (error) {
     res.status(400).json(error.message);
   }

@@ -207,14 +207,12 @@ export function favoriteRating(card: BusinessCard) {
     }
 }
 
-export function uniqueFavorites(favorites: BusinessCard[] | null) {
-    if (favorites) {
-        return getData('favoriteCards').filter((card: BusinessCard, index: number, cards: BusinessCard[]) => {
-            const previousCards = cards.slice(0, index);
-            const hasDuplicate = previousCards.some(prevCard => prevCard._id === card._id);
-            return !hasDuplicate;
-        });
-    }
+export function uniqueFavorites(favorites: BusinessCard[]) {
+    return favorites.filter((card: BusinessCard, index: number, cards: BusinessCard[]) => {
+        const previousCards = cards.slice(0, index);
+        const hasDuplicate = previousCards.some(prevCard => prevCard._id === card._id);
+        return !hasDuplicate;
+    });
 }
 
 export function limitedRequests(navigate: NavigateFunction, location?: Location) {

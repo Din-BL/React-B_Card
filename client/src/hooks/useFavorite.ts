@@ -13,7 +13,7 @@ export function useFavorite() {
 
     const searchFavorite = (e: ChangeEvent<HTMLInputElement>) => {
         setFavorite((currentCards: BusinessCard[]) => {
-            const filteredCards = currentCards.filter((card: BusinessCard) => {
+            const filteredCards = currentCards.filter((card) => {
                 return card.title.toLowerCase().startsWith(e.target.value.toLowerCase())
             })
             if (admin) {
@@ -29,7 +29,7 @@ export function useFavorite() {
     }
 
     function deleteFavorite(id: string) {
-        setFavorite((currentData) => currentData.filter((data: BusinessCard) => data._id !== id))
+        setFavorite(currentData => currentData.filter(data => data._id !== id))
     }
 
     useEffect(() => {

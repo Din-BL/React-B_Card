@@ -4,13 +4,15 @@ import { TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper,
 import UserTable from '@mui/material/Table';
 import { Delete } from '@mui/icons-material';
 import { TableProps, UserStatus } from '../utils/types';
-import { deleteUser } from '../utils/services';
+import { deleteUserAdmin } from '../utils/services';
 import { toast } from 'react-toastify';
-import { errorMsg, limitedRequests, sortUser, status } from '../utils/helpers';
+import { errorMsg, filteredCards, limitedRequests, removeDefaultCard, sortUser, status, uniqueFavorites, usernameStorageSync } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { errorAlert, removeAlert } from '../utils/sweetalert';
 import Select from './Select';
+import { getData, removeData, setData } from '../utils/localStorage';
+import { AllCardsContext, FavoriteContext } from '../context/Cards';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -26,6 +28,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function Table({ Users, userDeletion }: TableProps) {
     const navigate = useNavigate()
+    const favoriteCards = getData('favoriteCards')
+    const { setFavorite } = React.useContext(FavoriteContext)
+    const { setCards } = React.useContext(AllCardsContext)
     const { setLoginInfo } = React.useContext(LoginInfoContext)
 
     function userStatus(status: UserStatus, id: string, username: string) {
@@ -39,10 +44,16 @@ export default function Table({ Users, userDeletion }: TableProps) {
                     if (limitedRequests(navigate)) {
                         errorAlert()
                     } else {
-                        deleteUser(id)
-                            .then(() => {
-                                toast.success(`${username} has been removed`)
+                        deleteUserAdmin(id)
+                            .then((info) => {
+                                if (favoriteCards) {
+                                    setData('favoriteCards', filteredCards(favoriteCards, info.data))
+                                    setFavorite(uniqueFavorites(getData('favoriteCards')))
+                                    removeData(username)
+                                    usernameStorageSync(info.data)
+                                } removeDefaultCard(info.data, setCards)
                                 userDeletion(id)
+                                toast.success(`${username} has been removed`)
                             })
                             .catch(e => errorMsg(e, navigate, setLoginInfo))
                     }

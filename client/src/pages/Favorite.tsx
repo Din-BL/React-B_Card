@@ -12,6 +12,7 @@ function Favorite() {
     const { favorite } = useContext(FavoriteContext)
     const { loading } = useContext(LoadingContext)
     const { view } = useContext(ViewContext)
+
     return (
         <Container sx={{ paddingBottom: 3 }}>
             <Box component={'main'} flexGrow={1} minHeight='85dvh' >

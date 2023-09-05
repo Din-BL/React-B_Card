@@ -45,11 +45,11 @@ export default function UserIcon() {
                     if (favoriteCards) {
                         setData('favoriteCards', filteredCards(favoriteCards, data))
                         usernameStorageSync(data)
+                        removeData(userName)
                     } removeDefaultCard(data, setCards)
                     deleteUser(userId)
                         .then(() => {
                             toast.success(`${userName} has been removed`)
-                            removeData(userName)
                             handleLogout()
                         })
                         .catch(e => errorMsg(e, navigate, setLoginInfo))
