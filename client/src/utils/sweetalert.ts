@@ -13,9 +13,11 @@ export function removeAlert() {
     });
 }
 
-export function editAlert() {
+export function editAlert(account?: boolean, username?: string) {
     return Swal.fire({
         title: 'Do you want to save the changes?',
+        html: account === false && `<p style="font-size: 12px;">${username} will lose all his Business cards
+        <span style="font-size: 18px; vertical-align: center;">⚠️</span></p>`,
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: 'Save',
@@ -77,5 +79,3 @@ export function emailAlert() {
         }
     })
 }
-
-

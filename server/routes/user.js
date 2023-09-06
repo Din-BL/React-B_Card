@@ -118,8 +118,10 @@ router.put("/:id", userAuthenticate, userValidate, async (req, res) => {
 router.patch("/:id", userAuthenticate, userPermission, async (req, res) => {
   try {
     const { business } = req.body;
-    const updateUser = await User.findByIdAndUpdate(req.params.id, { $set: { business } }, { new: true, runValidators: true });
-    res.status(201).json(updateUser);
+    await User.findByIdAndUpdate(req.params.id, { $set: { business } }, { new: true, runValidators: true });
+    const deletedBusinesses = await Business.find({ user_id: req.params.id });
+    deletedBusinesses && await Business.deleteMany({ user_id: req.params.id });
+    res.status(201).json(deletedBusinesses);
   } catch (error) {
     res.status(400).json(error.message);
   }

@@ -129,12 +129,35 @@ export function usernameStorageSync(data: BusinessCard | BusinessCard[], editAct
     });
 }
 
+export function removeLimitedRequestsUser(username: string) {
+    const requestActions = getData('requestActions') || [];
+    const updatedUsers = requestActions.filter((user: any) => !user[username])
+    setData('requestActions', updatedUsers);
+}
+
 export const filteredCards = (favoriteCards: BusinessCard[], cards: BusinessCard | BusinessCard[], editAction?: boolean) => {
     if (Array.isArray(cards)) {
         return favoriteCards.filter((favCard: BusinessCard) => {
             return !cards.some((card: BusinessCard) => card._id === favCard._id);
         });
     } return editAction ? updatedCards(favoriteCards, cards) : favoriteCards.filter((favCard: BusinessCard) => favCard._id !== cards._id)
+}
+
+export function removeDuplicateCards(favoriteCards: BusinessCard[], cards: BusinessCard[]) {
+    const cardsCounts: { [key: string]: number } = {};
+
+    for (const item of cards) {
+        const key = JSON.stringify(item);
+        cardsCounts[key] = (cardsCounts[key] || 0) + 1;
+    }
+
+    return favoriteCards.filter((item) => {
+        const key = JSON.stringify(item);
+        if (cardsCounts[key] > 0) {
+            cardsCounts[key] -= 1;
+            return false;
+        } return true;
+    });
 }
 
 export function removeDefaultCard(cards: BusinessCard | BusinessCard[], setCards: React.Dispatch<React.SetStateAction<BusinessCard[]>>) {

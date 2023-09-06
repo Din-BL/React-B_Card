@@ -12,7 +12,6 @@ module.exports.userValidate = (req, res, next) => {
   }
   const { error } = schema.validate(req.body, { abortEarly: false });
   if (error) {
-    // console.log(error.details.map((msg) => msg.message));
     res.status(400).json(error.details.map((msg) => msg.message));
   } else {
     next();
@@ -30,6 +29,7 @@ module.exports.userAuthenticate = (req, res, next) => {
         res.status(403).json(`Your token was expired at ${formatDateTime(err.expiredAt)}`) :
         res.sendStatus(403)
     }
+    user.sub = user.sub.toLowerCase()
     req.user = user;
     next();
   });

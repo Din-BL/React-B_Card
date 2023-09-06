@@ -5,7 +5,7 @@ import { getData, removeData, setData } from '../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import { deleteUser } from '../utils/services';
 import { toast } from 'react-toastify';
-import { errorMsg, filteredCards, logout, removeDefaultCard, usernameStorageSync } from '../utils/helpers';
+import { errorMsg, filteredCards, logout, removeDefaultCard, removeDuplicateCards, removeLimitedRequestsUser, usernameStorageSync } from '../utils/helpers';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { removeAlert } from '../utils/sweetalert';
 import { AllCardsContext, CardsContext } from '../context/Cards';
@@ -44,9 +44,12 @@ export default function UserIcon() {
                 if (result.isConfirmed) {
                     if (favoriteCards) {
                         setData('favoriteCards', filteredCards(favoriteCards, data))
+                        const updatedCards = removeDuplicateCards(getData('favoriteCards'), getData(userName))
+                        setData('favoriteCards', updatedCards)
                         usernameStorageSync(data)
                         removeData(userName)
                     } removeDefaultCard(data, setCards)
+                    removeLimitedRequestsUser(userName)
                     deleteUser(userId)
                         .then(() => {
                             toast.success(`${userName} has been removed`)

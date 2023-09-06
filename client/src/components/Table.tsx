@@ -6,7 +6,7 @@ import { Delete } from '@mui/icons-material';
 import { TableProps, UserStatus } from '../utils/types';
 import { deleteUserAdmin } from '../utils/services';
 import { toast } from 'react-toastify';
-import { errorMsg, filteredCards, limitedRequests, removeDefaultCard, sortUser, status, uniqueFavorites, usernameStorageSync } from '../utils/helpers';
+import { errorMsg, filteredCards, limitedRequests, removeDefaultCard, removeDuplicateCards, removeLimitedRequestsUser, sortUser, status, uniqueFavorites, usernameStorageSync } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { LoginInfoContext } from '../context/LoginInfo';
 import { errorAlert, removeAlert } from '../utils/sweetalert';
@@ -48,10 +48,13 @@ export default function Table({ Users, userDeletion }: TableProps) {
                             .then((info) => {
                                 if (favoriteCards) {
                                     setData('favoriteCards', filteredCards(favoriteCards, info.data))
+                                    const updatedCards = removeDuplicateCards(getData('favoriteCards'), getData(username))
+                                    setData('favoriteCards', updatedCards)
                                     setFavorite(uniqueFavorites())
                                     removeData(username)
                                     usernameStorageSync(info.data)
                                 } removeDefaultCard(info.data, setCards)
+                                removeLimitedRequestsUser(username)
                                 userDeletion(id)
                                 toast.success(`${username} has been removed`)
                             })
