@@ -8,7 +8,7 @@ export function useFavorite() {
     const { loginInfo } = useContext(LoginInfoContext)
     const { logged, admin } = loginInfo
     const [favorite, setFavorite] = useState<BusinessCard[]>([])
-    const favoriteCards = getData(getData('userInfo', 'userName'))
+    const favoriteCards = getData(getData('userInfo', 'userName')) || []
 
     const searchFavorite = (e: ChangeEvent<HTMLInputElement>) => {
         setFavorite((currentCards: BusinessCard[]) => {

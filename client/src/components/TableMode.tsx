@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import { Table, TableBody, TableContainer, TableHead, TableRow, Box, Typography, Paper, TableCell, tableCellClasses, IconButton, Badge } from '@mui/material';
-import { Delete, Phone, Language, Favorite } from '@mui/icons-material';
+import { Delete, Phone, Language, Favorite, Edit } from '@mui/icons-material';
 import { BusinessCard, TableModeProps } from '../utils/types';
 import { capitalizeFirstLetter, favoriteRating, pathUrl } from '../utils/helpers';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -70,6 +70,11 @@ export default function TableMode({ cards }: TableModeProps) {
                                             <IconButton sx={{ padding: '6px' }} onClick={() => removeCard(row)} aria-label="delete">
                                                 <Delete color='action' />
                                             </IconButton>}
+                                        {pathUrl(`my-cards/`, location) &&
+                                            <IconButton sx={{ padding: '6px' }} onClick={() => navigate(`edit/${row._id}`)} aria-label="edit" >
+                                                <Edit color='action' />
+                                            </IconButton>
+                                        }
                                         <IconButton sx={{ padding: '6px' }} onClick={() => window.location.href = `tel://${row.phone}`} aria-label="phone" >
                                             <Phone color='action' />
                                         </IconButton>

@@ -21,8 +21,6 @@ module.exports.userValidate = (req, res, next) => {
 module.exports.userAuthenticate = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   if (!authHeader) return res.sendStatus(401);
-  // DO NOT FORGET TO CHANGE!
-  // const token = authHeader.split(" ")[1];
   jwt.verify(authHeader, config.get("ACCESS_TOKEN_SECRET"), (err, user) => {
     if (err) {
       return (err.name === "TokenExpiredError") ?

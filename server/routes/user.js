@@ -62,7 +62,6 @@ router.post("/login", userValidate, async (req, res) => {
       findUser.lastFailedAttempt = undefined;
       await findUser.save()
       const iat = Math.floor(Date.now() / 1000);
-      // const exp = iat + 5
       const exp = iat + 60 * 240;
       const payload = { sub: req.body.email, iat: iat, exp: exp };
       const token = jwt.sign(payload, config.get("ACCESS_TOKEN_SECRET"));
