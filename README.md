@@ -4,21 +4,21 @@ https://github.com/Din-BL/React-B_Card/assets/93730629/d1b3b539-303f-49aa-86b2-0
 This is a Business Card Management app built with React, Material UI, Node.js, and MongoDB.<br>
 This README file explains how to run the app.
 
- ### Installation<br>
+### Installation
 Clone the repository to your local machine.<br>
 Make sure to have Node.js, and MongoDB installed on your machine.<br>
 
-## Running the App<br>
+## Running the App
 To run the app, you need to open two terminals:<br>
 one for the React server and one for the Node.js server.
 
-### React Server<br>
+### React Server
 Open a new terminal in the root directory of the project.<br>
 Navigate to the "client" directory.<br>
 Install dependencies by running "npm install"<br>
 Run "npm start" to start the React server.
 
-### Node.js Server<br>
+### Node.js Server
 Open another terminal in the root directory of the project.<br>
 Navigate to the "server" directory.<br>
 Install dependencies by running "npm install"<br>
