@@ -24,14 +24,14 @@ function User() {
     const staticData = { email: initialValue?.email || '', userName: initialValue?.userName || '' }
     const updateImage = (imageUrl: string) => imageUrl !== userInfo.imageUrl && setData('userInfo', { ...userInfo, imageUrl })
 
-    const handleUser = (data: UserCard) => {
+    const handleUser = <Type,>(data: Type) => {
         editAlert()
             .then((result) => {
                 if (result.isConfirmed && id) {
                     if (limitedRequests(navigate, location)) {
                         errorAlert()
                     } else {
-                        editUser(id, { ...data, ...status, ...staticData })
+                        editUser(id, { ...data as UserCard, ...status, ...staticData })
                             .then((info) => {
                                 updateImage(info.data.imageUrl)
                                 navigate(`/home/${id}`)

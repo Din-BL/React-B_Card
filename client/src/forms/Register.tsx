@@ -19,8 +19,8 @@ function Register() {
         setChecked(event.target.value as UserStatus);
     };
 
-    const handleRegister = (data: UserCard) => {
-        registerUser(data)
+    const handleRegister = <Type,>(data: Type) => {
+        registerUser(data as UserCard)
             .then((info) => {
                 navigate('/login')
                 toast.success(`${info.data.userName} successfully registered`)

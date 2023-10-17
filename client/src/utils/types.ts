@@ -35,7 +35,7 @@ export interface FormProps {
     FormSchema: AnySchema,
     CheckField?: CheckField,
     children?: ReactNode,
-    handleForm: (data: any) => void,
+    handleForm: <Type> (data: Type) => void,
     initialValue?: SignatureFormData
 }
 
@@ -81,7 +81,7 @@ export interface UserCard {
     zip?: string;
     business: boolean;
     admin: boolean;
-    _id?: string
+    readonly _id?: string
     [key: string]: any;
 }
 
@@ -100,7 +100,7 @@ export interface BusinessCard {
     street: string;
     houseNumber: string;
     zip?: string;
-    _id?: string
+    readonly _id?: string
     __v?: number
     isFavorite?: boolean
     [key: string]: any;
@@ -111,7 +111,7 @@ export interface UserStorage {
     business: boolean
     admin: boolean
     userName: string;
-    _id: string
+    readonly _id: string
 }
 
 export interface B_CardProps {

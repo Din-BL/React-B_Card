@@ -31,14 +31,14 @@ function Edit() {
     const staticData = { email: card?.email || '' }
 
 
-    const handleEdit = (data: BusinessCard) => {
+    const handleEdit = <Type,>(data: Type) => {
         editAlert()
             .then((result) => {
                 if (result.isConfirmed && id) {
                     if (limitedRequests(navigate, location)) {
                         errorAlert()
                     } else {
-                        editCard(id, { ...data, ...staticData })
+                        editCard(id, { ...data as BusinessCard, ...staticData })
                             .then((info) => {
                                 editData(id, info.data)
                                 editDefaultCard(id, info.data)

@@ -25,14 +25,14 @@ function Add() {
     const userEmail = { email: initialValue?.email || '' }
     for (let key in initialValue) if (key !== "email") initialValue[key] = "";
 
-    const handleAdd = (data: BusinessCard) => {
+    const handleAdd = <Type,>(data: Type) => {
         AddAlert()
             .then((result) => {
                 if (result.isConfirmed) {
                     if (limitedRequests(navigate, location)) {
                         errorAlert()
                     } else {
-                        addCard({ ...data, ...userEmail })
+                        addCard({ ...data as BusinessCard, ...userEmail })
                             .then((info) => {
                                 addData(info.data)
                                 setData(("*defaultCards*"), [...defaultCards, info.data])
