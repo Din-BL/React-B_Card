@@ -20,7 +20,7 @@ function Crossover({ main, sub }: CrossoverProps) {
             }}
         >
             {maintenance ?
-                <img style={{ marginBottom: 10 }} width={200} src={maintenanceIcon} alt="" /> :
+                <img style={{ marginBottom: 10 }} width={200} src={maintenanceIcon} alt="404" /> :
                 <Typography variant="h1" component="h1" fontWeight='bold'> 404 </Typography>
             }
             <Typography color={maintenance ? 'primary' : 'error.main'} variant="h5" component="h1"  >

@@ -6,11 +6,11 @@ const bcrypt = require("bcrypt");
 const _ = require("lodash");
 const config = require("config");
 const User = require("../models/user");
+const Business = require("../models/business");
 const { userValidate, userAuthenticate, userPermission } = require("../utils/middleware");
 const { extractMsg, generatePassword } = require("../utils/helpers")
 const jwt = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
-const Business = require("../models/business");
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',

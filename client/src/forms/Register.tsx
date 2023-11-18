@@ -29,7 +29,8 @@ function Register() {
     }
 
     return (
-        <Form FormTitle='Register'
+        <Form
+            FormTitle='Register'
             FormFields={RegisterFields}
             FormSchema={registerSchema}
             CheckField={{ checked, setChecked }}

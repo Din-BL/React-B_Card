@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from "axios"
 import { LoginField, UserCard } from "../utils/types"
 import { getData } from './localStorage';
 
-const url = 'http://localhost:8000'
+const url = process.env.REACT_APP_SERVER_URL
 
 const getToken = () => getData('userInfo', 'token');
 
