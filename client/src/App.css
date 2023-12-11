@@ -1,26 +1,103 @@
-   /* About component */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
 
-   #section_graphic {
-     position: absolute;
-     right: 60%;
-   }
+/* About */
 
-   #section_graphic img {
-     height: 500px;
-     filter: opacity(0.3);
-   }
+#section_graphic {
+  position: absolute;
+  right: 60%;
+}
 
-   article {
-     max-width: 520px;
-     z-index: 1;
-   }
+#section_graphic img {
+  height: 500px;
+  filter: opacity(0.3);
+}
 
-   article .title {
-     padding-bottom: 10px;
-     font-family: math;
-   }
+article {
+  max-width: 520px;
+  z-index: 1;
+}
 
-   article p {
-     line-height: 1.5;
-     font-family: system-ui;
-   }
+article .title {
+  padding-bottom: 10px;
+  font-family: math;
+}
+
+article p {
+  line-height: 1.5;
+  font-family: system-ui;
+}
+
+/* Title */
+
+.title h1 {
+  font-size: 40px;
+}
+
+.title h2 {
+  position: relative;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  line-height: 3em;
+  padding-left: 0.25em;
+  padding-bottom: 10px;
+}
+
+.title h2:before {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  height: 2px;
+  content: '';
+  background-color: #2196f3;
+}
+
+@media screen and (max-width: 640px) {
+  .title h2 {
+    font-size: 11px;
+    letter-spacing: 0px;
+  }
+  .title h2:before {
+    content: '';
+    background-color: transparent;
+  }
+}
+
+/* Video Title */
+
+.video h2 {
+  font-size: 30px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  grid-template-rows: 27px 0;
+  grid-gap: 20px;
+  align-items: center;
+}
+
+.video h2:after,
+.video h2:before {
+  content: ' ';
+  display: block;
+  border-bottom: 1px solid #2196f3;
+  border-top: 1px solid #2196f3;
+  height: 5px;
+}
+
+@media screen and (max-width: 400px) {
+  .video h2 {
+    font-size: 20px;
+    letter-spacing: 0px;
+    grid-gap: 0px;
+  }
+  .video h2:after,
+  .video h2:before {
+    content: ' ';
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+  }
+}
