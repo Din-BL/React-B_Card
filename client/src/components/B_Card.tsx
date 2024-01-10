@@ -7,12 +7,14 @@ import {AllCardsContext} from '../context/Cards';
 import {useContext} from 'react';
 import {LoginInfoContext} from '../context/LoginInfo';
 import FavoriteIcon from './FavoriteIcon';
+import BasicRating from './Rating';
+import RatingIcon from './RatingIcon';
 
 export default function B_CARD({card}: B_CardProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const {loginInfo} = useContext(LoginInfoContext);
-  const {logged, admin} = loginInfo;
+  const {logged, business, admin} = loginInfo;
   const {removeCard} = useContext(AllCardsContext);
   const isFavoritePage = pathUrl(`favorite/`, location);
 
@@ -34,7 +36,7 @@ export default function B_CARD({card}: B_CardProps) {
     <Box display={'flex'} justifyContent={'center'}>
       <Card sx={{width: 345, height: 444, display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
         <Box sx={{cursor: 'pointer'}} onClick={() => navigate(`/business/${card._id}`)}>
-          <CardMedia component="img" alt={defaultAlt(card.imageAlt)} height="220" image={defaultImage(card.imageUrl)} />
+          <CardMedia className="imgEffect" component="img" alt={defaultAlt(card.imageAlt)} height="220" image={defaultImage(card.imageUrl)} />
           <CardContent sx={{padding: '12px'}}>
             <Typography variant="h6" component="div">
               {card.title}
@@ -58,6 +60,7 @@ export default function B_CARD({card}: B_CardProps) {
         </Box>
         <CardActions sx={{justifyContent: 'space-between', padding: '4px'}}>
           <Box>
+            {!logged && <BasicRating rating={card.rating!} />}
             {trashView() && (
               <IconButton sx={{padding: '6px'}} onClick={() => removeCard(card)} aria-label="delete">
                 <Delete color="action" />
@@ -68,6 +71,7 @@ export default function B_CARD({card}: B_CardProps) {
                 <Edit color="action" />
               </IconButton>
             )}
+            {!business && logged && <RatingIcon card={card} />}
           </Box>
           <Box>
             <IconButton sx={{padding: '6px'}} onClick={() => (window.location.href = `tel://${card.phone}`)} aria-label="phone">

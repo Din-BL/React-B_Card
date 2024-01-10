@@ -6,6 +6,7 @@ export type UserStatus = 'User' | 'Business' | 'Admin';
 export type FormData = BusinessCard | UserCard;
 export type SignatureFormData = FormData & {[key: string]: any};
 export type View = 'grid' | 'table';
+type rating = 0 | 1 | 2 | 3 | 4 | 5;
 
 export interface FavoriteCardsParams {
   toggle: () => void;
@@ -103,7 +104,19 @@ export interface BusinessCard {
   readonly _id?: string;
   __v?: number;
   isFavorite?: boolean;
+  rating?: rating;
+  liked?: isLiked;
   [key: string]: any;
+}
+
+export type isLiked = {
+  liked: boolean;
+  disliked: boolean;
+};
+
+export interface userRate {
+  _id: string;
+  rating: isLiked;
 }
 
 export interface UserStorage {
@@ -125,6 +138,10 @@ export interface FavoriteIconProps {
 export interface LoginContextType {
   loginInfo: UseLogin;
   setLoginInfo: React.Dispatch<React.SetStateAction<UseLogin>>;
+}
+
+export interface B_Rating {
+  rating: number;
 }
 
 export interface ViewContextType {

@@ -16,7 +16,7 @@ export default function useAllCards() {
   const removedCards = getData('removedCards');
 
   const [cards, setCards] = useState<Array<BusinessCard>>(() => {
-    const storedCards: BusinessCard[] = getData('*defaultCards*');
+    const storedCards: BusinessCard[] = getData('defaultCards');
     if (!storedCards) {
       localStorage.clear();
       return defaultCards;
@@ -70,7 +70,7 @@ export default function useAllCards() {
   };
 
   useEffect(() => {
-    setData('*defaultCards*', cards);
+    setData('defaultCards', cards);
     getAllCards()
       .then((res: AxiosResponse<BusinessCard[]>) => setAllCards(res.data))
       .catch((e) => errorMsg(e, navigate, setLoginInfo));

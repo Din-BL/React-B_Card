@@ -146,12 +146,10 @@ export const filteredCards = (favoriteCards: BusinessCard[], cards: BusinessCard
 
 export function removeDuplicateCards(favoriteCards: BusinessCard[], cards: BusinessCard[]) {
   const cardsCounts: {[key: string]: number} = {};
-
   for (const item of cards) {
     const key = JSON.stringify(item);
     cardsCounts[key] = (cardsCounts[key] || 0) + 1;
   }
-
   return favoriteCards.filter((item) => {
     const key = JSON.stringify(item);
     if (cardsCounts[key] > 0) {
@@ -163,7 +161,7 @@ export function removeDuplicateCards(favoriteCards: BusinessCard[], cards: Busin
 }
 
 export function removeDefaultCard(cards: BusinessCard | BusinessCard[], setCards: React.Dispatch<React.SetStateAction<BusinessCard[]>>) {
-  const storedCards = getData('*defaultCards*');
+  const storedCards = getData('defaultCards');
   let removedCards = getData('removedCards');
   let removed: BusinessCard[];
   if (Array.isArray(cards)) {
@@ -173,7 +171,7 @@ export function removeDefaultCard(cards: BusinessCard | BusinessCard[], setCards
   }
   !removedCards ? (removedCards = removed) : (removedCards = [...removedCards, ...removed]);
   setData('removedCards', removedCards);
-  setData('*defaultCards*', filteredCards(storedCards, cards));
+  setData('defaultCards', filteredCards(storedCards, cards));
   setCards(filteredCards(storedCards, cards));
   !Array.isArray(cards) && toast.success(`${removed[0].title} been removed`);
 }
