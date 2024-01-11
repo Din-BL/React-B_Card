@@ -17,7 +17,7 @@ export default function Video() {
         </Typography>
       </CardContent>
       <video style={{width: isMdScreen ? '640px' : '95%'}} controls>
-        <source src="https://github.com/Din-BL/React-B_Card/assets/93730629/3b0f0f43-1b03-408a-b1ea-ccb04a91cbb6" type="video/mp4" />
+        <source src="https://github.com/Din-BL/React-B_Card/assets/93730629/1d5b26dc-43cc-4e28-ad4f-41269d052722" type="video/mp4" />
         Your browser does not support the video tag
       </video>
     </Card>
